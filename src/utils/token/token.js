@@ -47,3 +47,28 @@ export function getToken() {
 		return null;
 	}
 }
+
+export function getUserIdFromToken() {
+	const token = getToken();
+	if (!token) return null;
+
+	try {
+		const decoded = jwtDecode(token);
+		const userId = decoded[import.meta.env.VITE_TOKEN_NAME_IDENTIFIER_KEY];
+		return userId || -1;
+	} catch (error) {
+		console.error("Failed to decode token", error);
+		return null;
+	}
+}
+
+export function getUserDataFromToken(token){
+	const decoded = jwtDecode(token);
+	const userId = decoded[import.meta.env.VITE_TOKEN_NAME_IDENTIFIER_KEY];
+	const username = decoded[import.meta.env.VITE_TOKEN_NAME_KEY];
+	return {
+		userId: +userId,
+		username
+	}
+}
+

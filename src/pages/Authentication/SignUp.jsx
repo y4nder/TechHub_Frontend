@@ -8,8 +8,14 @@ import {FcGoogle} from "react-icons/fc";
 import {FaFacebook} from "react-icons/fa";
 import {useMutation} from "@tanstack/react-query";
 import {registerUser} from "@/utils/http/auth.js";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {userActions} from "@/store/user-slice.js";
+import {storeToken} from "@/utils/token/token.js";
 
 export default function SignUp() {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const {
 		mutate,
@@ -17,7 +23,12 @@ export default function SignUp() {
 		isError,
 		error,
 	} = useMutation({
-		mutationFn: registerUser
+		mutationFn: registerUser,
+		onSuccess: (data) => {
+			dispatch(userActions.setUser(data.createdUser));
+			storeToken(data.token);
+			navigate("/tag-selection")
+		}
 	});
 
 	function validatePasswords(password, confirmPassword) {

@@ -5,5 +5,5 @@ export const mainRoutes = [
 		index: true,
 		path: "/home",
 		element : <HomePage/>
-	}
+	},
 ]
