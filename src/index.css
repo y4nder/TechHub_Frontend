@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.gradient-bg {
+    background: rgb(94, 4, 219);
+    background: linear-gradient(90deg, rgba(94, 4, 219, 1) 14%, rgba(193, 72, 3, 1) 82%, rgba(224, 45, 4, 1) 100%);
+}
+
+.gradient-text {
+    background: rgb(94,4,219);
+    background: linear-gradient(90deg, rgba(94,4,219,1) 14%, rgba(193,72,3,1) 94%, rgba(224,45,4,1) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.gradient-text-reversed {
+    background: rgb(94,4,219);
+    background: linear-gradient(-90deg, rgba(94,4,219,1) 14%, rgba(193,72,3,1) 94%, rgba(224,45,4,1) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+
+
+@layer base {
+  :root {
+        --radius: 0.5rem;
+    }
+}
