@@ -83,7 +83,6 @@ export default function TagSelectionPage() {
 						id="search"
 						placeholder="Search javascript, php, git etc..."
 						onKeystrokeSearch={handleSearch} // Real-time search on keystroke
-						hasError={false}
 					/>
 				</div>
 				<div className="flex flex-wrap gap-3 justify-center max-w-screen-lg">

@@ -43,11 +43,12 @@ export async function httpRequest(
     }
 }
 
-export async function get({ endpoint, headers }) {
+export async function get({ endpoint, headers, queryParams }) {
     return httpRequest({
         method: "GET",
         endpoint,
         headers,
+        queryParams,
     });
 }
 

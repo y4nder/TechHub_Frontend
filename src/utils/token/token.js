@@ -49,12 +49,12 @@ export function getToken() {
 }
 
 export function getUserIdFromToken() {
-	const token = getToken();
+const token = getToken();
 	if (!token) return null;
 
 	try {
 		const decoded = jwtDecode(token);
-		const userId = decoded[import.meta.env.VITE_TOKEN_NAME_IDENTIFIER_KEY];
+		const userId = +decoded[import.meta.env.VITE_TOKEN_NAME_IDENTIFIER_KEY];
 		return userId || -1;
 	} catch (error) {
 		console.error("Failed to decode token", error);

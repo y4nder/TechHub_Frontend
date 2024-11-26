@@ -6,20 +6,47 @@ import {SiSamsclub} from "react-icons/si";
 import {TbArticleFilled} from "react-icons/tb";
 import {PiTagFill} from "react-icons/pi";
 import {BsBookmarkFill} from "react-icons/bs";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {dispatchFetchJoinedClubs} from "@/store/joined-clubs-slice.js";
+import {getUserIdFromToken} from "@/utils/token/token.js";
+import {dispatchFetchProfileNav} from "@/store/user-slice.js";
 
 
 export default function RootLayout(){
+	const dispatch = useDispatch();
+	const {clubs, hasError} = useSelector(state => state.joinedClubs);
+	const user = useSelector(state => state.user);
+
+	useEffect(() => {
+		dispatch(dispatchFetchProfileNav(getUserIdFromToken()));
+	},[dispatch]);
+
+	useEffect(() => {
+		dispatch(dispatchFetchJoinedClubs(getUserIdFromToken()));
+	}, [dispatch]);
+
 	return (
 		<>
-			<Navbar />
+			<Navbar user={user}/>
 			<div className="flex">
 				<Sidebar>
 					<SidebarItemGroup headerText="Clubs">
-						<SidebarItem icon={<GroupIcon size={20} />} text="Java Programming" active />
-						<SidebarItem icon={<GroupIcon size={20} />} text=".NET"  />
-						<SidebarItem icon={<GroupIcon size={20} />} text="Python"  />
-						<SidebarItem icon={<GroupIcon size={20} />} text="React"  />
-						<SidebarItem icon={<GroupIcon size={20} />} text="Tailwind CSS"  />
+						{hasError ? (
+							<p>Error Fetching clubs</p>
+						)
+						: clubs.length > 0 ? (
+							clubs.map((club) => (
+								<SidebarItem
+									key={club.clubId}
+									imageUrl={club.clubProfilePicUrl}
+									text={club.clubName}
+								/>
+							))
+						)
+						: (
+							<p>No clubs joined.</p>
+						)}
 					</SidebarItemGroup>
 					<SidebarItemGroup headerText="Discover">
 						<SidebarItem
