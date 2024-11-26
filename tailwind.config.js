@@ -26,14 +26,19 @@ export default {
   			},
   			surface: {
   				'50': '#fefefe',
+			   '100' : '#fbfbfb',
 			   '200' : '#f9f9f9',
   				'500': '#f2f2f2',
 			   '900': '#666666'
   			},
   			black: {
+			   '50': '#E9E9E9',
   				'300': '#242424',
 			   '500': '#161616',
-  			}
+  			},
+		   obsidianBlack : {
+				  '500' : '#0B1215'
+		   }
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
