@@ -4,8 +4,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+    overflow: hidden;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
+    overflow: hidden;
 }
 
 .gradient-bg {
