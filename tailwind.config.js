@@ -19,6 +19,7 @@ export default {
 				'500' : '#5204bf'
 		   },
   			darkOrange: {
+			   '50' : '#f9ede6',
   				'500': '#c14803'
   			},
   			brightOrange: {

@@ -1,6 +1,7 @@
 import { ChevronFirst, ChevronLast } from "lucide-react";
 import { createContext, useContext, useState } from "react";
 
+
 const SidebarContext = createContext();
 
 export default function Sidebar({ children }) {
@@ -77,32 +78,45 @@ export function SidebarItemGroup({ headerText, children }) {
 }
 
 
-export function SidebarItem({ icon, text, textColor, iconColor, active, alert}) {
+export function SidebarItem({
+	                            icon,
+	                            text,
+	                            textColor,
+	                            iconColor,
+	                            active,
+	                            alert,
+	                            imageUrl
+                            }) {
 	const { expanded } = useContext(SidebarContext);
 
 	return (
 		<li
 			className={`relative flex items-center my-1 w-auto font-medium cursor-pointer transition-all duration-300
-        ${active ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800" : "hover:bg-indigo-50 text-gray-600"}
-        ${expanded ? "px-2 py-1 rounded-md" : "px-1 py-1 justify-center"}
-      `}
+                ${active ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800" : "hover:bg-indigo-50 text-gray-600"}
+                ${expanded ? "px-2 py-1 rounded-md" : "px-1 py-1 justify-center"}
+            `}
 		>
-			{/* Icon */}
+			{/* Icon or Image */}
 			<div className={`flex-shrink-0 px-1 transition-all ${iconColor ? `text-${iconColor}` : ""}`}>
-				{icon}
+				{imageUrl ? (
+					<img
+						src={imageUrl}
+						alt="Sidebar Item Icon"
+						className="w-6 h-6 rounded-full object-cover"
+					/>
+				) : (
+					icon
+				)}
 			</div>
 
 			{/* Text */}
-
 			<span
-					className={`overflow-hidden transition-opacity duration-300
-					 text-sm ${
-						expanded ? "ml-3 opacity-100": "opacity-0 w-0"
-					} ${textColor ? textColor : ""} whitespace-nowrap`}
-				>
-          {text}
-        </span>
-
+				className={`overflow-hidden transition-opacity duration-300
+                    text-sm ${expanded ? "ml-3 opacity-100" : "opacity-0 w-0"}
+                    ${textColor ? textColor : ""} whitespace-nowrap`}
+			>
+                {text}
+            </span>
 
 			{/* Alert Badge */}
 			{alert && (
