@@ -1,4 +1,5 @@
 import { post } from "@/utils/http/http.js";
+import {removeToken} from "@/utils/token/token.js";
 
 export async function registerUser(registerInfo) {
     return await post({
@@ -12,4 +13,8 @@ export async function loginUser(loginInfo) {
         endpoint: "/login",
         body: loginInfo,
     });
+}
+
+export function logOutUser() {
+    removeToken();
 }
