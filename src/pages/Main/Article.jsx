@@ -14,6 +14,7 @@ import {CommentProvider} from "@/hooks/useComments.jsx";
 import {useQuery} from "@tanstack/react-query";
 import {fetchArticle} from "@/utils/http/articles.js";
 import {getUserIdFromToken} from "@/utils/token/token.js";
+import {fetchCommentsByArticleId} from "@/utils/http/comments.js";
 
 const UPVOTE = "up";
 const DOWNVOTE = "down";
@@ -26,7 +27,8 @@ export default function ArticlePage() {
 	const articleId = params.articleId;
 
 	const fetchComments = async () => {
-		return dummyCommentsData.comments.items;
+		const data= await fetchCommentsByArticleId(articleId, 1, 10)
+		return data.comments.items;
 	};
 
 	const {
@@ -81,14 +83,16 @@ export default function ArticlePage() {
 			}
 		`}
 		>
-			<div className="grid grid-flow-row-dense h-full grid-cols-4 grid-rows-1 gap-8">
+			<div className="grid grid-flow-row-dense h-screen grid-cols-4 grid-rows-1 gap-8">
 				<div className="col-span-3">
 					<CommentProvider fetchComments={fetchComments}>
 						{isPending && <p>Fetching article...</p>}
 						{!isPending && (
-							<ArticleSection article={article}/>
+							<>
+								<ArticleSection article={article}/>
+								<CommentSection articleId={article.articleId}/>
+							</>
 						)}
-						<CommentSection/>
 					</CommentProvider>
 				</div>
 				<div className="col-span-1">

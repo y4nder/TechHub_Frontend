@@ -1,10 +1,11 @@
 import HomePage from "../pages/Main/Home.jsx";
 import ArticlePage from "@/pages/Main/Article.jsx";
 import DiscoverArticlePage from "@/pages/Main/DiscoverArticle.jsx";
-import NewArticle from "@/pages/Main/NewArticle.jsx";
 import RootArticle from "@/pages/RootArticle.jsx";
 import EditArticlePage from "@/pages/Main/EditArticle.jsx";
 import NewArticlePage from "@/pages/Main/NewArticle.jsx";
+import RootClubLayout from "@/pages/RootClub.jsx";
+import DiscoverClubsPage from "@/pages/Main/DiscoverClubs.jsx";
 
 export const mainRoutes = [
 	{
@@ -33,4 +34,14 @@ export const mainRoutes = [
 			},
 		],
 	},
+	{
+		path: "/clubs",
+		element: <RootClubLayout/>,
+		children: [
+			{
+				index: true,
+				element: <DiscoverClubsPage/>,
+			}
+		]
+	}
 ];

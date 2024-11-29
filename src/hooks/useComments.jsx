@@ -11,19 +11,19 @@ export const CommentProvider = ({ children, fetchComments  }) => {
 	const [comments, setComments] = useState([]);
 
 	// Fetch initial comments from the database
-	useEffect(() => {
-		const loadComments = async () => {
-			try {
-				const initialComments = await fetchComments();
-				console.log(initialComments);
-				setComments(initialComments);
-			} catch (error) {
-				console.error("Failed to fetch comments:", error);
-
-			}
-		};
-		loadComments();
-	}, [fetchComments]);
+	// useEffect(() => {
+	// 	const loadComments = async () => {
+	// 		try {
+	// 			const initialComments = await fetchComments();
+	// 			console.log(initialComments);
+	// 			setComments(initialComments);
+	// 		} catch (error) {
+	// 			console.error("Failed to fetch comments:", error);
+	//
+	// 		}
+	// 	};
+	// 	loadComments();
+	// }, [fetchComments]);
 
 	// Add a comment
 	const addComment = (comment) => {
