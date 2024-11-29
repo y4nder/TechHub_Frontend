@@ -1,0 +1,88 @@
+export const dummyCommentsData = {
+	message: "Success",
+	comments: {
+		items: [
+			{
+				commentId: 1,
+				userProfileImageUrl: "https://res.cloudinary.com/dgwek5sd6/image/upload/v1732176200/nf3u2lkigm0tj2hg4wzp.png",
+				userInfo: {
+					userId: 6,
+					username: "admin",
+					userProfilePicUrl: "https://res.cloudinary.com/dgwek5sd6/image/upload/v1732176200/nf3u2lkigm0tj2hg4wzp.png",
+					reputationPoints: 0,
+				},
+				createdDateTime: "2024-11-17T12:09:08.543",
+				updatedDateTime: "2024-11-17T12:09:08.543",
+				commentBody: "Lorem ipsum dolor sit amet. Sit minima consequatur et amet sunt et praesentium nihil ea dolorem sint et doloribus expedita.",
+				replies: [
+					{
+						commentId: 2,
+						userProfileImageUrl: "https://res.cloudinary.com/dgwek5sd6/image/upload/v1732176200/nf3u2lkigm0tj2hg4wzp.png",
+						userInfo: {
+							userId: 7,
+							username: "user",
+							userProfilePicUrl: "https://res.cloudinary.com/dgwek5sd6/image/upload/v1732176200/nf3u2lkigm0tj2hg4wzp.png",
+							reputationPoints: 30000,
+						},
+						createdDateTime: "2024-11-17T12:12:02.12",
+						updatedDateTime: "2024-11-17T12:12:02.12",
+						commentBody: "This is a reply to the main comment.",
+						replies: [],
+						voteCount: 5,
+					},
+				],
+				voteCount: 10,
+			},
+			{
+				commentId: 3,
+				userProfileImageUrl: "https://res.cloudinary.com/dgwek5sd6/image/upload/v1732176200/nf3u2lkigm0tj2hg4wzp.png",
+				userInfo: {
+					userId: 8,
+					username: "editor",
+					userProfilePicUrl: "https://res.cloudinary.com/dgwek5sd6/image/upload/v1732176200/nf3u2lkigm0tj2hg4wzp.png",
+					reputationPoints: 500,
+				},
+				createdDateTime: "2024-11-17T13:15:30.123",
+				updatedDateTime: "2024-11-17T13:15:30.123",
+				commentBody: "This is a test comment with no replies.",
+				replies: [],
+				voteCount: 0,
+			},
+			{
+				commentId: 4,
+				userProfileImageUrl: "https://res.cloudinary.com/dgwek5sd6/image/upload/v1732176200/nf3u2lkigm0tj2hg4wzp.png",
+				userInfo: {
+					userId: 9,
+					username: "tester",
+					userProfilePicUrl: "https://res.cloudinary.com/dgwek5sd6/image/upload/v1732176200/nf3u2lkigm0tj2hg4wzp.png",
+					reputationPoints: 1200,
+				},
+				createdDateTime: "2024-11-17T14:25:45.678",
+				updatedDateTime: "2024-11-17T14:25:45.678",
+				commentBody: "This is another comment with nested replies.",
+				replies: [
+					{
+						commentId: 5,
+						userProfileImageUrl: "https://res.cloudinary.com/dgwek5sd6/image/upload/v1732176200/nf3u2lkigm0tj2hg4wzp.png",
+						userInfo: {
+							userId: 10,
+							username: "nestedUser",
+							userProfilePicUrl: "https://res.cloudinary.com/dgwek5sd6/image/upload/v1732176200/nf3u2lkigm0tj2hg4wzp.png",
+							reputationPoints: 150,
+						},
+						createdDateTime: "2024-11-17T14:30:12.345",
+						updatedDateTime: "2024-11-17T14:30:12.345",
+						commentBody: "This is a nested reply.",
+						replies: [],
+						voteCount: 3,
+					},
+				],
+				voteCount: 2,
+			},
+		],
+		totalCount: 3,
+		pageNumber: 1,
+		pageSize: 10,
+		totalPages: 1,
+	},
+};

@@ -5,13 +5,17 @@
 @tailwind utilities;
 
 html{
-    overflow: hidden;
+    height: 100%;
 }
 
 body {
     font-family: 'Roboto', sans-serif;
-    overflow: hidden;
+    height: 100%;
+    overflow-x: hidden;
 }
+
+
+
 
 .gradient-bg {
     background: rgb(94, 4, 219);
@@ -32,6 +36,10 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+}
+
+.gradient-bg-light {
+    background: linear-gradient(0deg, rgba(94,4,219,0.15) 14%, rgba(193,72,3,0.15) 94%, rgba(224,45,4,0.15) 100%);
 }
 
 

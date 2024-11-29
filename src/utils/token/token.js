@@ -1,7 +1,8 @@
 import {jwtDecode} from 'jwt-decode';
 
 
-const tokenKey = "token";
+const tokenKey = import.meta.env.VITE_TOKEN_STORE_KEY || "token";
+
 
 export function storeToken(token){
 	localStorage.setItem(tokenKey, token);
@@ -72,3 +73,6 @@ export function getUserDataFromToken(token){
 	}
 }
 
+export function removeToken(){
+	localStorage.removeItem(tokenKey);
+}
