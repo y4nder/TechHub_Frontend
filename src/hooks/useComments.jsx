@@ -100,8 +100,6 @@ export const CommentProvider = ({ children, fetchComments  }) => {
 		);
 	};
 
-
-
 	return (
 		<CommentContext.Provider
 			value={{

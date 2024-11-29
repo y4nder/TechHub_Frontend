@@ -47,3 +47,13 @@ export async function fetchDiscoverArticles(pageNumber = 1, pageSize = 10) {
 		pageSize
 	);
 }
+
+export async function fetchArticle(userId, articleId){
+	return await get({
+		endpoint: "/getSingleArticle",
+		queryParams: {
+			UserId: userId,
+			ArticleId: articleId,
+		}
+	})
+}

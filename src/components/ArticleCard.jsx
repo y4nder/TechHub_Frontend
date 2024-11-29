@@ -6,6 +6,7 @@ import { MdBookmarkBorder } from "react-icons/md";
 import { PiShareFatLight } from "react-icons/pi";
 import Button from "@/components/ui/Button.jsx";
 import { parseDate } from "@/utils/formatters/dateFormatter.js";
+import {useNavigate} from "react-router-dom";
 
 const upvote = "up";
 const downVote = "down";
@@ -16,6 +17,7 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 	const [isHovered, setIsHovered] = useState(false);
 	const [voteCount, setVoteCount] = useState(article.voteCount);
 	const [voteType, setVoteType] = useState(null);
+	const navigate = useNavigate();
 
 
 	const toggleUpvote = () => {
@@ -49,7 +51,9 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 		setVoteType(downVote)
 	}
 
-
+	const handleArticleClicked = () => {
+		navigate(`/articles/${article.articleId}`);
+	}
 
 	return (
 		<div
@@ -70,7 +74,9 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 			onMouseLeave={() => setIsHovered(false)} // Set hover state to false when mouse leaves
 		>
 			{/* Header part */}
-			<div className="flex flex-col w-full gap-6" onClick={() => console.log(article.articleId + " clicked")}>
+			<div className="flex flex-col w-full gap-6"
+			     onClick={handleArticleClicked}
+			>
 				{/* Profiles part */}
 				<div className="flex gap-2">
 					<div className="flex flex-row gap-2">
@@ -97,7 +103,9 @@ const ArticleCard = forwardRef(({ article }, ref) => {
                                 hover:bg-gradient-to-tr from-darkPurple-500 to-brightOrange-500
                                 hover:shadow-xl
                                 transition-all duration-300
-                            `}>
+                            `}
+								onClick={handleArticleClicked}
+							>
 								Read Post
 							</Button>
 						</div>

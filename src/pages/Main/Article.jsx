@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useSidebar } from "@/hooks/useSidebar.jsx";
-import { dummySingleArticleData as article } from "@/utils/dummies/dummyArticles.js";
 import ArticleDetailTag from "@/components/ui/ArticleDetailTag.jsx";
 import { formatDateTimeVersion2 } from "@/utils/formatters/dateFormatter.js";
 import { DotIcon } from "lucide-react";
@@ -12,29 +11,48 @@ import { useEffect, useState } from "react";
 import {dummyCommentsData} from "@/utils/dummies/dummyComments.js";
 import CommentSection from "@/components/CommentsSection.jsx";
 import {CommentProvider} from "@/hooks/useComments.jsx";
+import {useQuery} from "@tanstack/react-query";
+import {fetchArticle} from "@/utils/http/articles.js";
+import {getUserIdFromToken} from "@/utils/token/token.js";
 
 const UPVOTE = "up";
 const DOWNVOTE = "down";
 
 export default function ArticlePage() {
-	const [voteCount, setVoteCount] = useState(article.voteCount);
+	const [voteCount, setVoteCount] = useState(0);
 	const [voteType, setVoteType] = useState(null);
 	const { expanded } = useSidebar();
 	const params = useParams();
-	const id = params.articleId;
+	const articleId = params.articleId;
 
 	const fetchComments = async () => {
 		return dummyCommentsData.comments.items;
-	}
+	};
 
-	useEffect(() => {
-		// Initialize voteType based on article data
-		if (article.voteType === -1) {
-			setVoteType(DOWNVOTE);
-		} else if (article.voteType === 1) {
-			setVoteType(UPVOTE);
+	const {
+		data: article,
+		isPending
+	} = useQuery({
+		queryKey: ["article", articleId],
+		queryFn: () => {
+			return fetchArticle(getUserIdFromToken(), articleId)
 		}
-	}, []);
+	});
+
+	// Update article state when fetched data changes
+	useEffect(() => {
+		if (article) {
+			console.log("article available");
+			setVoteCount(article.voteCount);
+			if (article.voteType === -1) {
+				setVoteType(DOWNVOTE);
+			} else if (article.voteType === 1) {
+				setVoteType(UPVOTE);
+			} else {
+				setVoteType(null);
+			}
+		}
+	}, [article]);
 
 	const toggleUpvote = () => {
 		if (voteType === UPVOTE) {
@@ -63,10 +81,13 @@ export default function ArticlePage() {
 			}
 		`}
 		>
-			<div className="grid grid-flow-row-dense grid-cols-4 grid-rows-1 gap-8">
+			<div className="grid grid-flow-row-dense h-full grid-cols-4 grid-rows-1 gap-8">
 				<div className="col-span-3">
-					<ArticleSection />
 					<CommentProvider fetchComments={fetchComments}>
+						{isPending && <p>Fetching article...</p>}
+						{!isPending && (
+							<ArticleSection article={article}/>
+						)}
 						<CommentSection/>
 					</CommentProvider>
 				</div>
@@ -77,7 +98,7 @@ export default function ArticlePage() {
 		</div>
 	);
 
-	function ArticleSection() {
+	function ArticleSection({article}) {
 		return (
 			<div className="bg-surface-100 p-8 rounded-2xl">
 				<h1 className="text-4xl font-bold">{article.articleTitle}</h1>
@@ -115,7 +136,7 @@ export default function ArticlePage() {
 
 				<div className="flex pt-4 items-center gap-4">
 					<VoteActions />
-					<ArticleActions />
+					<ArticleActions article={article} />
 				</div>
 			</div>
 		);
@@ -146,9 +167,7 @@ export default function ArticlePage() {
 		);
 	}
 
-
-
-	function ArticleActions() {
+	function ArticleActions({article}) {
 		return (
 			<div className="flex gap-4">
 				<ActionIcon
