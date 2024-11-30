@@ -9,7 +9,7 @@ const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
 // Context Provider component
 export const CommentProvider = ({ children, fetchComments  }) => {
 	const [comments, setComments] = useState([]);
-
+	const [currentArticleId, setCurrentArticleId] = useState(null);
 	// Fetch initial comments from the database
 	// useEffect(() => {
 	// 	const loadComments = async () => {
@@ -107,7 +107,10 @@ export const CommentProvider = ({ children, fetchComments  }) => {
 				addComment,
 				updateComment,
 				deleteComment,
-				replyComment
+				replyComment,
+				setComments,
+				currentArticleId,
+				setCurrentArticleId
 			}}
 		>
 			{children}

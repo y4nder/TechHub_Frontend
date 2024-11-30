@@ -2,6 +2,7 @@ import {fetchDiscoverArticles} from "@/utils/http/articles.js";
 import ArticleList from "@/components/ArticleList.jsx";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {useSidebar} from "@/hooks/useSidebar.jsx";
+import {getUserIdFromToken} from "@/utils/token/token.js";
 
 export default function DiscoverArticlePage(){
 	const { expanded } = useSidebar();
@@ -12,7 +13,7 @@ export default function DiscoverArticlePage(){
 		isFetchingNextPage,
 	} = useInfiniteQuery({
 		queryKey: ["taggedArticles"],
-		queryFn: ({ pageParam = 1 }) => fetchDiscoverArticles( pageParam, 10),
+		queryFn: ({ pageParam = 1 }) => fetchDiscoverArticles( getUserIdFromToken() ,pageParam, 10),
 		getNextPageParam: (lastPage) => {
 			const { pageNumber, totalPages } = lastPage.articles;
 			return pageNumber < totalPages ? pageNumber + 1 : undefined;

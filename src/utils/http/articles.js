@@ -1,4 +1,4 @@
-import { get } from "@/utils/http/http.js";
+import {del, get, post} from "@/utils/http/http.js";
 
 /**
  * Generic function to handle paginated queries.
@@ -32,12 +32,13 @@ export async function fetchHomeArticles(userId, pageNumber = 1, pageSize = 10) {
 	);
 }
 
-export async function fetchDiscoverArticles(pageNumber = 1, pageSize = 10) {
+export async function fetchDiscoverArticles(userId, pageNumber = 1, pageSize = 10) {
 	return await paginationQuery(
 		({ pageNumber, pageSize }) =>
 			get({
 				endpoint: "/discoverArticles",
 				queryParams: {
+					UserId: userId,
 					PageNumber: pageNumber,
 					PageSize: pageSize,
 				}
@@ -57,3 +58,84 @@ export async function fetchArticle(userId, articleId){
 		}
 	})
 }
+
+// export async function fetchClubArticles(clubId, userId, pageNumber = 1, pageSize = 10) {
+// 	return await paginationQuery(
+// 		({ clubId, userId, pageNumber, pageSize }) =>
+// 			get({
+// 				endpoint: "/clubArticles",
+// 				queryParams: {
+// 					ClubId: clubId,
+// 					UserId: userId,
+// 					PageNumber: pageNumber,
+// 					PageSize: pageSize,
+// 				}
+// 			}),
+// 		{},
+// 		pageNumber,
+// 		pageSize
+// 	)
+// }
+
+export async function fetchClubArticles(clubId, userId, pageNumber = 1, pageSize = 10) {
+	return await get({
+		endpoint: "/clubArticles",
+		queryParams: {
+			ClubId: clubId,
+			UserId: userId,
+			PageNumber: pageNumber,
+			PageSize: pageSize,
+		}
+	})
+}
+
+export async function upVoteArticle(userId, articleId){
+	return await post({
+		endpoint: "/upvoteArticle",
+		body: {
+			userId: userId,
+			articleId: articleId
+		}
+	})
+}
+
+export async function downVoteArticle(userId, articleId){
+	return await post({
+		endpoint: "/downVoteArticle",
+		body: {
+			userId: userId,
+			articleId: articleId
+		}
+	})
+}
+
+export async function removeArticleVote(userId, articleId){
+	return await del({
+		endpoint: "/removeArticleVote",
+		body: {
+			userId: userId,
+			articleId: articleId
+		}
+	})
+}
+
+export async function bookmarkArticle(userId, articleId){
+	return await post({
+		endpoint: "/bookmarkArticle",
+		body: {
+			articleId: articleId,
+			userId: userId,
+		}
+	})
+}
+
+export async function unBookmarkArticle(userId, articleId){
+	return await post({
+		endpoint: "/unBookmarkArticle",
+		body: {
+			articleId: articleId,
+			userId: userId,
+		}
+	})
+}
+

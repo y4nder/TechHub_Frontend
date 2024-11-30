@@ -1,28 +1,90 @@
-import React, { useState, useCallback } from "react";
+import {useState, useCallback, useEffect} from "react";
 import CommentsList from "@/components/CommentList.jsx";
 import { formatDateTimeVersion2 } from "@/utils/formatters/dateFormatter.js";
 import CommentVoteActions from "./CommentVoteActions";
+import {downVoteComment, removeCommentVote, upVoteComment} from "@/utils/http/comments.js";
+import {getUserIdFromToken} from "@/utils/token/token.js";
 
 export default function CommentItem({ comment, isReply = true }) {
 	const [commentVoteCount, setCommentVoteCount] = useState(comment.voteCount);
 	const [commentVoteType, setCommentVoteType] = useState(null);
 	const [replying, setReplying] = useState(false);
 
-	const toggleCommentUpvote = useCallback(() => {
-		setCommentVoteCount((prev) => {
-			if (commentVoteType === "up") return prev - 1;
-			return commentVoteType === "down" ? prev + 2 : prev + 1;
-		});
-		setCommentVoteType((prev) => (prev === "up" ? null : "up"));
+	useEffect(() => {
+		if(comment.voteType === 1){
+			setCommentVoteType("up");
+		} else if(comment.voteType === -1){
+			setCommentVoteType("down")
+		} else {
+			setCommentVoteType(null)
+		}
+	}, [comment.voteType]);
+
+	const toggleCommentUpvote = useCallback(async () => {
+		try {
+			if (commentVoteType === "up") {
+				console.log("Removed upvote");
+				await removeCommentVote({
+					commentId: comment.commentId,
+					userId: getUserIdFromToken(),
+				});
+				setCommentVoteCount((prev) => prev - 1);
+			} else if (commentVoteType === "down") {
+				console.log("Switching to upvote");
+				await upVoteComment({
+					commentId: comment.commentId,
+					userId: getUserIdFromToken(),
+				});
+				setCommentVoteCount((prev) => prev + 2);
+			} else {
+				console.log("Upvoted");
+				await upVoteComment({
+					commentId: comment.commentId,
+					userId: getUserIdFromToken(),
+				});
+				setCommentVoteCount((prev) => prev + 1);
+			}
+			setCommentVoteType((prev) => (prev === "up" ? null : "up"));
+		} catch (error) {
+			console.error("Error during upvote:", error);
+		}
 	}, [commentVoteType]);
 
-	const handleCommentDownVote = useCallback(() => {
-		setCommentVoteCount((prev) => {
-			if (commentVoteType === "down") return prev + 1;
-			return commentVoteType === "up" ? prev - 2 : prev - 1;
-		});
-		setCommentVoteType((prev) => (prev === "down" ? null : "down"));
+	const handleCommentDownVote = useCallback(async () => {
+		try {
+			// Handle downvote logic
+			if (commentVoteType === "down") {
+				console.log("Removed downvote");
+				await removeCommentVote({
+					commentId: comment.commentId,
+					userId: getUserIdFromToken(),
+				});
+				setCommentVoteCount((prev) => prev + 1); // Revert vote count if removing downvote
+			} else if (commentVoteType === "up") {
+				console.log("Switched to downvote");
+				await downVoteComment({
+					commentId: comment.commentId,
+					userId: getUserIdFromToken(),
+				});
+				setCommentVoteCount((prev) => prev - 2); // Decrease vote count for switching to downvote
+			} else {
+				console.log("Downvoted");
+				await downVoteComment({
+					commentId: comment.commentId,
+					userId: getUserIdFromToken(),
+				});
+				setCommentVoteCount((prev) => prev - 1); // Subtract 1 for a new downvote
+			}
+
+			// Update the vote type state
+			setCommentVoteType((prev) => (prev === "down" ? null : "down"));
+		} catch (error) {
+			console.error("Error during downvote:", error);
+			// Optionally handle errors (e.g., show error message to the user)
+		}
 	}, [commentVoteType]);
+
+
 
 	const toggleReplying = () => setReplying((prev) => !prev);
 

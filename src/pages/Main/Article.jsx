@@ -8,11 +8,11 @@ import { RxDividerVertical } from "react-icons/rx";
 import { MdBookmarkBorder } from "react-icons/md";
 import { PiShareFatLight } from "react-icons/pi";
 import { useEffect, useState } from "react";
-import {dummyCommentsData} from "@/utils/dummies/dummyComments.js";
+// import {dummyCommentsData} from "@/utils/dummies/dummyComments.js";
 import CommentSection from "@/components/CommentsSection.jsx";
-import {CommentProvider} from "@/hooks/useComments.jsx";
+import {CommentProvider, useComments} from "@/hooks/useComments.jsx";
 import {useQuery} from "@tanstack/react-query";
-import {fetchArticle} from "@/utils/http/articles.js";
+import {downVoteArticle, fetchArticle, removeArticleVote, upVoteArticle} from "@/utils/http/articles.js";
 import {getUserIdFromToken} from "@/utils/token/token.js";
 import {fetchCommentsByArticleId} from "@/utils/http/comments.js";
 
@@ -25,6 +25,7 @@ export default function ArticlePage() {
 	const { expanded } = useSidebar();
 	const params = useParams();
 	const articleId = params.articleId;
+	const userId = getUserIdFromToken();
 
 	const fetchComments = async () => {
 		const data= await fetchCommentsByArticleId(articleId, 1, 10)
@@ -56,23 +57,32 @@ export default function ArticlePage() {
 		}
 	}, [article]);
 
-	const toggleUpvote = () => {
+	const toggleUpvote = async () => {
 		if (voteType === UPVOTE) {
 			setVoteCount((prev) => prev - 1);
 			setVoteType(null);
+			console.log("removed upvote")
+			await removeArticleVote(userId, articleId);
+
 		} else {
 			setVoteCount((prev) => (voteType === DOWNVOTE ? prev + 2 : prev + 1));
 			setVoteType(UPVOTE);
+			console.log("upvoted")
+			await upVoteArticle(userId, articleId)
 		}
 	};
 
-	const handleDownVote = () => {
+	const handleDownVote = async () => {
 		if (voteType === DOWNVOTE) {
 			setVoteCount((prev) => prev + 1);
 			setVoteType(null);
+			console.log("removed downvote")
+			await removeArticleVote(userId, articleId);
 		} else {
 			setVoteCount((prev) => (voteType === UPVOTE ? prev - 2 : prev - 1));
 			setVoteType(DOWNVOTE);
+			console.log("downvote")
+			await downVoteArticle(userId, articleId);
 		}
 	};
 
@@ -83,7 +93,7 @@ export default function ArticlePage() {
 			}
 		`}
 		>
-			<div className="grid grid-flow-row-dense h-screen grid-cols-4 grid-rows-1 gap-8">
+			<div className="grid grid-flow-row-dense grid-cols-4 max-h-full min-h-screen grid-rows-1 gap-8">
 				<div className="col-span-3">
 					<CommentProvider fetchComments={fetchComments}>
 						{isPending && <p>Fetching article...</p>}
@@ -91,6 +101,7 @@ export default function ArticlePage() {
 							<>
 								<ArticleSection article={article}/>
 								<CommentSection articleId={article.articleId}/>
+
 							</>
 						)}
 					</CommentProvider>
@@ -103,6 +114,12 @@ export default function ArticlePage() {
 	);
 
 	function ArticleSection({article}) {
+		const {setCurrentArticleId} = useComments()
+
+		useEffect(() => {
+			setCurrentArticleId(article.articleId);
+		},[setCurrentArticleId, article.articleId])
+
 		return (
 			<div className="bg-surface-100 p-8 rounded-2xl">
 				<h1 className="text-4xl font-bold">{article.articleTitle}</h1>
