@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button.jsx";
 import { useSelector } from "react-redux";
 import {getUserIdFromToken} from "@/utils/token/token.js";
 import {useComments} from "@/hooks/useComments.jsx";
+import {replyToComment} from "@/utils/http/comments.js";
 
 export default function CommentVoteActions({
 	commentId,
@@ -17,7 +18,7 @@ export default function CommentVoteActions({
 }) {
 	const [reply, setReply] = useState("");
 	const { userProfilePicUrl, username, reputationPoints } = useSelector((state) => state.user);
-	const {replyComment} = useComments();
+	const {replyComment, currentArticleId} = useComments();
 
 	const handleInputChange = (e) => {
 		setReply(e.target.value);
@@ -25,7 +26,7 @@ export default function CommentVoteActions({
 		e.target.style.height = `${e.target.scrollHeight}px`; // Set height dynamically
 	};
 
-	const handlePostReply = () => {
+	const handlePostReply = async () => {
 		const newReply = {
 			userProfileImageUrl: userProfilePicUrl,
 			userInfo: {
@@ -41,6 +42,12 @@ export default function CommentVoteActions({
 		replyComment(commentId, newReply);
 		setReply("");
 		toggleReplying();
+		await replyToComment({
+			commentCreatorId: getUserIdFromToken(),
+			articleId: currentArticleId,
+			parentCommentId: commentId,
+			content: reply
+		})
 	}
 
 	return (

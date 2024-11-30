@@ -78,3 +78,4 @@ export async function del({ endpoint, body, headers }) {
         headers,
     });
 }
+

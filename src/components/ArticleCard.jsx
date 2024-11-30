@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import {forwardRef, useEffect, useState} from 'react';
 import ArticleTag from "@/components/ui/ArticleTag.jsx";
 import { BiCommentDetail, BiDownvote, BiUpvote } from "react-icons/bi";
 import { RxDividerVertical } from "react-icons/rx";
@@ -7,6 +7,14 @@ import { PiShareFatLight } from "react-icons/pi";
 import Button from "@/components/ui/Button.jsx";
 import { parseDate } from "@/utils/formatters/dateFormatter.js";
 import {useNavigate} from "react-router-dom";
+import {
+	bookmarkArticle,
+	downVoteArticle,
+	removeArticleVote,
+	unBookmarkArticle,
+	upVoteArticle
+} from "@/utils/http/articles.js";
+import {getUserIdFromToken} from "@/utils/token/token.js";
 
 const upvote = "up";
 const downVote = "down";
@@ -17,43 +25,69 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 	const [isHovered, setIsHovered] = useState(false);
 	const [voteCount, setVoteCount] = useState(article.voteCount);
 	const [voteType, setVoteType] = useState(null);
+	const [bookmarked , setBookmarked] = useState(false);
 	const navigate = useNavigate();
 
-
-	const toggleUpvote = () => {
-		if(voteCount > article.voteCount){
-			setVoteCount(article.voteCount);
-			setVoteType(null)
-			console.log("removed upvote here", voteType);
-		} else {
-			// send request here
-			setVoteCount( prev => prev + 1);
-			setVoteType(upvote)
-			console.log("upvoted here 2", voteType)
-		}
-	}
-
-	const handleDownVote = () => {
-		if(voteType === downVote){
+	useEffect(() => {
+		if(article.voteType === 0){
 			setVoteType(null);
-			console.log("downvoted removed", voteType);
-			return;
+		} else if(article.voteType === 1){
+			setVoteType(upvote);
+		}else {
+			setVoteType(downVote)
 		}
+		setBookmarked(article.bookmarked);
+	}, [article.voteType]);
 
-		if(voteCount > article.voteCount){
-			setVoteCount(article.voteCount);
+
+	const toggleUpvote = async () => {
+		if (voteType === upvote) {
+			// Remove upvote
+			setVoteCount((prev) => prev - 1);
+			setVoteType(null);
+			console.log("Upvote removed");
+			await removeArticleVote(getUserIdFromToken(), article.articleId);
+		} else {
+			// Add or switch to upvote
+			setVoteCount((prev) => (voteType === downVote ? prev + 2 : prev + 1));
+			setVoteType(upvote);
+			console.log("Upvoted");
+			await upVoteArticle(getUserIdFromToken(), article.articleId);
+		}
+	};
+
+	const handleDownVote = async () => {
+		if (voteType === downVote) {
+			// Remove downvote
+			setVoteCount((prev) => prev + 1);
+			setVoteType(null);
+			console.log("Downvote removed");
+			await removeArticleVote(getUserIdFromToken(), article.articleId);
+		} else {
+			// Add or switch to downvote
+			setVoteCount((prev) => (voteType === upvote ? prev - 2 : prev - 1));
 			setVoteType(downVote);
-			console.log("removed upvote then downvoted", voteType)
-			return;
+			console.log("Downvoted");
+			await downVoteArticle(getUserIdFromToken(), article.articleId);
 		}
-
-		console.log("downvoted here 2", voteType);
-		setVoteType(downVote)
-	}
+	};
 
 	const handleArticleClicked = () => {
 		navigate(`/articles/${article.articleId}`);
 	}
+
+	const toggleBookmark = async() => {
+		if(bookmarked){
+			console.log("removing bookmark");
+			await unBookmarkArticle(getUserIdFromToken(), article.articleId);
+		} else {
+			console.log("adding bookmark")
+			await bookmarkArticle(getUserIdFromToken(), article.articleId);
+		}
+
+		setBookmarked(prevState => !prevState);
+	}
+
 
 	return (
 		<div
@@ -179,7 +213,7 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 					</div>
 					{/* Article actions */}
 					<div className="flex flex-grow items-center justify-between pl-4">
-						<div className={`
+						<div className={ `
                             flex items-center gap-1 cursor-pointer
                             rounded-xl 
                             py-2 px-2 
@@ -187,26 +221,29 @@ const ArticleCard = forwardRef(({ article }, ref) => {
                             hover:bg-cyan-100
                             hover:text-cyan-500
                             transition-all duration-200 
-                        `}
-						     onClick={() => console.log("comment clicked")}
+                        ` }
+						     onClick={ () => console.log("comment clicked") }
 						>
-							<BiCommentDetail size={20} />
-							<p className="text-md font-bold">{article.commentCount}</p>
+							<BiCommentDetail size={ 20 }/>
+							<p className="text-md font-bold">{ article.commentCount }</p>
 						</div>
-						<div className={`
-                            flex items-center gap-1 cursor-pointer
-                            rounded-xl 
-                            py-2 px-2 
-                            text-black-100
-                            hover:bg-orange-100
-                            hover:text-orange-500
-                            transition-all duration-200 
-                        `}
-						     onClick={() => console.log("bookmark clicked")}
+						<div
+							className={ `
+						      flex items-center gap-1 cursor-pointer
+						      rounded-xl 
+						      py-2 px-2 
+						      transition-all duration-200
+						      ${
+								bookmarked
+									? "bg-orange-100 text-orange-500"
+									: "text-black-100 hover:bg-orange-100 hover:text-orange-500"
+							}
+					      ` }
+							onClick={ toggleBookmark } // Disable click while loading
 						>
-							<MdBookmarkBorder size={20} />
+							<MdBookmarkBorder size={ 20 }/>
 						</div>
-						<div className={`
+						<div className={ `
                             flex items-center gap-1 cursor-pointer
                             rounded-xl 
                             py-2 px-2 
@@ -214,10 +251,10 @@ const ArticleCard = forwardRef(({ article }, ref) => {
                             hover:bg-purple-100
                             hover:text-purple-800
                             transition-all duration-200 
-                        `}
-						     onClick={() => console.log("share clicked")}
+                        ` }
+						     onClick={ () => console.log("share clicked") }
 						>
-							<PiShareFatLight size={20} />
+							<PiShareFatLight size={ 20 }/>
 						</div>
 					</div>
 				</div>

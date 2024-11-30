@@ -56,7 +56,10 @@ export default function RootLayout() {
 										imageUrl={club.clubProfilePicUrl}
 										text={club.clubName}
 										active={activeItem === club.clubName}
-										sidebarAction={() => setActiveItem(club.clubName)}
+										sidebarAction={() => {
+											setActiveItem(club.clubName)
+											navigate(`/club/${club.clubId}`);
+										}}
 									/>
 								))
 							) : (

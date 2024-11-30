@@ -1,8 +1,8 @@
-import SearchBar from "@/components/ui/Searchbar.jsx";
+	import SearchBar from "@/components/ui/Searchbar.jsx";
 import Button from "@/components/ui/Button.jsx";
 import { IoNotifications } from "react-icons/io5";
 import { SiDgraph } from "react-icons/si";
-import { formatNumberToK as formatter } from "@/utils/formatters/reputationformatter.js";
+import { formatNumberToK as formatter } from "@/utils/formatters/numberFomatter.js";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import {useDispatch} from "react-redux";

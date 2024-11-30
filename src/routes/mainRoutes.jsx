@@ -6,6 +6,8 @@ import EditArticlePage from "@/pages/Main/EditArticle.jsx";
 import NewArticlePage from "@/pages/Main/NewArticle.jsx";
 import RootClubLayout from "@/pages/RootClub.jsx";
 import DiscoverClubsPage from "@/pages/Main/DiscoverClubs.jsx";
+import CategoryClubsPage from "@/pages/Main/CategoryClubs.jsx";
+import ClubDetailsPage from "@/pages/Main/ClubDetails.jsx";
 
 export const mainRoutes = [
 	{
@@ -41,7 +43,16 @@ export const mainRoutes = [
 			{
 				index: true,
 				element: <DiscoverClubsPage/>,
+			},
+			{
+				path: "category/:categoryId/:categoryName",
+				element: <CategoryClubsPage/>
 			}
+
 		]
+	},
+	{
+		path: "/club/:clubId",
+		element: <ClubDetailsPage/>,
 	}
 ];

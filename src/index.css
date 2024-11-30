@@ -15,8 +15,6 @@ body {
 }
 
 
-
-
 .gradient-bg {
     background: rgb(94, 4, 219);
     background: linear-gradient(90deg, rgba(94, 4, 219, 1) 14%, rgba(193, 72, 3, 1) 82%, rgba(224, 45, 4, 1) 100%);
@@ -42,6 +40,20 @@ body {
     background: linear-gradient(0deg, rgba(94,4,219,0.15) 14%, rgba(193,72,3,0.15) 94%, rgba(224,45,4,0.15) 100%);
 }
 
+.gradient-bg-discover {
+    background: rgb(94,4,219);
+    background: linear-gradient(180deg, rgba(94,4,219,1) 0%, rgba(193,72,3,1) 16%, rgba(251,251,251,1) 37%);
+}
+
+.scrollbar-hider  {
+    /*overflow-x: auto; !* Enable horizontal scrolling *!*/
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.scrollbar-hider ::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Edge */
+}
 
 
 @layer base {

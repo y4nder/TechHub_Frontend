@@ -1,4 +1,4 @@
-import { post } from "@/utils/http/http.js";
+    import { post } from "@/utils/http/http.js";
 import {removeToken} from "@/utils/token/token.js";
 
 export async function registerUser(registerInfo) {
