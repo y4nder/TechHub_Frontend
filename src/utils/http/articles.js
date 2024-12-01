@@ -139,3 +139,13 @@ export async function unBookmarkArticle(userId, articleId){
 	})
 }
 
+export async function getUserArticles(userId, pageNumber = 1, pageSize = 10) {
+	return await get({
+		endpoint: "/getUserArticles",
+		queryParams: {
+			UserId: userId,
+			PageNumber: pageNumber,
+			PageSize: pageSize,
+		}
+	})
+}

@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from "react";
 import {useDispatch} from "react-redux";
 import {logOutDispatcher} from "@/store/user-slice.js";
 import {LogOut} from "lucide-react";
+	import {getUserIdFromToken} from "@/utils/token/token.js";
 
 export default function Navbar({ user }) {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -146,9 +147,9 @@ export default function Navbar({ user }) {
 					>
 						<button
 							className="w-full text-left px-4 py-2 hover:bg-gray-100"
-							onClick={ () => navigate("/profile/edit") }
+							onClick={ () => navigate(`/profile/${getUserIdFromToken()}`) }
 						>
-							Edit Profile
+							Profile
 						</button>
 						<button
 							className="w-full text-left px-4 py-2 hover:bg-gray-100 flex gap-2 items-center text-obsidianBlack-500 font-bold"

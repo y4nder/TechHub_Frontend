@@ -8,6 +8,13 @@ import RootClubLayout from "@/pages/RootClub.jsx";
 import DiscoverClubsPage from "@/pages/Main/DiscoverClubs.jsx";
 import CategoryClubsPage from "@/pages/Main/CategoryClubs.jsx";
 import ClubDetailsPage from "@/pages/Main/ClubDetails.jsx";
+import RootProfilePage from "@/pages/RootProfile.jsx";
+import RootProfileDetailsPage from "@/pages/RootProfileDetails.jsx";
+import ProfilePostsPage from "@/pages/Main/ProfilePosts.jsx";
+import ProfileRepliesPage from "@/pages/Main/ProfileReplies.jsx";
+import ProfileUpVotedPage from "@/pages/Main/ProfileUpvoted.jsx";
+import RootEditProfilePage from "@/pages/RootEditProfile.jsx";
+import ProfileDetailsEditPage from "@/pages/Main/ProfileDetailsEdit.jsx";
 
 export const mainRoutes = [
 	{
@@ -54,5 +61,23 @@ export const mainRoutes = [
 	{
 		path: "/club/:clubId",
 		element: <ClubDetailsPage/>,
+	},
+	{
+		path: "/profile/:profileId",
+		element: <RootProfilePage />, // Main layout with navigation tabs
+		children: [
+			{
+				index: true, // Default child for /profile/:profileId
+				element: <ProfilePostsPage />, // Posts page
+			},
+			{
+				path: "replies",
+				element: <ProfileRepliesPage />, // Replies page
+			},
+			{
+				path: "upvotes",
+				element: <ProfileUpVotedPage />, // Upvotes page
+			},
+		],
 	}
 ];
