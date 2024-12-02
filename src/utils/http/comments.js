@@ -53,3 +53,14 @@ export async function removeCommentVote(removeCommentVoteBody){
 		body: removeCommentVoteBody,
 	})
 }
+
+export async function getUserReplies(userId, pageNumber = 1, pageSize = 10){
+	return await get({
+		endpoint: "/getUserReplies",
+		queryParams: {
+			UserId: userId,
+			PageNumber: pageNumber,
+			PageSize: pageSize,
+		}
+	})
+}

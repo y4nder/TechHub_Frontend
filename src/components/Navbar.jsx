@@ -54,7 +54,7 @@ export default function Navbar({ user }) {
 		<nav
 			className={`
         flex items-center justify-between
-        px-4 py-1
+        px-4 py-2
         bg-surface-100
         border border-black-50
         fixed top-0 left-0 w-full z-50
@@ -88,7 +88,7 @@ export default function Navbar({ user }) {
             bg-brightOrange-500 
             text-surface-50 
             font-sans font-light 
-            py-1.5 px-7 
+            py-3 px-7 
             rounded-[15px] 
             hover:bg-darkPurple-500 duration-200
           `}
@@ -117,7 +117,7 @@ export default function Navbar({ user }) {
 						className={`
 	              flex gap-2 items-center justify-center
 	              bg-darkOrange-50
-	              py-0.5 px-2.5
+	              py-2 px-2.5
 	              rounded-[15px]
 	              hover:bg-lightPurple-50
 	              cursor-pointer

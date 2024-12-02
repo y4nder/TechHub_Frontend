@@ -149,3 +149,38 @@ export async function getUserArticles(userId, pageNumber = 1, pageSize = 10) {
 		}
 	})
 }
+
+export async function getUserUpVotedArticles(userId, pageNumber = 1, pageSize = 10) {
+	return await get({
+		endpoint: "/getUpVotedArticles",
+		queryParams: {
+			UserId: userId,
+			PageNumber: pageNumber,
+			PageSize: pageSize,
+		}
+	})
+}
+
+export async function getBookmarkedArticles(userId, pageNumber = 1, pageSize = 10) {
+	return await get({
+		endpoint: "/getBookmarkedArticles",
+		queryParams: {
+			UserId: userId,
+			PageNumber: pageNumber,
+			PageSize: pageSize,
+		}
+	})
+}
+
+export async function getReadArticles(userId, pageNumber = 1, pageSize = 10) {
+	return await get({
+		endpoint: "/getReadArticles",
+		queryParams: {
+			UserId: userId,
+			PageNumber: pageNumber,
+			PageSize: pageSize,
+		}
+	})
+}
+
+

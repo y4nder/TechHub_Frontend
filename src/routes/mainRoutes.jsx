@@ -15,6 +15,10 @@ import ProfileRepliesPage from "@/pages/Main/ProfileReplies.jsx";
 import ProfileUpVotedPage from "@/pages/Main/ProfileUpvoted.jsx";
 import RootEditProfilePage from "@/pages/RootEditProfile.jsx";
 import ProfileDetailsEditPage from "@/pages/Main/ProfileDetailsEdit.jsx";
+import BookmarkedArticlesPage from "@/pages/Main/BookmarkedArticles.jsx";
+import RootHistoryLayout from "@/pages/RootHistory.jsx";
+import ReadHistoryPage from "@/pages/Main/ReadHistory.jsx";
+import SearchHistoryPage from "@/pages/Main/SeachHistory.jsx";
 
 export const mainRoutes = [
 	{
@@ -79,5 +83,24 @@ export const mainRoutes = [
 				element: <ProfileUpVotedPage />, // Upvotes page
 			},
 		],
+	},
+	{
+		path:"/bookmarks",
+		element: <BookmarkedArticlesPage/>
+	},
+	{
+		path:"/history",
+		element: <RootHistoryLayout/>,
+		children: [
+			{
+				index: true,
+				path: "read",
+				element: <ReadHistoryPage/>
+			},
+			{
+				path: "searched",
+				element: <SearchHistoryPage/>
+			}
+		]
 	}
 ];

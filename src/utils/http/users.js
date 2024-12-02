@@ -8,3 +8,12 @@ export async function fetchProfileNav(userId) {
 		}
 	})
 }
+
+export async function getUserFollowInfo(userId) {
+	return await get({
+		endpoint: '/GetFollowerInfo',
+		queryParams: {
+			UserId: userId
+		}
+	})
+}

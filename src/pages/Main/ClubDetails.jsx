@@ -127,8 +127,8 @@ export default function ClubDetailsPage() {
 				</div>
 			</div>
 			<div
-				className={ `justify-center pt-8 pb-8 min-h-screen pr-[250px] ${
-					!expanded ? "pl-[80px]" : "pl-[80px]"
+				className={ `justify-center pt-8 pb-8 min-h-screen  ${
+					!expanded ? "pl-[40px] " : "pl-[80px] pr-[250px]"
 				}` }
 			>
 				{articles.length === 0 ? (

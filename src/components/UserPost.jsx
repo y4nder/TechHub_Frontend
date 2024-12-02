@@ -10,6 +10,7 @@ import {
 } from "@/utils/http/articles.js";
 import {getUserIdFromToken} from "@/utils/token/token.js";
 import {useNavigate} from "react-router-dom";
+import ArticleVoteActions from "@/components/ArticleVoteActions.jsx";
 
 export default function UserPost({article}) {
 	const [voteCount, setVoteCount] = useState(article.voteCount);
@@ -116,15 +117,7 @@ export default function UserPost({article}) {
 				</div>
 			</div>
 			<div className="actions">
-				<ArticleActions
-					voteCount={voteCount}
-					voteType={voteType}
-					bookmarked={bookmarked}
-					commentCount={article.commentCount}
-					onUpvote={toggleUpvote}
-					onDownvote={handleDownVote}
-					onBookmarkToggle={toggleBookmark}
-				/>
+				<ArticleVoteActions article={article} />
 			</div>
 		</div>
 	)

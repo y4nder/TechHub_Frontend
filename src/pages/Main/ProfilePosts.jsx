@@ -18,7 +18,7 @@ export default function ProfilePostsPage() {
 
 
 	return (
-		<div className="bg-surface-500 h-screen">
+		<div className="bg-red-400">
 			{/* Display loading state */}
 			{isPending && (
 				<p>Fetching user posts...</p>

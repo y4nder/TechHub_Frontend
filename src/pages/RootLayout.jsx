@@ -87,7 +87,7 @@ export default function RootLayout() {
 								icon={<PiTagFill size={20} />}
 								text="Tags"
 								iconColor="obsidianBlack-500"
-								textColor="text-obsidianBlack-500"
+							textColor="text-obsidianBlack-500"
 								active={activeItem === "Tags"}
 								sidebarAction={() => handleNavigation("/tags", "Tags")}
 							/>
@@ -107,7 +107,7 @@ export default function RootLayout() {
 								iconColor="obsidianBlack-500"
 								textColor="text-obsidianBlack-500"
 								active={activeItem === "History"}
-								sidebarAction={() => handleNavigation("/history", "History")}
+								sidebarAction={() => handleNavigation("/history/read", "History")}
 							/>
 						</SidebarItemGroup>
 					</Sidebar>
@@ -117,14 +117,9 @@ export default function RootLayout() {
 		</>
 	);
 
-	// Separate component for MainContent
 	function MainContent() {
-		const { expanded } = useSidebar(); // Access sidebar state
-
 		return (
-			<main
-
-			>
+			<main>
 				<Outlet />
 			</main>
 		);

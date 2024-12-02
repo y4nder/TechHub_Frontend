@@ -1,10 +1,10 @@
-import { useSidebar } from "@/hooks/useSidebar.jsx";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getUserIdFromToken } from "@/utils/token/token.js";
-import { fetchHomeArticles } from "@/utils/http/articles.js";
+import {useSidebar} from "@/hooks/useSidebar.jsx";
+import {getUserIdFromToken} from "@/utils/token/token.js";
+import {useInfiniteQuery} from "@tanstack/react-query";
+import {getBookmarkedArticles} from "@/utils/http/articles.js";
 import ArticleList from "@/components/ArticleList.jsx";
 
-export default function HomePage() {
+export default function BookmarkedArticlesPage() {
 	const { expanded } = useSidebar();
 	const userId = getUserIdFromToken(); // Replace with the actual user ID
 
@@ -15,9 +15,9 @@ export default function HomePage() {
 		hasNextPage,
 		isFetchingNextPage,
 	} = useInfiniteQuery({
-		queryKey: ["articles", "home", userId],
+		queryKey: ["articles", "bookmarks"],
 		queryFn: ({ pageParam = 1 }) =>
-			fetchHomeArticles(userId, pageParam, 10),
+			getBookmarkedArticles(userId, pageParam, 10),
 		getNextPageParam: (lastPage) => {
 			const { pageNumber, totalPages } = lastPage.articles;
 			return pageNumber < totalPages ? pageNumber + 1 : undefined;

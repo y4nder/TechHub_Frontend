@@ -1,21 +1,26 @@
 import {NavLink, Outlet} from "react-router-dom";
+import UserProfileCard from "@/components/UserProfileCard.jsx";
 export default function RootProfilePage() {
 
 	return (
 		<div className={ `
 			gradient-bg-light
 			w-screen
-			
-			grid grid-cols-4
-			pr-[350px]
-			pl-[375px]		
+			h-full
+			pt-6 
+			grid grid-cols-6
+			pl-[475px]		
+			pr-[400px]
+			overflow-y-hidden
 		` }>
-			<div className="col-span-3">
+			<div className="col-span-4">
 				<ProfileNavbar/>
-				<Outlet/>
+				<div className="h-screen max-h-full bg-surface-200 overflow-y-auto ">
+					<Outlet/>
+				</div>
 			</div>
-			<div className="bg-surface-200">
-				Side Content
+			<div className="bg-surface-200 rounded-tr-2xl col-span-2">
+				<UserProfileCard/>
 			</div>
 		</div>
 	)
@@ -26,9 +31,9 @@ export default function RootProfilePage() {
 		return (
 			<div className={`
 				border border-b-black-75
-			  
+			   
 			`}>
-				<nav className="flex space-x-4 p-4 bg-gray-100 font-bold">
+				<nav className="flex space-x-4 p-4 bg-gray-100 rounded-tl-2xl font-bold">
 					<NavLink
 						to=""
 						end
