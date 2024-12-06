@@ -23,7 +23,7 @@ export default function DiscoverArticlePage(){
 		data?.pages.flatMap((page) => page.articles.items) || [];
 
 	return (
-		<div 	className={`flex-1 bg-surface-500 transition-all p-8`}>
+		<div 	className={`flex-1 bg-surface-500 min-h-screen max-h-full transition-all p-8`}>
 			<div
 				className={ `justify-center ` }
 			>

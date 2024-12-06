@@ -2,26 +2,38 @@ import {getToken} from "@/utils/token/token.js";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
-export async function httpRequest(
-   {
-       method,
-       endpoint,
-       body = null,
-       headers = {},
-       queryParams = {},
-       errorMessage = "An unexpected error occurred" }) {
+export async function httpRequest({
+    method,
+    endpoint,
+    body = null,
+    headers = {},
+    queryParams = {},
+    errorMessage = "An unexpected error occurred",
+}) {
     const url = new URL(apiBaseUrl + endpoint);
 
-    Object.keys(queryParams).forEach((key) => url.searchParams.append(key, queryParams[key]));
+    // Append query parameters
+    Object.keys(queryParams).forEach((key) =>
+       url.searchParams.append(key, queryParams[key])
+    );
+
+    // Set default headers with "application/json" as the default Content-Type
+    const mergedHeaders = {
+        "Content-Type": "application/json", // Default Content-Type
+        Authorization: `Bearer ${getToken()}`, // Add token
+        ...headers, // Override headers if provided
+    };
+
+    // Adjust body and headers if the body is FormData
+    const isFormData = body instanceof FormData;
+    if (isFormData) {
+        delete mergedHeaders["Content-Type"]; // Remove Content-Type for FormData
+    }
 
     const options = {
         method,
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`, // Pass the token here
-            ...headers,
-        },
-        body: body ? JSON.stringify(body) : null,
+        headers: mergedHeaders,
+        body: isFormData ? body : body ? JSON.stringify(body) : null,
     };
 
     try {

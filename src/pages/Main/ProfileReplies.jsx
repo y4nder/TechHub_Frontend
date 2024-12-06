@@ -20,8 +20,6 @@ export default function ProfileRepliesPage() {
 		<CommentProvider>
 			<div className={`
 				
-				${repliesData ? 'h-screen': 'h-full'}
-				
 			`}>
 				{isLoading && (
 					<p>Loading data</p>

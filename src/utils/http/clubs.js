@@ -1,4 +1,4 @@
-import {get} from "@/utils/http/http.js";
+import {get, post} from "@/utils/http/http.js";
 
 export async function fetchJoinedClubs(userId) {
 	return await get({
@@ -42,6 +42,13 @@ export async function fetchSingleClub(clubId){
 		queryParams: {
 			ClubId: clubId
 		}
+	})
+}
+
+export async function createClub(clubFormData){
+	return await post({
+		endpoint: '/createClub',
+		body: clubFormData,
 	})
 }
 
