@@ -5,7 +5,6 @@ import { fetchHomeArticles } from "@/utils/http/articles.js";
 import ArticleList from "@/components/ArticleList.jsx";
 
 export default function HomePage() {
-	const { expanded } = useSidebar();
 	const userId = getUserIdFromToken(); // Replace with the actual user ID
 
 	// Infinite query for fetching articles
@@ -17,7 +16,7 @@ export default function HomePage() {
 	} = useInfiniteQuery({
 		queryKey: ["articles", "home", userId],
 		queryFn: ({ pageParam = 1 }) =>
-			fetchHomeArticles(userId, pageParam, 10),
+			fetchHomeArticles(pageParam, 10),
 		getNextPageParam: (lastPage) => {
 			const { pageNumber, totalPages } = lastPage.articles;
 			return pageNumber < totalPages ? pageNumber + 1 : undefined;
@@ -29,15 +28,8 @@ export default function HomePage() {
 		data?.pages.flatMap((page) => page.articles.items) || [];
 
 	return (
-		<div className={`flex-1 bg-surface-500 transition-all w-screen
-		${
-			expanded ? "pl-[375px] pr-[100px]" : "pl-[10px]"
-		}`}>
-			<div
-				className={`justify-center pt-8 pb-8 min-h-screen pr-8 ${
-					!expanded ? "pl-[80px]" : ""
-				}`}
-			>
+		<div className={`flex-1 bg-surface-500 transition-all p-8`}>
+			<div className={`justify-center `}>
 				<ArticleList
 					articles={articles}
 					hasNextPage={hasNextPage}

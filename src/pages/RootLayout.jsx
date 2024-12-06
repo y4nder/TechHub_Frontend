@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { dispatchFetchJoinedClubs } from "@/store/joined-clubs-slice.js";
 import { getUserIdFromToken } from "@/utils/token/token.js";
 import { ProfileNavDispatcher } from "@/store/user-slice.js";
-import { SidebarProvider, useSidebar } from "@/hooks/useSidebar.jsx";
+import { SidebarProvider} from "@/hooks/useSidebar.jsx";
 
 export default function RootLayout() {
 	const [activeItem, setActiveItem] = useState(""); // Track the active sidebar item
@@ -44,7 +44,7 @@ export default function RootLayout() {
 		<>
 			<Navbar user={user} />
 			<SidebarProvider>
-				<div className="flex pt-16">
+				<div className="flex h-[calc(100vh-4rem)]">
 					<Sidebar>
 						<SidebarItemGroup headerText="Clubs">
 							{hasError ? (
@@ -111,7 +111,9 @@ export default function RootLayout() {
 							/>
 						</SidebarItemGroup>
 					</Sidebar>
-					<MainContent />
+					<div className="flex-1 overflow-y-auto overflow-x-hidden bg-surface-500">
+						<MainContent />
+					</div>
 				</div>
 			</SidebarProvider>
 		</>

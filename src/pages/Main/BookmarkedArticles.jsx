@@ -5,7 +5,6 @@ import {getBookmarkedArticles} from "@/utils/http/articles.js";
 import ArticleList from "@/components/ArticleList.jsx";
 
 export default function BookmarkedArticlesPage() {
-	const { expanded } = useSidebar();
 	const userId = getUserIdFromToken(); // Replace with the actual user ID
 
 	// Infinite query for fetching articles
@@ -29,14 +28,9 @@ export default function BookmarkedArticlesPage() {
 		data?.pages.flatMap((page) => page.articles.items) || [];
 
 	return (
-		<div className={`flex-1 bg-surface-500 transition-all w-screen
-		${
-			expanded ? "pl-[375px] pr-[100px]" : "pl-[10px]"
-		}`}>
+		<div className={`flex-1 bg-surface-500 transition-all`}>
 			<div
-				className={`justify-center pt-8 pb-8 min-h-screen pr-8 ${
-					!expanded ? "pl-[80px]" : ""
-				}`}
+				className={`justify-center py-10 px-8`}
 			>
 				<ArticleList
 					articles={articles}

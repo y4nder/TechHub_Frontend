@@ -78,7 +78,7 @@ export default function UserPost({article}) {
 	}
 
 	return(
-		<div className="p-4 space-y-4 border border-b-black-75 bg-surface-200">
+		<div className="p-4 space-y-4 border border-b-black-75">
 			<div className="header flex justify-between items-center">
 				<div className="flex gap-2">
 					<img

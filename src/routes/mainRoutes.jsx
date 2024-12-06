@@ -9,16 +9,16 @@ import DiscoverClubsPage from "@/pages/Main/DiscoverClubs.jsx";
 import CategoryClubsPage from "@/pages/Main/CategoryClubs.jsx";
 import ClubDetailsPage from "@/pages/Main/ClubDetails.jsx";
 import RootProfilePage from "@/pages/RootProfile.jsx";
-import RootProfileDetailsPage from "@/pages/RootProfileDetails.jsx";
 import ProfilePostsPage from "@/pages/Main/ProfilePosts.jsx";
 import ProfileRepliesPage from "@/pages/Main/ProfileReplies.jsx";
 import ProfileUpVotedPage from "@/pages/Main/ProfileUpvoted.jsx";
-import RootEditProfilePage from "@/pages/RootEditProfile.jsx";
-import ProfileDetailsEditPage from "@/pages/Main/ProfileDetailsEdit.jsx";
 import BookmarkedArticlesPage from "@/pages/Main/BookmarkedArticles.jsx";
 import RootHistoryLayout from "@/pages/RootHistory.jsx";
 import ReadHistoryPage from "@/pages/Main/ReadHistory.jsx";
 import SearchHistoryPage from "@/pages/Main/SeachHistory.jsx";
+import RootEditProfilePage from "@/pages/RootEditProfile.jsx";
+import ProfileAccountDetailsPage from "@/pages/Main/ProfileAccountDetails.jsx";
+import CreateNewClubPage from "@/pages/Main/CreateNewClub.jsx";
 
 export const mainRoutes = [
 	{
@@ -49,22 +49,25 @@ export const mainRoutes = [
 	},
 	{
 		path: "/clubs",
-		element: <RootClubLayout/>,
+		element: <RootClubLayout />,
 		children: [
 			{
 				index: true,
-				element: <DiscoverClubsPage/>,
+				element: <DiscoverClubsPage />,
 			},
 			{
 				path: "category/:categoryId/:categoryName",
-				element: <CategoryClubsPage/>
+				element: <CategoryClubsPage />,
 			}
-
-		]
+		],
 	},
 	{
 		path: "/club/:clubId",
-		element: <ClubDetailsPage/>,
+		element: <ClubDetailsPage />,
+	},
+	{
+		path:"/club/create",
+		element: <CreateNewClubPage/>
 	},
 	{
 		path: "/profile/:profileId",
@@ -85,22 +88,32 @@ export const mainRoutes = [
 		],
 	},
 	{
-		path:"/bookmarks",
-		element: <BookmarkedArticlesPage/>
+		path: "/profile/:profileId/edit",
+		element: <RootEditProfilePage />,
+		children: [
+			{
+				index: true,
+				element: <ProfileAccountDetailsPage/>
+			}
+		]
 	},
 	{
-		path:"/history",
-		element: <RootHistoryLayout/>,
+		path: "/bookmarks",
+		element: <BookmarkedArticlesPage />,
+	},
+	{
+		path: "/history",
+		element: <RootHistoryLayout />,
 		children: [
 			{
 				index: true,
 				path: "read",
-				element: <ReadHistoryPage/>
+				element: <ReadHistoryPage />,
 			},
 			{
 				path: "searched",
-				element: <SearchHistoryPage/>
-			}
-		]
-	}
+				element: <SearchHistoryPage />,
+			},
+		],
+	},
 ];

@@ -6,13 +6,12 @@ export default function RootHistoryLayout(){
 	return (
 		<div className={`
 			gradient-bg-light
-			w-screen
 			pt-8
-			pl-[600px]
-			pr-[600px]
-			
+			flex
+			items-center
+			justify-center
 		`}>
-			<div className="bg-surface-200 rounded-t-3xl">
+			<div className="bg-surface-200 rounded-t-3xl w-full max-w-screen-md">
 				<div className="p-6 border border-b-black-75">
 					<nav>
 						<NavLink

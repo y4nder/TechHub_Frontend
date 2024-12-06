@@ -17,9 +17,7 @@ export default function ProfileUpVotedPage() {
 
 	return (
 		<div className={ `
-			bg-surface-200
-			${ data ? 'h-full' : 'h-full' }
-			
+		
 		` }>
 			{ isLoading && (
 				<p>Loading data</p>

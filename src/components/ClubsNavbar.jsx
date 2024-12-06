@@ -1,15 +1,13 @@
-import {useSidebar} from "@/hooks/useSidebar.jsx";
 import ClubTab from "@/components/ui/ClubTab.jsx";
 import {useEffect} from "react";
 import {useTabContext} from "@/hooks/TabContext.jsx";
-import {useNavigate} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
 import { useLocation } from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import {fetchClubCategories} from "@/utils/http/clubs.js";
 
 export default function ClubsNavbar({ className }) {
-	const { expanded } = useSidebar();
 	const { selectedTab, setSelectedTab } = useTabContext();
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -45,13 +43,11 @@ export default function ClubsNavbar({ className }) {
 	return (
 		<div
 			className={` 
-        navbar-container
-        flex justify-between items-center gap-4
-        py-6
-        w-screen pr-[100px]
-        ${selectedTab === 0? "text-white" : "text-black-200"}
-        ${expanded ? "pl-[300px]" : "pl-[100px]"}
-        border-b 
+	         navbar-container
+            flex justify-between items-center gap-4            
+            ${selectedTab === 0? "text-white" : "text-black-200"}
+            p-6   
+            border-b             
         ${className}
       `}
 		>
@@ -61,7 +57,7 @@ export default function ClubsNavbar({ className }) {
 			{!isPendingCategories && (
 				<>
 
-					<div className="tab-container scrollbar-hider flex gap-5 overflow-x-auto w-full">
+					<div className="tab-container scrollbar-hider overflow-x-scroll flex gap-5 ">
 						<ClubTab
 							category={{
 								clubCategoryId: 0,
@@ -80,17 +76,21 @@ export default function ClubsNavbar({ className }) {
 						))}
 					</div>
 					<div>
-						<button
+						<NavLink
+							to={'/club/create'}
 							className={`
 				            nav-bar-create-club
 				            ${ selectedTab === 0 ? "border border-white " : "bg-darkPurple-500 text-white" }
 				            py-2 px-8
 				            rounded-xl
 				            text-nowrap
+				            hover:bg-white
+				            hover:text-brightOrange-500
+				            transition-all duration-100
 			          `}
 						>
 							New Club
-						</button>
+						</NavLink>
 					</div>
 
 				</>

@@ -7,7 +7,7 @@ import CommentActions from "@/components/CommentActions.jsx";
 export default function ReplyContainer({ reply }) {
 	return (
 		<div className={`
-			bg-surface-200 border border-b-black-75 p-4 space-y-4
+			border border-b-black-75 p-4 space-y-4
 		`}>
 			<div className="reply-sub-header">
 				<p className="font-thin">

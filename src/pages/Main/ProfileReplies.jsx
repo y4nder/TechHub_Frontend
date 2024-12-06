@@ -19,7 +19,7 @@ export default function ProfileRepliesPage() {
 	return(
 		<CommentProvider>
 			<div className={`
-				bg-surface-200
+				
 				${repliesData ? 'h-screen': 'h-full'}
 				
 			`}>

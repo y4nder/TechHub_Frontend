@@ -1,9 +1,7 @@
-import {useSidebar} from "@/hooks/useSidebar.jsx";
 import ClubCard from "@/components/ClubCard.jsx";
 import ClubCardFeatured from "@/components/ClubCardFeatured.jsx";
 
 export default function SideScroller({header, clubs, isFeatured, isSingleCategory = false}) {
-	const  {expanded} = useSidebar();
 
 	if(clubs.length === 0) {
 		return (<></>)
@@ -14,11 +12,8 @@ export default function SideScroller({header, clubs, isFeatured, isSingleCategor
 	:  <RegularClubs clubs={clubs}/>
 
 	return (
-		<div className="flex flex-col gap-2">
-			<div className={ `
-				flex justify-between pr-[100px] items-center
-				${expanded ? 'pl-[300px] ' : 'pl-[100px]'}
-			` }>
+		<div className="flex flex-col gap-2 ">
+			<div className={ `flex justify-between  items-center` }>
 				<h1 className={`
 					font-bold  pl-2
 					${isFeatured ? 'text-white text-2xl' : 'text-xl'}
@@ -34,11 +29,7 @@ export default function SideScroller({header, clubs, isFeatured, isSingleCategor
 				)}
 			</div>
 			<div className={ `
-				py-3 pr-8 flex flex-row w-full gap-5 overflow-x-auto
-				scrollbar-hider
-				${expanded ? 'pl-[300px] ' : 'pl-[100px]'}
-			`}
-			>
+				py-3 pr-8 flex flex-row gap-5 overflow-x-auto scrollbar-hider`}>
 				{content}
 			</div>
 		</div>

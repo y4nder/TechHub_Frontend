@@ -1,4 +1,4 @@
-	import SearchBar from "@/components/ui/Searchbar.jsx";
+import SearchBar from "@/components/ui/Searchbar.jsx";
 import Button from "@/components/ui/Button.jsx";
 import { IoNotifications } from "react-icons/io5";
 import { SiDgraph } from "react-icons/si";
@@ -57,7 +57,7 @@ export default function Navbar({ user }) {
         px-4 py-2
         bg-surface-100
         border border-black-50
-        fixed top-0 left-0 w-full z-50
+        w-full
       `}
 		>
 			{/* Logo */}

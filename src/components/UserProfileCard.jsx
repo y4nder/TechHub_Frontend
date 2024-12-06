@@ -30,7 +30,7 @@ export default function UserProfileCard() {
 
 	return(
 		<div className="UserProfileCard p-4 space-y-8">
-			<div className="profile-header flex justify-between items-center flex-grow">
+			<div className="profile-header flex justify-between items-center flex-grow gap-8">
 				<h1 className="text-4xl font-bold">Profile</h1>
 				<div className="flex gap-2 items-center">
 					<NavLink to={''}
