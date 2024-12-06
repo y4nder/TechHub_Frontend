@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { dispatchFetchJoinedClubs } from "@/store/joined-clubs-slice.js";
 import { getUserIdFromToken } from "@/utils/token/token.js";
 import { ProfileNavDispatcher } from "@/store/user-slice.js";
-import { SidebarProvider, useSidebar } from "@/hooks/useSidebar.jsx";
+import { SidebarProvider} from "@/hooks/useSidebar.jsx";
 
 export default function RootLayout() {
 	const [activeItem, setActiveItem] = useState(""); // Track the active sidebar item
@@ -44,7 +44,7 @@ export default function RootLayout() {
 		<>
 			<Navbar user={user} />
 			<SidebarProvider>
-				<div className="flex pt-16">
+				<div className="flex h-[calc(100vh-4rem)]">
 					<Sidebar>
 						<SidebarItemGroup headerText="Clubs">
 							{hasError ? (
@@ -87,7 +87,7 @@ export default function RootLayout() {
 								icon={<PiTagFill size={20} />}
 								text="Tags"
 								iconColor="obsidianBlack-500"
-								textColor="text-obsidianBlack-500"
+							textColor="text-obsidianBlack-500"
 								active={activeItem === "Tags"}
 								sidebarAction={() => handleNavigation("/tags", "Tags")}
 							/>
@@ -107,24 +107,21 @@ export default function RootLayout() {
 								iconColor="obsidianBlack-500"
 								textColor="text-obsidianBlack-500"
 								active={activeItem === "History"}
-								sidebarAction={() => handleNavigation("/history", "History")}
+								sidebarAction={() => handleNavigation("/history/read", "History")}
 							/>
 						</SidebarItemGroup>
 					</Sidebar>
-					<MainContent />
+					<div className="flex-1 overflow-y-auto overflow-x-hidden bg-surface-500">
+						<MainContent />
+					</div>
 				</div>
 			</SidebarProvider>
 		</>
 	);
 
-	// Separate component for MainContent
 	function MainContent() {
-		const { expanded } = useSidebar(); // Access sidebar state
-
 		return (
-			<main
-
-			>
+			<main>
 				<Outlet />
 			</main>
 		);

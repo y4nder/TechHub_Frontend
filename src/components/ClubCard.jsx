@@ -48,7 +48,7 @@ export default function ClubCard({club}) {
 			</div>
 			<div className={` flex flex-col gap-1`}>
 				<h1 className="font-bold text-lg break-words">{club.clubName}</h1>
-				<p className="text-black-200 text-sm">
+				<p className="text-black-200 text-sm line-clamp-3">
 					{ club.clubDescription }
 				</p>
 			</div>

@@ -17,7 +17,7 @@ export default function Sidebar({ children }) {
 						expanded ? "w-64" : "w-16"
 					} 
 				bg-surface-100 border-r border-black-50
-				fixed top-16 left-0 h-full z-40
+				
 			`}
 		>
 

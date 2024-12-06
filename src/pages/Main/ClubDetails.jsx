@@ -69,10 +69,11 @@ export default function ClubDetailsPage() {
 	return (
 		<div
 			className={`
-			pt-8 pr-[80px] 
-			${expanded ? 'pl-[255px]' : 'pl-[65px]'}
+			pt-8 
+			bg-surface-50 
+			
 		`}>
-			<div className="header space-y-5 border-b border-black-75 w-screen pl-16">
+			<div className="header space-y-5 border-b border-black-75 w-screen pl-16 ">
 				<div className="head-header flex gap-4">
 					<img
 						src={club.clubProfilePicUrl}
@@ -115,7 +116,7 @@ export default function ClubDetailsPage() {
 						</p>
 					</div>
 				</div>
-				<div className="header-moderatos space-y-2 pb-5">
+				<div className="header-moderators space-y-2 pb-5">
 					<p>Moderators</p>
 					<div className="flex gap-4">
 						<ModeratorCard moderator={club.clubCreator} isClubCreator />
@@ -127,12 +128,10 @@ export default function ClubDetailsPage() {
 				</div>
 			</div>
 			<div
-				className={ `justify-center pt-8 pb-8 min-h-screen pr-[250px] ${
-					!expanded ? "pl-[80px]" : "pl-[80px]"
-				}` }
+				className={ `justify-center py-10 px-20` }
 			>
 				{articles.length === 0 ? (
-					<p className="text-center text-gray-500">No articles found for this club.</p>
+					<p className="text-center text-gray-500 ">No articles found for this club.</p>
 				) : (
 					<ArticleList
 						articles={ articles }
