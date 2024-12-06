@@ -18,7 +18,7 @@ export default function ProfilePostsPage() {
 
 
 	return (
-		<div className="h-screen">
+		<div className="overflow-hidden">
 			{/* Display loading state */}
 			{isPending && (
 				<p>Fetching user posts...</p>

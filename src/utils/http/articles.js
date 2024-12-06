@@ -28,7 +28,7 @@ export async function fetchHomeArticles(pageNumber = 1, pageSize = 10) {
 
 export async function fetchDiscoverArticles(pageNumber = 1, pageSize = 10) {
     return await get({
-        endpoint: "/getHomeArticles",
+        endpoint: "/discoverArticles",
         queryParams: {
             PageNumber: pageNumber,
             PageSize: pageSize,

@@ -88,12 +88,10 @@ export default function ArticlePage() {
 
 	return (
 		<div
-			className={`flex-1 gradient-bg-light transition-all w-screen h-full pt-6 ${
-				expanded ? "pl-[375px] pr-[100px]" : "pl-[120px] pr-[100px]"
-			}
+			className={`flex-1  transition-all py-6 px-24 
 		`}
 		>
-			<div className="grid grid-flow-row-dense grid-cols-4 max-h-full min-h-screen grid-rows-1 gap-8">
+			<div className="grid grid-flow-row-dense grid-cols-4  grid-rows-1 gap-8">
 				<div className="col-span-3">
 					<CommentProvider fetchComments={fetchComments}>
 						{isPending && <p>Fetching article...</p>}
