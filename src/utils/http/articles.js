@@ -1,4 +1,4 @@
-import { del, get, post } from "@/utils/http/http.js";
+import {del, get, post, put} from "@/utils/http/http.js";
 import { getToken } from "../token/token";
 
 /**
@@ -36,11 +36,10 @@ export async function fetchDiscoverArticles(pageNumber = 1, pageSize = 10) {
     });
 }
 
-export async function fetchArticle(userId, articleId) {
+export async function fetchArticle(articleId) {
     return await get({
         endpoint: "/getSingleArticle",
         queryParams: {
-            UserId: userId,
             ArticleId: articleId,
         },
     });
@@ -169,3 +168,27 @@ export async function getReadArticles(userId, pageNumber = 1, pageSize = 10) {
         },
     });
 }
+
+export async function createArticle(articleFormData){
+    return await post({
+        endpoint : "/addArticle",
+        body: articleFormData,
+    })
+}
+
+export async function getArticleForEdit(articleId){
+    return await get({
+        endpoint: "/getArticleForEdit",
+        queryParams: {
+            ArticleId: articleId,
+        }
+    })
+}
+
+export async function updateArticle(articleFormData){
+    return await put({
+        endpoint : "/updateArticle",
+        body: articleFormData,
+    })
+}
+

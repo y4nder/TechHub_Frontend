@@ -1,9 +1,51 @@
-import {Outlet} from "react-router-dom";
+import {NavLink, Outlet, useParams} from "react-router-dom";
 
 export default function RootEditProfilePage() {
+	const params = useParams();
+	const profileId = params.profileId;
+
+	const activeButtonClass =
+		"bg-darkOrange-500 text-white rounded-2xl px-4 py-2";
+	const inactiveButtonClass =
+		"text-black-300 rounded-2xl px-4 py-2";
+
 	return (
-		<div>
-			<Outlet/>
+		<div className="grid grid-cols-5">
+			<div className="w-fit bg-surface-100 flex h-[calc(100vh-4rem)]">
+				<aside className="space-y-4 flex-grow">
+					<h1 className="font-bold text-3xl p-10">Settings</h1>
+					<nav className="flex flex-col gap-4 p-2">
+						<NavLink
+							to={`/profile/${profileId}/settings`}
+							end
+							className={({ isActive }) =>
+								isActive ? activeButtonClass : inactiveButtonClass
+							}
+						>
+							Account Details
+						</NavLink>
+						<NavLink
+							to={`security`}
+							className={({ isActive }) =>
+								isActive ? activeButtonClass : inactiveButtonClass
+							}
+						>
+							Security
+						</NavLink>
+						<NavLink
+							to={`notifications`}
+							className={({ isActive }) =>
+								isActive ? activeButtonClass : inactiveButtonClass
+							}
+						>
+							Notifications
+						</NavLink>
+					</nav>
+				</aside>
+			</div>
+			<div className="col-start-3 col-end-5">
+				<Outlet/>
+			</div>
 		</div>
 	)
 }

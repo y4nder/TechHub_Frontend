@@ -7,12 +7,13 @@ export default function DropdownSelector({
 	                                         label,
 	                                         icon,
 	                                         hasError,
+	                                         initialValue = null,
 	                                         dropdownColor = "bg-surface-200",
 	                                         textColor = "text-black",
 	                                         transitionDuration = "300ms", // You can adjust this for speed
 	                                         disabled = false,
                                          }) {
-	const [selectedOption, setSelectedOption] = useState(null);
+	const [selectedOption, setSelectedOption] = useState(initialValue);
 	const [isOpen, setIsOpen] = useState(false);
 
 	// Create refs for dropdown container to detect clicks outside and scrolling
@@ -41,7 +42,6 @@ export default function DropdownSelector({
 	}, []);
 
 	const handleOptionSelect = (option) => {
-
 		setSelectedOption(option);
 		onSelect(option);
 		console.log("from dropdown: => ", option);
@@ -53,46 +53,60 @@ export default function DropdownSelector({
 		setIsOpen((prevState) => !prevState);
 	};
 
+	// Ensure the selectedOption is updated if the initialValue changes
+	useEffect(() => {
+		setSelectedOption(initialValue);
+	}, [initialValue]);
+
 	return (
-		<div className="relative w-fit min-w-[200px]" ref={ dropdownRef }>
+		<div className="relative w-fit min-w-[200px]" ref={dropdownRef}>
 			<div
-				className={ `cursor-pointer py-4 px-6 rounded-2xl ${ dropdownColor } ${ textColor } flex items-center justify-between gap-4 ${
+				className={`cursor-pointer py-4 px-6 rounded-2xl ${dropdownColor} ${textColor} flex items-center justify-between gap-4 ${
 					disabled ? "cursor-not-allowed opacity-50 pointer-events-none" : ""
-				}
-				${hasError ? "border border-red-500" :""}
-				
-				` }
-				onClick={ handleToggleDropdown } // Toggle dropdown visibility
+				} ${hasError ? "border border-red-500" : ""}`}
+				onClick={handleToggleDropdown} // Toggle dropdown visibility
 			>
+				{selectedOption && selectedOption.image && (
+					<img
+						src={selectedOption.image}
+						className="w-6 h-6 rounded-full object-cover object-center"
+						alt=""
+					/>
+				)}
 				<span className="flex items-center">
-					{ icon && <span className="mr-2">{ icon }</span> }
-					{ selectedOption && selectedOption.label  || label }
-				</span>
+          {icon && <span className="mr-2">{icon}</span>}
+					{selectedOption && selectedOption.label ? selectedOption.label : label}
+        </span>
 				<span className="text-xl">
-					{ isOpen ? <IoIosArrowUp/> : <IoIosArrowDown/> }
-				</span>
+          {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+        </span>
 			</div>
 
 			<div
-				className={ `absolute top-full mt-2 w-full bg-surface-500 rounded-md shadow-lg z-50  overflow-hidden transition-all ease-out` }
-				style={ {
+				className={`absolute top-full mt-2 w-full bg-surface-500 rounded-md shadow-lg z-50 overflow-hidden transition-all ease-out`}
+				style={{
 					maxHeight: isOpen ? "500px" : "0", // Set max-height based on open state
 					transitionDuration: transitionDuration, // Apply custom transition duration
-				} }
+				}}
 			>
-				<ul>
-					{ options.map((option, index) => (
-						<li
-							key={ option.id }
-							className={ `cursor-pointer p-2 hover:bg-lightPurple-50  ${ textColor } ${
-								disabled ? "cursor-not-allowed opacity-50" : ""
-							}` }
-							onClick={ () => handleOptionSelect(option) }
-						>
-							{ option.label }
-						</li>
-					)) }
-				</ul>
+				{options.map((option, index) => (
+					<div
+						key={option.id}
+						className={`cursor-pointer p-2 hover:bg-lightPurple-50  ${textColor} ${
+							disabled ? "cursor-not-allowed opacity-50" : ""
+						} flex gap-2 items-center`}
+						onClick={() => handleOptionSelect(option)}
+					>
+						{option.image && (
+							<img
+								src={option.image}
+								className="w-6 h-6 rounded-full object-cover object-center"
+								alt=""
+							/>
+						)}
+						{option.label}
+					</div>
+				))}
 			</div>
 		</div>
 	);

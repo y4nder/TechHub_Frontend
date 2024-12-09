@@ -52,3 +52,20 @@ export async function createClub(clubFormData){
 	})
 }
 
+export async function joinClub(clubId){
+	return await post({
+		endpoint: '/joinClub',
+		body: {
+			ClubId: clubId,
+		}
+	})
+}
+
+export async function leaveClub(clubId){
+	return await post({
+		endpoint: '/leaveClub',
+		body: {
+			ClubId: clubId,
+		}
+	})
+}

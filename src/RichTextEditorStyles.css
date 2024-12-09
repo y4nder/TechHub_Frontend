@@ -1,0 +1,29 @@
+.ql-toolbar.ql-snow {
+    border: 0 ;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    padding: 8px;
+}
+
+.ql-container.ql-snow {
+    border: 0px solid #ccc;
+}
+
+.ql-editor {
+    box-sizing: border-box;
+    line-height: 1.42;
+    min-height: 150px; /* Ensures a minimum height */
+    height: auto; /* Allows the editor to grow dynamically */
+    max-height: 500px; /* Optional: Sets a maximum height if needed */
+    outline: none;
+    overflow-y: auto; /* Allows scrolling when max-height is reached */
+    padding: 12px 15px;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -moz-tab-size: 4;
+    text-align: left;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
