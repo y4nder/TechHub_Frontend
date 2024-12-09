@@ -1,5 +1,5 @@
 export default function ProfileAccountDetailsPage() {
 	return(
-		<div>Account details</div>
+		<div>Account details Page</div>
 	)
 }

@@ -5,86 +5,106 @@ import { SiDgraph } from "react-icons/si";
 import { formatNumberToK as formatter } from "@/utils/formatters/numberFomatter.js";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import {useDispatch} from "react-redux";
-import {logOutDispatcher} from "@/store/user-slice.js";
-import {LogOut} from "lucide-react";
-	import {getUserIdFromToken} from "@/utils/token/token.js";
+import { useDispatch } from "react-redux";
+import { logOutDispatcher } from "@/store/user-slice.js";
+import { LogOut } from "lucide-react";
+import { getUserIdFromToken } from "@/utils/token/token.js";
+import {useToast} from "@/hooks/use-toast.js";
 
 export default function Navbar({ user }) {
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	const dropdownRef = useRef(null);
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-	const handleSearch = (query) => {
-		console.log(query);
-	};
+    //for testing
+    const {toast} = useToast()
 
-	const handleCreatePost = () => {
-		// Handle create post logic
-	};
+    const toastTester = () => {
+        toast({
+            description: "Your Article Has Been Created",
+            variant: 'articleCreated'
+        })
+    }
 
-	const handleLogout = () => {
-		dispatch(logOutDispatcher());
-		navigate("/auth/sign-in");
-	};
+    const handleSearch = (query) => {
+        console.log(query);
+    };
 
-	const toggleDropdown = () => {
-		setIsDropdownOpen((prev) => !prev);
-	};
+    const handleCreatePost = () => {
+        navigate("/articles/new");
+    };
 
-	const closeDropdown = () => {
-		setIsDropdownOpen(false);
-	};
+    const handleLogout = () => {
+        dispatch(logOutDispatcher());
+        navigate("/auth/sign-in");
+    };
 
-	useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-				closeDropdown();
-			}
-		};
+    const toggleDropdown = () => {
+        setIsDropdownOpen((prev) => !prev);
+    };
 
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, []);
+    const closeDropdown = () => {
+        setIsDropdownOpen(false);
+    };
 
-	return (
-		<nav
-			className={`
-        flex items-center justify-between
-        px-4 py-2
-        bg-surface-100
-        border border-black-50
-        w-full
-      `}
-		>
-			{/* Logo */}
-			<div className="flex cursor-pointer" onClick={() => navigate("/home")}>
-				<img
-					src="https://placehold.co/40"
-					alt="Hero Image"
-					className="object-cover rounded-xl"
-				/>
-			</div>
-			<div className="flex-grow"></div>
-			<div className="flex-grow"></div>
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                closeDropdown();
+            }
+        };
 
-			{/* Search Bar */}
-			<div className="flex-grow items-center px-12 py-2">
-				<SearchBar
-					id="search"
-					placeholder="Search"
-					onSubmitSearch={handleSearch}
-				/>
-			</div>
-			<div className="flex-grow"></div>
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
-			{/* Buttons and Icons */}
-			<div className="flex gap-2 justify-end">
-				<Button
-					className={`
+    return (
+        <nav
+            className={`
+			flex items-center justify-between
+			px-4 py-2
+			bg-surface-100
+			border border-black-50
+			w-full
+		`}
+        >
+            {/* Logo */}
+            <div
+                className="flex cursor-pointer"
+                onClick={() => navigate("/home")}
+            >
+                <img
+                    src="https://placehold.co/40"
+                    alt="Hero Image"
+                    className="object-cover rounded-xl"
+                />
+            </div>
+            <div className="flex-grow">
+                <button
+                    onClick={toastTester}
+                >
+                    Toast Tester
+                </button>
+            </div>
+            <div className="flex-grow"></div>
+
+            {/* Search Bar */}
+            <div className="flex-grow items-center px-12 py-2">
+                <SearchBar
+                    id="search"
+                    placeholder="Search"
+                    onSubmitSearch={handleSearch}
+                />
+            </div>
+            <div className="flex-grow"></div>
+
+            {/* Buttons and Icons */}
+            <div className="flex gap-2 justify-end">
+                <Button
+                    className={`
             bg-brightOrange-500 
             text-surface-50 
             font-sans font-light 
@@ -92,29 +112,32 @@ export default function Navbar({ user }) {
             rounded-[15px] 
             hover:bg-darkPurple-500 duration-200
           `}
-					onClick={handleCreatePost}
-					disabled={false}
-				>
-					<p className="text-nowrap">New Post</p>
-				</Button>
+                    onClick={handleCreatePost}
+                    disabled={false}
+                >
+                    <p className="text-nowrap">New Post</p>
+                </Button>
 
-				{/* Notification Icon */}
-				<div
-					className={`
-            bg-lightPurple-50
-            text-lightPurple-500
-            px-2 
-            rounded-[15px]
-            flex items-center justify-center
-          `}
-				>
-					<IoNotifications size={30} />
-				</div>
+                {/* Notification Icon */}
+                <div
+                    className={`
+						bg-lightPurple-50
+						text-lightPurple-500
+						px-2 
+						rounded-[15px]
+						flex items-center justify-center
+				`}
+                >
+                    <IoNotifications size={30} />
+                </div>
 
-				{/* Stats and Profile */}
-				<div className="relative" ref={dropdownRef}>
-					<div
-						className={`
+                {/* Stats and Profile */}
+                <div
+                    className="relative"
+                    ref={dropdownRef}
+                >
+                    <div
+                        className={`
 	              flex gap-2 items-center justify-center
 	              bg-darkOrange-50
 	              py-2 px-2.5
@@ -122,46 +145,50 @@ export default function Navbar({ user }) {
 	              hover:bg-lightPurple-50
 	              cursor-pointer
             `}
-						onClick={toggleDropdown}
-					>
-						<SiDgraph size={15} color="purple" />
-						<p className="text-lg gradient-text font-bold">
-							{formatter(user.reputationPoints)}
-						</p>
-						<img
-							src={user.userProfilePicUrl}
-							alt="User"
-							className="w-8 h-8 object-cover rounded-xl"
-						/>
-					</div>
+                        onClick={toggleDropdown}
+                    >
+                        <SiDgraph
+                            size={15}
+                            color="purple"
+                        />
+                        <p className="text-lg gradient-text font-bold">{formatter(user.reputationPoints)}</p>
+                        <img
+                            src={user.userProfilePicUrl}
+                            alt="User"
+                            className="w-8 h-8 object-cover rounded-xl"
+                        />
+                    </div>
 
-					{/* Dropdown Menu */}
-					{isDropdownOpen && (
-					<div
-						className={ `
-	                absolute right-0 mt-2 w-40
-	                bg-white border border-gray-200
-	                rounded-xl shadow-2xl
-	                z-50
-	              ` }
-					>
-						<button
-							className="w-full text-left px-4 py-2 hover:bg-gray-100"
-							onClick={ () => navigate(`/profile/${getUserIdFromToken()}`) }
-						>
-							Profile
-						</button>
-						<button
-							className="w-full text-left px-4 py-2 hover:bg-gray-100 flex gap-2 items-center text-obsidianBlack-500 font-bold"
-							onClick={ handleLogout }
-						>
-							<LogOut size={22} className="text-obsidianBlack-500"/>
-							Log Out
-						</button>
-					</div>
-					) }
-				</div>
-			</div>
-		</nav>
-	);
+                    {/* Dropdown Menu */}
+                    {isDropdownOpen && (
+                        <div
+                            className={`
+								absolute right-0 mt-2 w-40
+								bg-white border border-gray-200
+								rounded-xl shadow-2xl
+								z-50
+							`}
+                        >
+                            <button
+                                className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                onClick={() => navigate(`/profile/${getUserIdFromToken()}`)}
+                            >
+                                Profile
+                            </button>
+                            <button
+                                className="w-full text-left px-4 py-2 hover:bg-gray-100 flex gap-2 items-center text-obsidianBlack-500 font-bold"
+                                onClick={handleLogout}
+                            >
+                                <LogOut
+                                    size={22}
+                                    className="text-obsidianBlack-500"
+                                />
+                                Log Out
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </nav>
+    );
 }

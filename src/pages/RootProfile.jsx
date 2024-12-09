@@ -8,19 +8,18 @@ export default function RootProfilePage() {
 				gradient-bg-light
 				min-h-screen
 				flex
-				
 				justify-center
 				p-8
 			`}
 		>
-			<div className="flex max-w-screen-lg w-full  bg-gray-100 rounded-xl">
+			<div className="grid grid-cols-7 max-w-screen-lg w-full bg-gray-100 rounded-xl">
 				<div className="col-span-4 flex-1">
 					<ProfileNavbar />
 					<div className="rounded-lg">
 						<Outlet />
 					</div>
 				</div>
-				<div className="col-span-2 p-4">
+				<div className="col-span-3 p-4 w-fit">
 					<UserProfileCard />
 				</div>
 			</div>

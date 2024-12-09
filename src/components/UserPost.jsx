@@ -1,5 +1,5 @@
 import ArticleDetailTag from "@/components/ui/ArticleDetailTag.jsx";
-import ArticleActions from "@/components/ArticleActions.jsx";
+// import ArticleActions from "@/components/ArticleActions.jsx";
 import {useEffect, useState} from "react";
 import {
 	bookmarkArticle,
@@ -110,7 +110,7 @@ export default function UserPost({article}) {
 				</div>
 				<div className="article-thumbnail">
 					<img
-						src={ article.userImageUrl }
+						src={ article.articleThumbnailUrl }
 						className="h-24 object-cover rounded-2xl"
 						alt=""
 					/>
