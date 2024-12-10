@@ -16,6 +16,8 @@ import { fetchCommentsByArticleId } from "@/utils/http/comments.js";
 import ArticleDisplay from "@/components/ArticleDisplay.jsx";
 import { followUser, unFollowUser } from "@/utils/http/users";
 import Modal from "@/components/ui/Modal.jsx";
+import Avatar from "@/components/ui/Avatar.jsx";
+import ArticleCommentSection from "@/components/ui/ArticleCommentSection.jsx";
 
 const UPVOTE = "up";
 const DOWNVOTE = "down";
@@ -95,7 +97,8 @@ export default function ArticlePage() {
                         {!isPending && (
                             <>
                                 <ArticleSection article={article} />
-                                <CommentSection articleId={article.articleId} />
+                                {/*<CommentSection articleId={article.articleId} />*/}
+                                <ArticleCommentSection/>
                             </>
                         )}
                     </CommentProvider>
@@ -187,10 +190,16 @@ export default function ArticlePage() {
                         <span className="font-bold">{formatDateTimeVersion2(article.createdDateTime)}</span>
                     </p>
                     <div className="flex items-center gap-4 mt-4">
-                        <img
-                            src={article.author.userProfilePicUrl}
-                            alt={article.author.username}
-                            className="w-12 h-12 object-cover rounded-full"
+                        {/*<img*/}
+                        {/*    src={article.author.userProfilePicUrl}*/}
+                        {/*    alt={article.author.username}*/}
+                        {/*    className="w-12 h-12 object-cover rounded-full"*/}
+                        {/*/>*/}
+                        <Avatar
+                           imageUrl={article.author.userProfilePicUrl}
+                           userName={article.author.username}
+                           userId={article.author.userId}
+                           // variant='navProfile'
                         />
                         <div className="flex items-center gap-2">
                             <p>{article.author.username}</p>

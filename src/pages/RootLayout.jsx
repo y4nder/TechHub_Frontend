@@ -45,7 +45,7 @@ export default function RootLayout() {
 		<>
 			<Navbar user={user} />
 			<SidebarProvider>
-				<div className="flex h-[calc(100vh-4rem)]">
+				<div className="flex h-[calc(100vh-4rem)] ">
 					<Sidebar>
 						<SidebarItemGroup headerText="Clubs">
 							{hasError ? (
@@ -112,7 +112,7 @@ export default function RootLayout() {
 							/>
 						</SidebarItemGroup>
 					</Sidebar>
-					<div className="flex-1 overflow-y-auto overflow-x-hidden bg-surface-500">
+					<div className="flex-1 overflow-y-auto overflow-x-hidden bg-surface-50">
 						<MainContent />
 					</div>
 				</div>

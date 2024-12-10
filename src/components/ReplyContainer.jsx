@@ -2,6 +2,7 @@ import {SiDgraph} from "react-icons/si";
 import {formatNumberToK} from "@/utils/formatters/numberFomatter.js";
 import CommentVoteActions from "@/components/CommentVoteActions.jsx";
 import CommentActions from "@/components/CommentActions.jsx";
+import Avatar from "@/components/ui/Avatar.jsx";
 
 
 export default function ReplyContainer({ reply }) {
@@ -16,10 +17,16 @@ export default function ReplyContainer({ reply }) {
 				</p>
 			</div>
 			<div className="reply-header flex gap-6">
-				<img
-					src={reply.userInfo.userProfilePicUrl}
-					className="h-12 w-12 object-cover rounded-xl"
-					alt=""
+				{/*<img*/}
+				{/*	src={reply.userInfo.userProfilePicUrl}*/}
+				{/*	className="h-12 w-12 object-cover rounded-xl"*/}
+				{/*	alt=""*/}
+				{/*/>*/}
+				<Avatar
+					imageUrl={reply.userInfo.userProfilePicUrl}
+					userName={reply.userInfo.username}
+					userId={reply.userInfo.userId}
+					variant='largeSemiRounded'
 				/>
 				<div className="flex flex-col">
 					<p className="flex items-center gap-2">

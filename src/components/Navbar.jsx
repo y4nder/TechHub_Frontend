@@ -10,6 +10,7 @@ import { logOutDispatcher } from "@/store/user-slice.js";
 import { LogOut } from "lucide-react";
 import { getUserIdFromToken } from "@/utils/token/token.js";
 import {useToast} from "@/hooks/use-toast.js";
+import Avatar from "@/components/ui/Avatar.jsx";
 
 export default function Navbar({ user }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -152,10 +153,17 @@ export default function Navbar({ user }) {
                             color="purple"
                         />
                         <p className="text-lg gradient-text font-bold">{formatter(user.reputationPoints)}</p>
-                        <img
-                            src={user.userProfilePicUrl}
-                            alt="User"
-                            className="w-8 h-8 object-cover rounded-xl"
+                        {/* user profile pic */}
+                        {/*<img*/}
+                        {/*    src={user.userProfilePicUrl}*/}
+                        {/*    alt="User"*/}
+                        {/*    className="w-8 h-8 object-cover rounded-xl"*/}
+                        {/*/>*/}
+                        <Avatar
+                            imageUrl={user.userProfilePicUrl}
+                            userName={user.username}
+                            userId={user.userId}
+                            variant='navProfile'
                         />
                     </div>
 

@@ -10,6 +10,7 @@ import Modal from "./ui/Modal";
 import { useState, useMemo } from "react";
 import FollowersList from "./FollowersLists";
 import { IoArrowBack } from "react-icons/io5";
+import Avatar from "@/components/ui/Avatar.jsx";
 
 export default function UserProfileCard() {
     const [followInfoModalOpen, setFollowInfoModalOpen] = useState({ isOpen: false, type: "followers" });
@@ -64,7 +65,7 @@ export default function UserProfileCard() {
                    <div className="flex gap-2 items-center">
                        <NavLink
                           to={`/profile/${userId}/settings`}
-                          className="border border-black-75 py-1 px-3 rounded-xl text-nowrap"
+                          className="border border-black-75 py-1 px-3 rounded-xl text-nowrap hover:bg-lightPurple-200 hover:text-white transition-colors duration-150"
                        >
                            Edit profile
                        </NavLink>
@@ -72,10 +73,16 @@ export default function UserProfileCard() {
                    </div>
                </div>
                <div className="profile-image">
-                   <img
-                      src={userProfilePicUrl}
-                      className="w-44 h-44 rounded-2xl object-cover"
-                      alt=""
+                   {/*<img*/}
+                   {/*   src={userProfilePicUrl}*/}
+                   {/*   className="w-44 h-44 rounded-2xl object-cover"*/}
+                   {/*   alt=""*/}
+                   {/*/>*/}
+                   <Avatar
+                      imageUrl={userProfilePicUrl}
+                      userName={username}
+                      userId={userId}
+                      variant='userProfileCard'
                    />
                </div>
                <div className="profile-info">
@@ -124,9 +131,11 @@ export default function UserProfileCard() {
                <div className="profile-clubs space-y-2">
                    <p className="text-sm font-bold">Active in these clubs</p>
                    <div className="flex gap-2 items-center flex-wrap">
-                       <button className="border border-black-75 rounded-lg p-2 hover:bg-gray-200">
+                       <NavLink
+                          to={`/clubs`}
+                          className="border border-black-75 rounded-lg p-2 hover:bg-gray-200">
                            <PlusIcon />
-                       </button>
+                       </NavLink>
                        {clubs.map((club) => (
                           <button
                              key={club.clubId}

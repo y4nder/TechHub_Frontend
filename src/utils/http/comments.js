@@ -64,3 +64,25 @@ export async function getUserReplies(userId, pageNumber = 1, pageSize = 10){
 		}
 	})
 }
+
+export async function getCommentReplies(parentCommentId, pageNumber = 1, pageSize = 10){
+	return await get({
+		endpoint: "/getArticleReplies",
+		queryParams: {
+			ParentCommentId: parentCommentId,
+			PageNumber: pageNumber,
+			PageSize: pageSize,
+		}
+	})
+}
+
+export async function getParentComments(articleId, pageNumber = 1, pageSize = 10){
+	return await get({
+		endpoint: "/getParentComments",
+		queryParams: {
+			ArticleId: articleId,
+			PageNumber: pageNumber,
+			PageSize: pageSize,
+		}
+	})
+}

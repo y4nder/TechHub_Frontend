@@ -56,14 +56,16 @@ export default function NewArticlePage() {
 
 	return (
 		<div className="NewArticlePage flex justify-center items-center p-10">
-			<div className="bg-surface-200 flex flex-col max-w-screen-md w-full rounded-xl ">
+			<div className="bg-surface-200 flexPa flex-col max-w-screen-md w-full rounded-3xl ">
 				<div className="article-form-header flex p-4">
 					<BiArrowBack size={25} color="black" onClick={() => {
 						let url = "";
 						if(clubId) url = `/club/${clubId}/`;
 						else url = `..`
 						navigate(url);
-					}} />
+					}}
+                  className="hover:-translate-x-1 transition-transform duration-150 "
+					/>
 					<div className="flex-grow"></div>
 					<h1 className="font-bold text-xl">Create Article</h1>
 					<div className="flex-grow"></div>

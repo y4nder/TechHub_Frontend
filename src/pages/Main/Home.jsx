@@ -1,4 +1,3 @@
-import { useSidebar } from "@/hooks/useSidebar.jsx";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getUserIdFromToken } from "@/utils/token/token.js";
 import { fetchHomeArticles } from "@/utils/http/articles.js";
@@ -28,7 +27,9 @@ export default function HomePage() {
 		data?.pages.flatMap((page) => page.articles.items) || [];
 
 	return (
-		<div className={`flex-1 bg-surface-500 transition-all p-8`}>
+		<div className={`flex-1 
+			bg-surface-500-0 
+		transition-all p-8`}>
 			<div className={`justify-center `}>
 				<ArticleList
 					articles={articles}
