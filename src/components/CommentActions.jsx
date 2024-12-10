@@ -4,17 +4,20 @@ import { RxDividerVertical } from "react-icons/rx";
 import Button from "@/components/ui/Button.jsx";
 import { useSelector } from "react-redux";
 import {getUserIdFromToken} from "@/utils/token/token.js";
-import {useComments} from "@/hooks/useComments.jsx";
+// import {useComments} from "@/hooks/useComments.jsx";
 import {downVoteComment, removeCommentVote, replyToComment, upVoteComment} from "@/utils/http/comments.js";
 import {useMutation} from "@tanstack/react-query";
+import {useParams} from "react-router-dom";
 
-export default function CommentActions({comment, shouldReply = true}) {
+export default function CommentActions({comment, onReply, shouldReply = true}) {
 	const [replyMessage, setReplyMessage] = useState("");
 	const [isReplying, setIsReplying] = useState(false);
 	const {userProfilePicUrl, username, reputationPoints } = useSelector((state) => state.user);
-	const {replyComment, currentArticleId} = useComments();
+	// const {replyComment, currentArticleId} = useComments();
 	const [commentVoteType, setCommentVoteType] = useState(comment.voteType);
 	const [commentVoteCount, setCommentVoteCount] = useState(comment.voteCount);
+	const params =  useParams();
+	const articleId = params.articleId;
 
 	const handleInputChange = (e) => {
 		setReplyMessage(e.target.value);
@@ -34,20 +37,20 @@ export default function CommentActions({comment, shouldReply = true}) {
 		}
 	}, [comment.voteType]);
 
-	const {
-		mutate,
-		isPending: isPostReplying,
-		isError,
-		error,
-	}
-		= useMutation({
-		mutationFn: replyToComment,
-		onMutate: (data) => {
-			replyComment(comment.commentId, data);
-			setReplyMessage("");
-			toggleReplyingState();
-		}
-	})
+	// const {
+	// 	mutate,
+	// 	isPending: isPostReplying,
+	// 	isError,
+	// 	error,
+	// }
+	// 	= useMutation({
+	// 	mutationFn: replyToComment,
+	// 	onMutate: (data) => {
+	// 		replyComment(comment.commentId, data);
+	// 		setReplyMessage("");
+	// 		toggleReplyingState();
+	// 	}
+	// })
 
 	const handlePostReply = async () => {
 		const newReply = {
@@ -62,12 +65,16 @@ export default function CommentActions({comment, shouldReply = true}) {
 
 		};
 		console.log("for ", newReply);
-		mutate({
-			commentCreatorId: getUserIdFromToken(),
-			articleId: currentArticleId,
-			parentCommentId: comment.commentId,
-			content: replyMessage
-		})
+		// replyComment(comment.commentId, );
+		setReplyMessage("");
+		toggleReplyingState();
+		onReply(newReply);
+		// mutate({
+		// 	commentCreatorId: getUserIdFromToken(),
+		// 	articleId: currentArticleId,
+		// 	parentCommentId: comment.commentId,
+		// 	content: replyMessage
+		// })
 		// replyComment(comment.commentId, newReply);
 		// setReplyMessage("");
 		// toggleReplyingState();

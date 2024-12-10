@@ -12,6 +12,7 @@ export default {
   		},
   		colors: {
   			lightPurple: {
+			   '10' : '#F4F7FF',
   				'50': '#f0e6fe',
 			   '200' : '#ba8cf9',
   				'500': '#6805f2'
@@ -53,6 +54,7 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
 	   fontSize : {
+		   'xxxs': '0.65rem',
 		   'xxs': '0.75rem'
 	   }
   	}

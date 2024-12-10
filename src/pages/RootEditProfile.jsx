@@ -10,9 +10,9 @@ export default function RootEditProfilePage() {
 		"text-black-300 rounded-2xl px-4 py-2";
 
 	return (
-		<div className="grid grid-cols-5">
-			<div className="w-fit bg-surface-100 flex h-[calc(100vh-4rem)]">
-				<aside className="space-y-4 flex-grow">
+		<div className="grid grid-cols-8 gradient-bg-light ">
+			<div className="w-fit bg-surface-100 flex  ">
+				<aside className="space-y-4 flex-grow h-[calc(100vh-4rem)] ">
 					<h1 className="font-bold text-3xl p-10">Settings</h1>
 					<nav className="flex flex-col gap-4 p-2">
 						<NavLink
@@ -43,7 +43,7 @@ export default function RootEditProfilePage() {
 					</nav>
 				</aside>
 			</div>
-			<div className="col-start-3 col-end-5">
+			<div className="col-start-3 col-end-7 overflow-x-hidden p-6 pb-9">
 				<Outlet/>
 			</div>
 		</div>

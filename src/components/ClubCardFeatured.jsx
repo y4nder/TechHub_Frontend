@@ -9,6 +9,7 @@ import {getUserIdFromToken} from "@/utils/token/token.js";
 import {useToast} from "@/hooks/use-toast.js";
 import Modal from "@/components/ui/Modal.jsx";
 import {useState} from "react";
+import Avatar from "@/components/ui/Avatar.jsx";
 
 export default function ClubCardFeatured ({club}) {
 	const joinedClubs = useSelector(state => state.joinedClubs.clubs);
@@ -121,21 +122,30 @@ export default function ClubCardFeatured ({club}) {
 							className="w-16 h-16 rounded-full object-cover "
 							alt=""
 						/>
-						<div className="border border-black-75 rounded-xl self-end p-1 flex gap-2">
-							<div className="flex -space-x-2 ">
-								{club.recentMembersProfilePics.map((pf,index) => (
-									<img
-										key={pf + ' ' + index}
-										src={ pf }
-										className="w-6 h-6 rounded-full object-cover self-center"
-										alt=""
-									/>
-								)) }
+						{club.recentMembersProfilePics.length > 0 && (
+							<div className="border border-black-75 rounded-xl self-end p-1 flex gap-2">
+								<div className="flex -space-x-4 ">
+									{club.recentMembersProfilePics.map((pf,index) => (
+										// <img
+										// 	key={pf + ' ' + index}
+										// 	src={ pf }
+										// 	className="w-6 h-6 rounded-full object-cover self-center"
+										// 	alt=""
+										// />
+										<Avatar
+											key={pf + ' ' + index}
+											imageUrl={pf.userProfilePicUrl}
+											userName={pf.username}
+											userId={pf.userId}
+											// variant='navProfile'
+										/>
+									)) }
+								</div>
+								<p className="text-lg text-black-200 font-medium">
+									{ formatNumberToK(club.clubMembersCount)}
+								</p>
 							</div>
-							<p className="text-lg text-black-200 font-medium">
-								{ formatNumberToK(club.clubMembersCount)}
-							</p>
-						</div>
+						)}
 					</div>
 					<div className={` flex flex-col gap-1`}>
 						<h1 className="font-bold text-lg break-words">{club.clubName}</h1>

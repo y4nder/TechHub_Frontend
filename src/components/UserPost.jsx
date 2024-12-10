@@ -11,6 +11,7 @@ import {
 import {getUserIdFromToken} from "@/utils/token/token.js";
 import {useNavigate} from "react-router-dom";
 import ArticleVoteActions from "@/components/ArticleVoteActions.jsx";
+import Avatar from "@/components/ui/Avatar.jsx";
 
 export default function UserPost({article}) {
 	const [voteCount, setVoteCount] = useState(article.voteCount);
@@ -86,10 +87,16 @@ export default function UserPost({article}) {
 						className="w-8 h-8 object-cover rounded-full"
 						alt=""
 					/>
-					<img
-						src={ article.userImageUrl }
-						className="w-8 h-8 object-cover rounded-lg"
-						alt=""
+					{/*<img*/}
+					{/*	src={ article.userImageUrl }*/}
+					{/*	className="w-8 h-8 object-cover rounded-lg"*/}
+					{/*	alt=""*/}
+					{/*/>*/}
+					<Avatar
+						imageUrl={article.userImageUrl}
+						userName={article.authorName}
+						userId={article.authorId}
+						variant=''
 					/>
 				</div>
 				<button
@@ -99,10 +106,10 @@ export default function UserPost({article}) {
 					Read Post
 				</button>
 			</div>
-			<div className="article-body flex justify-between ">
+			<div className="article-body flex justify-between gap-2">
 				<div className="article-details flex w-full flex-col justify-between">
 					<h1 className="text-2xl font-bold">{article.articleTitle}</h1>
-					<div className="article-tag-container flex gap-2">
+					<div className="article-tag-container flex gap-2 flex-wrap">
 						{article.tags.map((tag) => (
 							<ArticleDetailTag key={tag.tagId} tag={tag}/>
 						))}

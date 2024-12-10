@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {followUser, unFollowUser} from "@/utils/http/users.js";
+import Avatar from "@/components/ui/Avatar.jsx";
 
 export default function FollowerItemList({ user }) {
     const [followed, setFollowed] = useState(user.followed);
@@ -18,10 +19,16 @@ export default function FollowerItemList({ user }) {
         <div className="follower-info grid grid-cols-4 pb-4 min-w-fit flex-grow-0 border-collapse border-b-black-75 items-center">
             <div className="col-span-3 flex gap-2">
                 <div>
-                    <img
-                        src={user.userProfilePicUrl}
-                        alt="no profile"
-                        className="w-8 h-8 object-cover rounded-full"
+                    {/*<img*/}
+                    {/*    src={user.userProfilePicUrl}*/}
+                    {/*    alt="no profile"*/}
+                    {/*    className="w-8 h-8 object-cover rounded-full"*/}
+                    {/*/>*/}
+                    <Avatar
+                       imageUrl={user.userProfilePicUrl}
+                       userName={user.username}
+                       userId={user.userId}
+                       // variant="commentProfile"
                     />
                 </div>
                 <div className="text-sm">

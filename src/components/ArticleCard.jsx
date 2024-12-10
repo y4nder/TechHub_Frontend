@@ -15,12 +15,14 @@ import {
 	upVoteArticle
 } from "@/utils/http/articles.js";
 import {getUserIdFromToken} from "@/utils/token/token.js";
+import Avatar from "@/components/ui/Avatar.jsx";
+import TooltippedComponent from "@/components/ui/TooltippedComponent.jsx";
 
 const upvote = "up";
 const downVote = "down";
 
 const ArticleCard = forwardRef(({ article }, ref) => {
-	const visibleTags = article.tags.slice(0, 4);
+	const visibleTags = article.tags.slice(0, 2);
 	const overflowCount = article.tags.length - visibleTags.length;
 	const [isHovered, setIsHovered] = useState(false);
 	const [voteCount, setVoteCount] = useState(article.voteCount);
@@ -88,20 +90,25 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 		setBookmarked(prevState => !prevState);
 	}
 
+	const handleLinkClicked = (event,  url) => {
+		event.stopPropagation();
+		navigate(url);
+	}
+
 
 	return (
 		<div
 			ref={ref}  // Attach the forwarded ref here
 			className={`
                flex flex-col 
-				  justify-between 
-				  border 
-				  ${isHovered ? 'border-black-75' : 'border-black-50'} 
-				  rounded-3xl 
-				  pt-6 px-4 pb-2
-				  w-[325px] max-h-[500px]
-				  bg-white
-		
+					justify-between 
+					border 
+					${isHovered ? 'border-lightPurple-200' : 'border-black-50'} 
+					rounded-3xl 
+					pt-6 px-4 pb-2
+					w-[325px] max-h-[500px]
+				   bg-lightPurple-10
+					drop-shadow-sm
 				 
             `}
 			onMouseEnter={() => setIsHovered(true)}  // Set hover state to true when mouse enters
@@ -114,20 +121,23 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 				{/* Profiles part */}
 				<div className="flex gap-2">
 					<div className="flex flex-row gap-2">
-						<img
-							src={article.clubImageUrl}
-							alt="clubimage"
-							className="w-8  rounded-full object-cover"
-						/>
-						<img
-							src={article.userImageUrl}
-							alt={article.userImageUrl}
-							className="w-8 h-8 object-cover rounded-md"
+						<TooltippedComponent tooltipText={article.clubName}>
+							<img
+								src={article.clubImageUrl}
+								alt="clubimage"
+								className="w-8 h-8 cursor-pointer rounded-full object-cover hover:border hover:border-lightPurple-500"
+								onClick={(event) => handleLinkClicked(event,`/club/${article.clubId}`)}
+							/>
+						</TooltippedComponent>
+						<Avatar
+							imageUrl={article.userImageUrl}
+							userName={article.authorName}
+							userId={article.authorId}
 						/>
 					</div>
-					{/* Dynamic content rendered on hover */}
+					 {/*Dynamic content rendered on hover*/}
 					{isHovered && (
-						<div className="flex justify-end items-center w-full " onClick={() => console.log(article.articleId + " clicked")}>
+						<div className="article-card-header flex justify-end items-center w-full " onClick={() => console.log(article.articleId + " clicked")}>
 							<Button className={`
                                 text-md 
                                 bg-obsidianBlack-500 text-white 
@@ -153,65 +163,65 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 			</div>
 			{/* Tags Container */}
 			<div className="flex flex-col ">
-				<div className="flex items-center flex-wrap gap-2 py-2">
-					{visibleTags.map((tag) => (
-						<ArticleTag key={tag.tagId} tagName={`#${tag.tagName}`} />
-					))}
-					{/* Overflow indicator */}
-					{overflowCount > 0 &&
-						<ArticleTag tagName={`+${overflowCount}`} />
+				<div className="flex items-center flex-wrap gap-2 py-3">
+					{ visibleTags.map((tag) => (
+						<ArticleTag key={ tag.tagId } tagName={  tag.tagName } id ={tag.tagId}/>
+					)) }
+					{/* Overflow indicator */ }
+					{ overflowCount > 0 &&
+						<ArticleTag tagName={ `+${ overflowCount }` }/>
 					}
 				</div>
 				<p className="text-xxs pb-2 font-thin text-surface-900 pl-2">
-					{parseDate(article.createdDateTime)}
+					{ parseDate(article.createdDateTime) }
 				</p>
 
-				{/* Thumbnail part */}
-				<div className="flex items-center justify-center h-[180px]">
+				{/* Thumbnail part */ }
+				<div className="flex items-center justify-center h-[180px] overflow-hidden rounded-3xl">
 					<img
-						src={article.articleThumbnailUrl}
+						src={ article.articleThumbnailUrl }
 						alt="Thumbnail"
-						className="w-full h-full rounded-3xl object-cover"
+						className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
 					/>
 				</div>
-				{/* Actions part */}
+				{/* Actions part */ }
 				<div className="flex pt-2">
-					{/* Vote actions */}
+					{/* Vote actions */ }
 					<div className="flex items-center bg-surface-500 rounded-xl">
 						<div
-							className={`
+							className={ `
                                 flex flex-row 
                                 gap-2 cursor-pointer 
                                 py-2 px-2 
                                 rounded-xl
-                                ${voteType === upvote ? 'bg-green-200 text-green-500' : ' '} 
+                                ${ voteType === upvote ? 'bg-green-200 text-green-500' : ' ' } 
                                 hover:bg-green-200
                                 hover:text-green-500
                                 transition-all duration-200 
-                            `}
-							onClick={toggleUpvote}
+                            ` }
+							onClick={ toggleUpvote }
 						>
-							<BiUpvote size={20} />
-							<p className="">{voteCount}</p>
+							<BiUpvote size={ 20 }/>
+							<p className="">{ voteCount }</p>
 						</div>
-						<RxDividerVertical size={20} className="text-black-75 flex" />
+						<RxDividerVertical size={ 20 } className="text-black-75 flex"/>
 						<div
-							className={`
+							className={ `
                                 flex flex-row 
                                 gap-2 cursor-pointer 
                                 py-2 px-2 
                                 rounded-xl 
-                                ${voteType === downVote ? 'bg-red-100 text-red-500' : ' '}
+                                ${ voteType === downVote ? 'bg-red-100 text-red-500' : ' ' }
                                 hover:bg-red-100 
                                 hover:text-red-500
                                 transition-all duration-200 
-                            `}
-							onClick={handleDownVote}
+                            ` }
+							onClick={ handleDownVote }
 						>
-							<BiDownvote size={20} />
+							<BiDownvote size={ 20 }/>
 						</div>
 					</div>
-					{/* Article actions */}
+					{/* Article actions */ }
 					<div className="flex flex-grow items-center justify-between pl-4">
 						<div className={ `
                             flex items-center gap-1 cursor-pointer

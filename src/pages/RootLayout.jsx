@@ -13,6 +13,7 @@ import { getUserIdFromToken } from "@/utils/token/token.js";
 import { ProfileNavDispatcher } from "@/store/user-slice.js";
 import { SidebarProvider} from "@/hooks/useSidebar.jsx";
 import {Toaster} from "@/components/ui/toaster.jsx";
+import TooltippedComponent from "@/components/ui/TooltippedComponent.jsx";
 
 export default function RootLayout() {
 	const [activeItem, setActiveItem] = useState(""); // Track the active sidebar item
@@ -45,7 +46,7 @@ export default function RootLayout() {
 		<>
 			<Navbar user={user} />
 			<SidebarProvider>
-				<div className="flex h-[calc(100vh-4rem)]">
+				<div className="flex h-[calc(100vh-4rem)] ">
 					<Sidebar>
 						<SidebarItemGroup headerText="Clubs">
 							{hasError ? (
@@ -112,7 +113,7 @@ export default function RootLayout() {
 							/>
 						</SidebarItemGroup>
 					</Sidebar>
-					<div className="flex-1 overflow-y-auto overflow-x-hidden bg-surface-500">
+					<div className="flex-1 overflow-y-auto overflow-x-hidden bg-surface-50">
 						<MainContent />
 					</div>
 				</div>

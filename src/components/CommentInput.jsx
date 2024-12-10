@@ -1,8 +1,9 @@
 import {useEffect, useRef, useState} from "react";
 import {dummySingleArticleData as article} from "@/utils/dummies/dummyArticles.js";
 import Button from "@/components/ui/Button.jsx";
+import {VscLoading} from "react-icons/vsc";
 
-export default function CommentInput({onPost}) {
+export default function CommentInput({onPost, isPostingComment}) {
 	const [comment, setComment] = useState(""); // State to manage comment text
 	const textInputRef = useRef(null);
 	const handlePostComment = () => {
@@ -26,12 +27,13 @@ export default function CommentInput({onPost}) {
 	return (
 		<div
 			className={`
-        flex justify-between
-        bg-surface-400
-        p-4
-        rounded-3xl
-        border border-black-75
-        items-start
+				
+	        flex justify-between
+	        bg-surface-400
+	        p-4
+	        rounded-3xl
+	        border border-black-75
+	        items-start
       `}
 		>
 			<div className="mr-4">
@@ -67,9 +69,15 @@ export default function CommentInput({onPost}) {
 			            hover:bg-darkPurple-500 transition-all duration-200
 			          `}
 					onClick={handlePostComment}
-					disabled={!comment.trim()} // Disable button if input is empty
+					disabled={!comment.trim() || isPostingComment} // Disable button if input is empty
 				>
-					Post
+				{ isPostingComment ?
+					<>
+						<VscLoading className="w-4 h-4 animate-spin" />
+						Posting...
+
+					</>
+					: "Post" }
 				</Button>
 			</div>
 		</div>

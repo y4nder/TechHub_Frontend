@@ -28,7 +28,7 @@ export default function BookmarkedArticlesPage() {
 		data?.pages.flatMap((page) => page.articles.items) || [];
 
 	return (
-		<div className={`flex-1 bg-surface-500 transition-all`}>
+		<div className={`flex-1 transition-all`}>
 			<div
 				className={`justify-center py-10 px-8`}
 			>

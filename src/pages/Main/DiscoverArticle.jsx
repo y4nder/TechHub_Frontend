@@ -15,7 +15,7 @@ export default function DiscoverArticlePage() {
     const articles = data?.pages.flatMap((page) => page.articles.items) || [];
 
     return (
-        <div className={`flex-1 bg-surface-500 min-h-screen max-h-full transition-all p-8`}>
+        <div className={`flex-1 bg-surface-50 min-h-screen max-h-full transition-all p-8`}>
             <div className={`justify-center `}>
                 <ArticleList
                     articles={articles}
