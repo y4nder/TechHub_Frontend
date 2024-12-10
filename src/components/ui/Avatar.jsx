@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Avatar = ({ imageUrl, userName, userId, variant = "default"}) => {
+const Avatar = ({ imageUrl, userName, userId, variant = "default", clickable = true}) => {
 	const [isImageValid, setIsImageValid] = useState(true);
 
 	// Compute initials from userName
@@ -89,7 +89,16 @@ const Avatar = ({ imageUrl, userName, userId, variant = "default"}) => {
 			return {
 				imageSize : 44,
 				fontSize : 'text-8xl',
-				roundness: 'rounded-2xl'
+				roundness: 'rounded-2xl',
+				additionalStyles: 'border border-lightPurple-200'
+			}
+		}
+
+		if(variant === "profileSetting"){
+			return {
+				imageSize : 24,
+				fontSize : 'text-5xl',
+				roundness: 'rounded-3xl'
 			}
 		}
 
@@ -106,9 +115,10 @@ const Avatar = ({ imageUrl, userName, userId, variant = "default"}) => {
 		<div
 			className={`
 				w-${sizing.imageSize} h-${sizing.imageSize} 
-				${sizing.roundness? sizing.roundness : 'rounded-full' }
+				${sizing.roundness? sizing.roundness : 'rounded-full ' }
 				flex items-center justify-center overflow-hidden flex-shrink-0 ${
-				isImageValid ? '' : 'text-white font-medium ' + `${sizing.fontSize} shadow-sm`
+				isImageValid ? '' : 'text-white font-medium ' + `${sizing.fontSize} shadow-sm
+				 ${sizing.additionalStyles? sizing.additionalStyles: ''}`
 			}`}
 			style={{ background: isImageValid ? 'transparent' : computeGradient(userId, userName) }}
 		>
@@ -117,7 +127,10 @@ const Avatar = ({ imageUrl, userName, userId, variant = "default"}) => {
 					src={imageUrl}
 					alt={userName}
 					onError={handleImageError}
-					className="w-full h-full object-cover"
+					className={ `
+						${clickable ? 'cursor-pointer' : ' '}
+						 w-full h-full object-cover 
+					` }
 				/>
 			) : (
 				initials

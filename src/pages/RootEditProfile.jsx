@@ -10,7 +10,7 @@ export default function RootEditProfilePage() {
 		"text-black-300 rounded-2xl px-4 py-2";
 
 	return (
-		<div className="grid grid-cols-8  ">
+		<div className="grid grid-cols-8 gradient-bg-light ">
 			<div className="w-fit bg-surface-100 flex  ">
 				<aside className="space-y-4 flex-grow h-[calc(100vh-4rem)] ">
 					<h1 className="font-bold text-3xl p-10">Settings</h1>
@@ -43,7 +43,7 @@ export default function RootEditProfilePage() {
 					</nav>
 				</aside>
 			</div>
-			<div className="col-start-3 col-end-7 overflow-x-hidden">
+			<div className="col-start-3 col-end-7 overflow-x-hidden p-6 pb-9">
 				<Outlet/>
 			</div>
 		</div>

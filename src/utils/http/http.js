@@ -94,3 +94,11 @@ export async function del({ endpoint, body, headers }) {
     });
 }
 
+export async function patch({ endpoint, body, headers }) {
+    return httpRequest({
+        method: "PATCH",
+        endpoint,
+        body,
+        headers,
+    });
+}

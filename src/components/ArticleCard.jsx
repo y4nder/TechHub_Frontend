@@ -16,12 +16,13 @@ import {
 } from "@/utils/http/articles.js";
 import {getUserIdFromToken} from "@/utils/token/token.js";
 import Avatar from "@/components/ui/Avatar.jsx";
+import TooltippedComponent from "@/components/ui/TooltippedComponent.jsx";
 
 const upvote = "up";
 const downVote = "down";
 
 const ArticleCard = forwardRef(({ article }, ref) => {
-	const visibleTags = article.tags.slice(0, 4);
+	const visibleTags = article.tags.slice(0, 2);
 	const overflowCount = article.tags.length - visibleTags.length;
 	const [isHovered, setIsHovered] = useState(false);
 	const [voteCount, setVoteCount] = useState(article.voteCount);
@@ -89,19 +90,24 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 		setBookmarked(prevState => !prevState);
 	}
 
+	const handleLinkClicked = (event,  url) => {
+		event.stopPropagation();
+		navigate(url);
+	}
+
 
 	return (
 		<div
 			ref={ref}  // Attach the forwarded ref here
 			className={`
                flex flex-col 
-				  justify-between 
-				  border 
-				  ${isHovered ? 'border-lightPurple-200' : 'border-black-50'} 
-				  rounded-3xl 
-				  pt-6 px-4 pb-2
-				  w-[325px] max-h-[500px]
-				  bg-lightPurple-10
+					justify-between 
+					border 
+					${isHovered ? 'border-lightPurple-200' : 'border-black-50'} 
+					rounded-3xl 
+					pt-6 px-4 pb-2
+					w-[325px] max-h-[500px]
+				   bg-lightPurple-10
 					drop-shadow-sm
 				 
             `}
@@ -115,24 +121,21 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 				{/* Profiles part */}
 				<div className="flex gap-2">
 					<div className="flex flex-row gap-2">
-						<img
-							src={article.clubImageUrl}
-							alt="clubimage"
-							className="w-8  rounded-full object-cover"
-						/>
-						{/*<img*/}
-						{/*	src={article.userImageUrl}*/}
-						{/*	alt={article.userImageUrl}*/}
-						{/*	className="w-8 h-8 object-cover rounded-md"*/}
-						{/*/>*/}
+						<TooltippedComponent tooltipText={article.clubName}>
+							<img
+								src={article.clubImageUrl}
+								alt="clubimage"
+								className="w-8 h-8 cursor-pointer rounded-full object-cover hover:border hover:border-lightPurple-500"
+								onClick={(event) => handleLinkClicked(event,`/club/${article.clubId}`)}
+							/>
+						</TooltippedComponent>
 						<Avatar
 							imageUrl={article.userImageUrl}
 							userName={article.authorName}
 							userId={article.authorId}
-							// variant='navProfile'
 						/>
 					</div>
-					{/* Dynamic content rendered on hover */}
+					 {/*Dynamic content rendered on hover*/}
 					{isHovered && (
 						<div className="article-card-header flex justify-end items-center w-full " onClick={() => console.log(article.articleId + " clicked")}>
 							<Button className={`
@@ -160,9 +163,9 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 			</div>
 			{/* Tags Container */}
 			<div className="flex flex-col ">
-				<div className="flex items-center flex-wrap gap-2 py-2">
+				<div className="flex items-center flex-wrap gap-2 py-3">
 					{ visibleTags.map((tag) => (
-						<ArticleTag key={ tag.tagId } tagName={ `#${ tag.tagName }` }/>
+						<ArticleTag key={ tag.tagId } tagName={  tag.tagName } id ={tag.tagId}/>
 					)) }
 					{/* Overflow indicator */ }
 					{ overflowCount > 0 &&

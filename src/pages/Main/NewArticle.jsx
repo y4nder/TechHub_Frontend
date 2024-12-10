@@ -23,6 +23,7 @@ export default function NewArticlePage() {
 		onSuccess: (data) => {
 			toast({
 				description: "New Article Created",
+				variant: 'articleCreated'
 			})
 			navigate(`/articles/${data.articleId}`)
 		},

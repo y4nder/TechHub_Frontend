@@ -1,11 +1,18 @@
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaGithub, FaYoutube, FaReddit } from "react-icons/fa";
+import { FaFacebook, FaLinkedin, FaInstagram, FaGithub, FaYoutube, FaReddit } from "react-icons/fa";
 import { SiThreads, SiStackoverflow } from "react-icons/si";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {FaXTwitter} from "react-icons/fa6";
 
-export default function SocialLinkInput({ label, onChange, placeholder }) {
+export default function SocialLinkInput({ platform, onChange, placeholder, input }) {
 	const [link, setLink] = useState("");
 	const [error, setError] = useState("");
+
+	useEffect(() => {
+		if (input) {
+			setLink(input); // Set input value to link to sync the state
+			validateLink(input);
+		}
+	}, [input]);
 
 	const platformRegex = {
 		Github: /^(https?:\/\/)?(www\.)?github\.com\/.+$/,
@@ -16,19 +23,20 @@ export default function SocialLinkInput({ label, onChange, placeholder }) {
 		YouTube: /^(https?:\/\/)?(www\.)?youtube\.com\/.+$/,
 		Reddit: /^(https?:\/\/)?(www\.)?reddit\.com\/.+$/,
 		StackOverflow: /^(https?:\/\/)?(www\.)?stackoverflow\.com\/.+$/,
-		Threads: /^(https?:\/\/)?(www\.)?threads\.net\/.+$/,
+		Threads: /^(https?:\/\/)?(www\.)?threads\.net\/@.+$/,
 		PersonalWebsite: /^(https?:\/\/)?(www\.)?[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}$/,
 	};
 
 	const validateLink = (url) => {
-		const regex = platformRegex[label];
-		if(url.trim() === ""){
+		// Allow empty links without triggering error
+		if(url.trim() === "") {
 			setError("");
 			return true;
 		}
 
+		const regex = platformRegex[platform];
 		if (regex && !regex.test(url)) {
-			setError(`Please enter a valid ${label} link.`);
+			setError(`Please enter a valid ${platform} link.`);
 			return false;
 		}
 		setError("");
@@ -39,7 +47,12 @@ export default function SocialLinkInput({ label, onChange, placeholder }) {
 		const value = event.target.value;
 		setLink(value);
 
-		if (validateLink(value)) {
+		if (value.trim() === "") {
+			// If the link is empty, reset the error and pass empty string to parent
+			setError("");
+			onChange("");
+		} else if (validateLink(value)) {
+			// If the link is valid, pass it to the parent
 			onChange(value);
 		}
 	};
@@ -74,19 +87,19 @@ export default function SocialLinkInput({ label, onChange, placeholder }) {
 
 	return (
 		<div className="flex flex-col gap-2 w-full">
-			<div className={ `
+			<div className={`
 				flex items-center gap-3
 				rounded-2xl px-3 py-4 bg-surface-500 w-full focus:outline-none transition-all ${
 				error ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
 			}
-			` }>
-				<div className="text-2xl">{displayIcon(label)}</div>
+			`}>
+				<div className="text-2xl">{displayIcon(platform)}</div>
 				<input
 					type="text"
 					value={link}
 					onChange={handleChange}
 					className="focus:outline-none bg-surface-500 w-full"
-					placeholder={placeholder || `Enter your ${label} link`}
+					placeholder={placeholder || `Enter your ${platform} link`}
 				/>
 			</div>
 			{error && <p className="text-red-500 text-sm">{error}</p>}

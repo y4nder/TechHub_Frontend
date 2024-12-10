@@ -23,8 +23,8 @@ export default function Navbar({ user }) {
 
     const toastTester = () => {
         toast({
-            description: "Your Article Has Been Created",
-            variant: 'articleCreated'
+            description: "✅ Your Profile has been updated",
+            variant: 'update'
         })
     }
 

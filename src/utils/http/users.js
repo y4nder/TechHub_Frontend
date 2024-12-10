@@ -1,4 +1,4 @@
-import { get, post } from "@/utils/http/http.js";
+import {del, get, patch, post} from "@/utils/http/http.js";
 
 export async function fetchProfileNav(userId) {
     return await get({
@@ -54,4 +54,44 @@ export async function unFollowUser(followingId) {
             FollowingId: followingId,
         },
     });
+}
+
+export async function getSelfUserAdditionalInfo(){
+    return await get({
+        endpoint: "/me/profile",
+    })
+}
+
+export async function uploadProfile(imageData){
+    return await post({
+        endpoint: "/uploadImage",
+        body: imageData,
+    })
+}
+
+export async function removeUploadedProfile(publicId){
+    return await del({
+        endpoint: "/deleteImage",
+        body: {
+            PublicId: publicId,
+        }
+    })
+}
+
+export async function checkUsernameValidity(username){
+    return await get({
+        endpoint: "/usernameChecker",
+        queryParams: {
+            Username: username,
+        }
+    })
+}
+
+export async function updateUserData(userdata){
+    return await patch({
+        endpoint: "/me/profile/update",
+        body: {
+            ...userdata,
+        },
+    })
 }

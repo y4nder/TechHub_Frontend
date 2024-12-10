@@ -12,7 +12,7 @@ export default function Sidebar({ children }) {
 	return (
 		<aside
 			className={`
-				flex flex-col pb-10 h-screen transition-all duration-300  
+				flex flex-col pb-10 h-screen transition-all duration-300 
 					${
 						expanded ? "w-64" : "w-16"
 					} 
