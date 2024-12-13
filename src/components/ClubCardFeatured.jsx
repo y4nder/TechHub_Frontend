@@ -44,12 +44,11 @@ export default function ClubCardFeatured ({club}) {
 		}
 	})
 
-
 	const handleCancelLeave = () => {
 		setLeaveModalOpen(false);
 	}
 
-	const handleStartleaving = () => {
+	const handleStartLeaving = () => {
 		setLeaveModalOpen(true);
 	}
 
@@ -59,10 +58,10 @@ export default function ClubCardFeatured ({club}) {
 
 	const handleClubButtonAction = (event) => {
 		event.stopPropagation();
-		console.log(joined ? "Leave Club" : "Join Club");
+		// console.log(joined ? "Leave Club" : "Join Club");
 
 		if(joined){
-			handleStartleaving();
+			handleStartLeaving();
 		} else {
 			joinMutation(club.clubId);
 		}

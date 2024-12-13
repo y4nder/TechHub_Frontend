@@ -214,7 +214,7 @@ export default function ArticleForm({ inputData, onSubmit, edit, isPending = fal
 											className="w-24 h-24 rounded-3xl object-cover border border-gray-300 group-hover:ring-2 group-hover:ring-darkPurple-500 transition-all duration-300"
 										/>
 									</div>
-									<p>Change profile picture</p>
+									<p>Change Thumbnail</p>
 								</div>
 							) : (
 								<div

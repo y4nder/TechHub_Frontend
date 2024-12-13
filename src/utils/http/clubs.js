@@ -69,3 +69,12 @@ export async function leaveClub(clubId){
 		}
 	})
 }
+
+export async function getSuggestedClubs(searchTerm){
+	return await get({
+		endpoint: "/GetSuggestedClubs",
+		queryParams: {
+			SearchTerm: searchTerm,
+		}
+	})
+}

@@ -192,3 +192,22 @@ export async function updateArticle(articleFormData){
     })
 }
 
+export async function getTagArticles(tagId, pageNumber = 1, pageSize = 10) {
+    return await get({
+        endpoint: "/getTagArticles",
+        queryParams: {
+            TagId: tagId,
+            PageNumber: pageNumber,
+            PageSize: pageSize,
+        }
+    })
+}
+
+export async function getSuggestedArticles(searchTerm){
+    return await get({
+        endpoint: "/getSuggestedArticles",
+        queryParams: {
+            SearchTerm: searchTerm,
+        }
+    })
+}

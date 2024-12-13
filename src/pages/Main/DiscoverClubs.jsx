@@ -32,7 +32,7 @@ export default function DiscoverClubsPage() {
 
 
 	return (
-		<div className={`flex flex-col gap-6 px-8  pb-10`}
+		<div className={`flex flex-col gap-6 px-20 pb-10`}
 		>
 			<div className="">
 				{isPendingFeatured && (

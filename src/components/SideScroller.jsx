@@ -12,7 +12,7 @@ export default function SideScroller({header, clubs, isFeatured, isSingleCategor
 	:  <RegularClubs clubs={clubs}/>
 
 	return (
-		<div className="flex flex-col gap-2 ">
+		<div className="flex flex-col gap-2">
 			<div className={ `flex justify-between  items-center` }>
 				<h1 className={`
 					font-bold  pl-2
@@ -29,7 +29,7 @@ export default function SideScroller({header, clubs, isFeatured, isSingleCategor
 				)}
 			</div>
 			<div className={ `
-				py-3 pr-8 flex flex-row gap-5 overflow-x-auto scrollbar-hider`}>
+				py-3 pr-8 flex flex-row overflow-x-auto snap-x scrollbar-hider`}>
 				{content}
 			</div>
 		</div>
@@ -37,21 +37,25 @@ export default function SideScroller({header, clubs, isFeatured, isSingleCategor
 
 	function RegularClubs({clubs}){
 		return (
-			<>
+			<div className="flex flex-row gap-5">
 				{clubs.map((club) => (
-					<ClubCard key={club.clubId} club={club} />
+					<div key={club.clubId} className="snap-start">
+						<ClubCard club={club} />
+					</div>
 				))}
-			</>
+			</div>
 		)
 	}
 
 	function FeaturedClubs({clubs}){
 		return (
-			<>
+			<div className="flex flex-row gap-5 ">
 				{clubs.map((club) => (
-					<ClubCardFeatured key={club.clubId} club={club} />
+					<div key={club.clubId} className="snap-start">
+						<ClubCardFeatured club={club} />
+					</div>
 				))}
-			</>
+			</div>
 		)
 	}
 }

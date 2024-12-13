@@ -11,6 +11,7 @@ import { LogOut } from "lucide-react";
 import { getUserIdFromToken } from "@/utils/token/token.js";
 import {useToast} from "@/hooks/use-toast.js";
 import Avatar from "@/components/ui/Avatar.jsx";
+import SearchBarV2 from "@/components/SearchBarV2.jsx";
 
 export default function Navbar({ user }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -65,11 +66,14 @@ export default function Navbar({ user }) {
     return (
         <nav
             className={`
-			flex items-center justify-between
-			px-4 py-2
-			bg-surface-100
-			border border-black-50
-			w-full
+                flex items-center justify-between
+                px-4 py-2
+                border-b border-black-50
+                w-full
+                sticky top-0
+                z-50  
+                backdrop-blur-md  
+                bg-white/80  
 		`}
         >
             {/* Logo */}
@@ -94,11 +98,12 @@ export default function Navbar({ user }) {
 
             {/* Search Bar */}
             <div className="flex-grow items-center px-12 py-2">
-                <SearchBar
-                    id="search"
-                    placeholder="Search"
-                    onSubmitSearch={handleSearch}
-                />
+                {/*<SearchBar*/}
+                {/*    id="search"*/}
+                {/*    placeholder="Search"*/}
+                {/*    onSubmitSearch={handleSearch}*/}
+                {/*/>*/}
+                <SearchBarV2/>
             </div>
             <div className="flex-grow"></div>
 

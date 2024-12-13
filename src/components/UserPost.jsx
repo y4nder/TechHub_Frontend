@@ -12,6 +12,7 @@ import {getUserIdFromToken} from "@/utils/token/token.js";
 import {useNavigate} from "react-router-dom";
 import ArticleVoteActions from "@/components/ArticleVoteActions.jsx";
 import Avatar from "@/components/ui/Avatar.jsx";
+import ArticleTag from "@/components/ui/ArticleTag.jsx";
 
 export default function UserPost({article}) {
 	const [voteCount, setVoteCount] = useState(article.voteCount);
@@ -79,19 +80,15 @@ export default function UserPost({article}) {
 	}
 
 	return(
-		<div className="p-4 space-y-4 border border-b-black-75">
+		<div className="p-4 space-y-4 border-t border-t-gray-300  rounded-t-[30px] overflow-hidden">
 			<div className="header flex justify-between items-center">
 				<div className="flex gap-2">
 					<img
 						src={ article.clubImageUrl }
-						className="w-8 h-8 object-cover rounded-full"
+						className="w-8 h-8 object-cover rounded-full hover:border hover:border-black-75"
 						alt=""
+						onClick={() => navigate(`/club/${article.clubId}`)}
 					/>
-					{/*<img*/}
-					{/*	src={ article.userImageUrl }*/}
-					{/*	className="w-8 h-8 object-cover rounded-lg"*/}
-					{/*	alt=""*/}
-					{/*/>*/}
 					<Avatar
 						imageUrl={article.userImageUrl}
 						userName={article.authorName}
@@ -111,14 +108,14 @@ export default function UserPost({article}) {
 					<h1 className="text-2xl font-bold">{article.articleTitle}</h1>
 					<div className="article-tag-container flex gap-2 flex-wrap">
 						{article.tags.map((tag) => (
-							<ArticleDetailTag key={tag.tagId} tag={tag}/>
+							<ArticleTag key={tag.tagId} tag={tag}/>
 						))}
 					</div>
 				</div>
-				<div className="article-thumbnail">
+				<div className="article-thumbnail flex-shrink-0 h-30 w-40">
 					<img
 						src={ article.articleThumbnailUrl }
-						className="h-24 object-cover rounded-2xl"
+						className="h-full w-full object-contain rounded-2xl"
 						alt=""
 					/>
 				</div>
