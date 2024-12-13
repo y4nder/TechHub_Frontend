@@ -92,9 +92,9 @@ export default function UserProfileCard() {
 	return (
 		<div>
 			{followerInfoModal()}
-			<div className="UserProfileCard p-4 space-y-8">
+			<div className="UserProfileCard p-4 space-y-8   ">
 				<div className="profile-header flex justify-between items-center flex-grow gap-8">
-					<h1 className="text-4xl font-bold">Profile</h1>
+					<h1 className="text-3xl font-bold">Profile</h1>
 					<div className="flex gap-2 items-center">
 						<NavLink
 							to={ `/profile/${ userId }/settings` }
@@ -113,7 +113,7 @@ export default function UserProfileCard() {
 						variant='userProfileCard'
 					/>
 				</div>
-				<div className="profile-info">
+				<div className="profile-info ">
 					<h1 className="font-bold text-2xl">{ username }</h1>
 					<p className="font-sans font-thin text-black-75">Joined on October 2024</p>
 					<div className="flex gap-2 items-center pt-5">
@@ -121,7 +121,7 @@ export default function UserProfileCard() {
 						{ data && (
 							<>
 								<p
-									className="cursor-pointer hover:text-darkPurple-500 hover:underline text-sm"
+									className="cursor-pointer hover:text-darkPurple-500 hover:underline text-sm text-gray-500"
 									onClick={ () =>
 										setFollowInfoModalOpen((prevState) => ({
 											...prevState,
@@ -130,10 +130,10 @@ export default function UserProfileCard() {
 										}))
 									}
 								>
-									<span className="font-bold text-lg">{ data.userFollowInfo.followerCount }</span> followers
+									<span className="font-bold text-lg text-obsidianBlack-500">{ data.userFollowInfo.followerCount }</span> followers
 								</p>
 								<p
-									className="cursor-pointer hover:text-darkPurple-500 hover:underline text-sm"
+									className="cursor-pointer hover:text-darkPurple-500 hover:underline text-sm text-gray-500"
 									onClick={ () =>
 										setFollowInfoModalOpen((prevState) => ({
 											...prevState,
@@ -142,13 +142,13 @@ export default function UserProfileCard() {
 										}))
 									}
 								>
-									<span className="font-bold text-lg">{ data.userFollowInfo.followingCount }</span> following
+									<span className="font-bold text-lg text-obsidianBlack-500">{ data.userFollowInfo.followingCount }</span> following
 								</p>
 							</>
 						) }
 					</div>
-					<p className="text-sm">
-						<span className="font-bold text-lg">{ formatNumberToK(reputationPoints) }</span> reputation points
+					<p className="text-sm text-gray-500">
+						<span className="font-bold text-lg text-obsidianBlack-500">{ formatNumberToK(reputationPoints) }</span> reputation points
 					</p>
 				</div>
 				<div className="profile-bio">
@@ -164,7 +164,7 @@ export default function UserProfileCard() {
 								Add Bio
 							</NavLink>
 						) : (
-							<p className="text-sm">{ addInfo.userAdditionalInfo.bio }</p>
+							<p className="text-sm text-gray-500">{ addInfo.userAdditionalInfo.bio }</p>
 						)
 					) : (
 						<p>No additional info available</p>

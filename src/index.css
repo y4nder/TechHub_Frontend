@@ -50,6 +50,14 @@ body {
     background: linear-gradient(180deg, rgba(94,4,219,1) 0%, rgba(193,72,3,1) 16%, rgba(251,251,251,1) 37%);
 }
 
+.gradient-bg-clubDetails {
+    background: rgb(104,5,242);
+    background: -moz-linear-gradient(180deg, rgba(104,5,242,0.2861519607843137) 0%, rgba(233,232,254,0.2189250700280112) 30%, rgba(142,255,252,0) 100%);
+    background: -webkit-linear-gradient(180deg, rgba(104,5,242,0.2861519607843137) 0%, rgba(233,232,254,0.2189250700280112) 30%, rgba(142,255,252,0) 100%);
+    background: linear-gradient(180deg, rgba(104,5,242,0.2861519607843137) 0%, rgba(233,232,254,0.2189250700280112) 30%, rgba(142,255,252,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#6805f2",endColorstr="#8efffc",GradientType=1);
+}
+
 .scrollbar-hider  {
     /*overflow-x: auto; !* Enable horizontal scrolling *!*/
     scrollbar-width: none; /* For Firefox */

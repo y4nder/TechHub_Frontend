@@ -148,7 +148,10 @@ const ArticleCard = forwardRef(({ article }, ref) => {
                                 hover:shadow-xl
                                 transition-all duration-300
                             `}
-								onClick={handleArticleClicked}
+								onClick={ (event) => {
+									event.stopPropagation();
+									handleArticleClicked()
+								}}
 							>
 								Read Post
 							</Button>
@@ -165,11 +168,11 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 			<div className="flex flex-col ">
 				<div className="flex items-center flex-wrap gap-2 py-3">
 					{ visibleTags.map((tag) => (
-						<ArticleTag key={ tag.tagId } tagName={  tag.tagName } id ={tag.tagId}/>
+						<ArticleTag key={ tag.tagId } tag={tag}/>
 					)) }
 					{/* Overflow indicator */ }
 					{ overflowCount > 0 &&
-						<ArticleTag tagName={ `+${ overflowCount }` }/>
+						<ArticleTag altText={ `+${ overflowCount }` }/>
 					}
 				</div>
 				<p className="text-xxs pb-2 font-thin text-surface-900 pl-2">

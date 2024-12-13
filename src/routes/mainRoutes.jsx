@@ -21,6 +21,10 @@ import ProfileAccountDetailsPage from "@/pages/Main/ProfileAccountDetails.jsx";
 import CreateNewClubPage from "@/pages/Main/CreateNewClub.jsx";
 import ProfileSecurityPage from "@/pages/Main/ProfileSecurity.jsx";
 import ProfileNotificationsPage from "@/pages/Main/ProfileNotifications.jsx";
+import DiscoverTagsPage from "@/pages/Main/DiscoverTags.jsx";
+import TagPage from "@/pages/Main/Tag.jsx";
+import ClubProtectedModRoute from "@/pages/Setup/ClubProtectedModRoute.jsx";
+import {Moderator} from "@/utils/constants/roleConstants.js";
 
 export const mainRoutes = [
     {
@@ -70,6 +74,12 @@ export const mainRoutes = [
     {
         path: "/club/:clubId",
         element: <ClubDetailsPage />,
+    },
+    {
+      path: "/club/:clubId/moderate",
+      element: <ClubProtectedModRoute role={Moderator}>
+
+      </ClubProtectedModRoute>
     },
     {
         path: "/club/create",
@@ -131,4 +141,12 @@ export const mainRoutes = [
             },
         ],
     },
+    {
+        path: "/tags",
+        element: <DiscoverTagsPage />,
+    },
+    {
+        path: "/tags/:tagId",
+        element: <TagPage/>
+    }
 ];

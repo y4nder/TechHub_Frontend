@@ -9,17 +9,17 @@ export default function RootProfilePage() {
 				min-h-screen
 				flex
 				justify-center
-				p-8
+				py-2   
 			`}
 		>
-			<div className="grid grid-cols-10 max-w-screen-lg w-full bg-gray-100 rounded-xl">
-				<div className="col-span-6 flex-1">
+			<div className="grid grid-cols-10 max-w-screen-lg w-full bg-surface-100 rounded-3xl border border-black-50">
+				<div className=" col-span-6 flex-1">
 					<ProfileNavbar />
 					<div className="rounded-lg">
 						<Outlet />
 					</div>
 				</div>
-				<div className="col-span-4 p-4 w-full">
+				<div className="col-span-4 p-4 w-fit border-l ">
 					<UserProfileCard />
 				</div>
 			</div>

@@ -18,6 +18,7 @@ import { followUser, unFollowUser } from "@/utils/http/users";
 import Modal from "@/components/ui/Modal.jsx";
 import Avatar from "@/components/ui/Avatar.jsx";
 import ArticleCommentSection from "@/components/ui/ArticleCommentSection.jsx";
+import ArticleTag from "@/components/ui/ArticleTag.jsx";
 
 const UPVOTE = "up";
 const DOWNVOTE = "down";
@@ -178,11 +179,12 @@ export default function ArticlePage() {
                     </div>
                     <div className="flex flex-wrap gap-2 my-4">
                         {article.tags.map((tag) => (
-                            <ArticleDetailTag
-                                key={tag.tagId.toString()}
-                                tag={tag}
-                                onClick={() => console.log("Tag clicked", tag.tagName, tag.tagId)}
-                            />
+                            // <ArticleDetailTag
+                            //     key={tag.tagId.toString()}
+                            //     tag={tag}
+                            //     onClick={() => console.log("Tag clicked", tag.tagName, tag.tagId)}
+                            // />
+                           <ArticleTag key={ tag.tagId } tag={tag}/>
                         ))}
                     </div>
                     <p className="flex text-sm">
