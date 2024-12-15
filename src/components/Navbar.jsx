@@ -12,6 +12,9 @@ import { getUserIdFromToken } from "@/utils/token/token.js";
 import {useToast} from "@/hooks/use-toast.js";
 import Avatar from "@/components/ui/Avatar.jsx";
 import SearchBarV2 from "@/components/SearchBarV2.jsx";
+import {Dropdown} from "@/components/ui/Dropdown.jsx";
+import AnimatedButton from "@/components/ui/AnimatedButton.jsx";
+import {ArticleDropDownOptions} from "@/components/ArticleCard.jsx";
 
 export default function Navbar({ user }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -88,11 +91,7 @@ export default function Navbar({ user }) {
                 />
             </div>
             <div className="flex-grow">
-                <button
-                    onClick={toastTester}
-                >
-                    Toast Tester
-                </button>
+
             </div>
             <div className="flex-grow"></div>
 
@@ -109,6 +108,7 @@ export default function Navbar({ user }) {
 
             {/* Buttons and Icons */}
             <div className="flex gap-2 justify-end">
+                {/*<ArticleDropDownOptions/>*/}
                 <Button
                     className={`
             bg-brightOrange-500 
@@ -123,6 +123,7 @@ export default function Navbar({ user }) {
                 >
                     <p className="text-nowrap">New Post</p>
                 </Button>
+
 
                 {/* Notification Icon */}
                 <div
@@ -158,12 +159,6 @@ export default function Navbar({ user }) {
                             color="purple"
                         />
                         <p className="text-lg gradient-text font-bold">{formatter(user.reputationPoints)}</p>
-                        {/* user profile pic */}
-                        {/*<img*/}
-                        {/*    src={user.userProfilePicUrl}*/}
-                        {/*    alt="User"*/}
-                        {/*    className="w-8 h-8 object-cover rounded-xl"*/}
-                        {/*/>*/}
                         <Avatar
                             imageUrl={user.userProfilePicUrl}
                             userName={user.username}

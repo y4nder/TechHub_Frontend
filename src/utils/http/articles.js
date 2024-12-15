@@ -211,3 +211,37 @@ export async function getSuggestedArticles(searchTerm){
         }
     })
 }
+
+export async function reportArticle(reportData){
+    return await post({
+        endpoint: "/reportArticle",
+        body: reportData
+    })
+}
+
+export async function getReportedArticles(clubId) {
+    return await get({
+        endpoint: "/getReportedArticles",
+        queryParams: {
+            ClubId: clubId,
+        }
+    })
+}
+
+export async function getTenReportedArticles(clubId) {
+    return await get({
+        endpoint: "/getTenReportedArticles",
+        queryParams: {
+            ClubId: clubId,
+        }
+    })
+}
+
+export async function getReportsForArticle(articleId) {
+    return await get({
+        endpoint: "/getReportsForArticle",
+        queryParams: {
+            ArticleId: articleId,
+        }
+    })
+}

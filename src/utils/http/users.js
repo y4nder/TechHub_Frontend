@@ -95,3 +95,12 @@ export async function updateUserData(userdata){
         },
     })
 }
+
+export async function getModerators(clubId){
+    return await get({
+        endpoint: "/getModerators",
+        queryParams: {
+            ClubId: clubId,
+        }
+    });
+}

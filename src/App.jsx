@@ -5,9 +5,9 @@ import { router } from "./routes/router.js";
 
 function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-        </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+         <RouterProvider router={router} />
+      </QueryClientProvider>
     );
 }
 

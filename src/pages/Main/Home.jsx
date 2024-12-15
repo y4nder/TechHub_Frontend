@@ -1,7 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getUserIdFromToken } from "@/utils/token/token.js";
 import { fetchHomeArticles } from "@/utils/http/articles.js";
-import ArticleList from "@/components/ArticleList.jsx";
+import DynamicList from "@/components/pagination/DynamicList.jsx";
+import ArticleCard from "@/components/ArticleCard.jsx";
 
 export default function HomePage() {
 	const userId = getUserIdFromToken(); // Replace with the actual user ID
@@ -31,11 +32,15 @@ export default function HomePage() {
 			bg-surface-500-0 
 		transition-all p-8`}>
 			<div className={`justify-center `}>
-				<ArticleList
-					articles={articles}
+				<DynamicList
+					items={articles}
 					hasNextPage={hasNextPage}
 					fetchNextPage={fetchNextPage}
 					isFetchingNextPage={isFetchingNextPage}
+					containerStyle="sm:flex-col md:flex-row lg:flex-wrap gap-8"
+					renderItem={(article, ref) => (
+						<ArticleCard ref={ref} key={article.articleId.toString()} article={article} />
+					)}
 				/>
 			</div>
 		</div>

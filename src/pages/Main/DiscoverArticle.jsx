@@ -1,6 +1,7 @@
 import { fetchDiscoverArticles } from "@/utils/http/articles.js";
-import ArticleList from "@/components/ArticleList.jsx";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import ArticleCard from "@/components/ArticleCard.jsx";
+import DynamicList from "@/components/pagination/DynamicList.jsx";
 
 export default function DiscoverArticlePage() {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
@@ -17,11 +18,21 @@ export default function DiscoverArticlePage() {
     return (
         <div className={`flex-1 bg-surface-50 min-h-screen max-h-full transition-all p-8`}>
             <div className={`justify-center `}>
-                <ArticleList
-                    articles={articles}
-                    hasNextPage={hasNextPage}
-                    fetchNextPage={fetchNextPage}
-                    isFetchingNextPage={isFetchingNextPage}
+                {/*<ArticleList*/}
+                {/*    articles={articles}*/}
+                {/*    hasNextPage={hasNextPage}*/}
+                {/*    fetchNextPage={fetchNextPage}*/}
+                {/*    isFetchingNextPage={isFetchingNextPage}*/}
+                {/*/>*/}
+                <DynamicList
+                   items={articles}
+                   hasNextPage={hasNextPage}
+                   fetchNextPage={fetchNextPage}
+                   isFetchingNextPage={isFetchingNextPage}
+                   containerStyle="sm:flex-col md:flex-row lg:flex-wrap gap-8"
+                   renderItem={(article, ref) => (
+                      <ArticleCard ref={ref} key={article.articleId.toString()} article={article} />
+                   )}
                 />
             </div>
         </div>

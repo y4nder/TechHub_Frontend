@@ -1,5 +1,4 @@
 import {NavLink, useParams} from "react-router-dom";
-import ArticleDetailTag from "@/components/ui/ArticleDetailTag.jsx";
 import { formatDateTimeVersion2 } from "@/utils/formatters/dateFormatter.js";
 import { DotIcon } from "lucide-react";
 import { BiCommentDetail, BiDownvote, BiUpvote } from "react-icons/bi";
@@ -7,9 +6,8 @@ import { RxDividerVertical } from "react-icons/rx";
 import { MdBookmarkBorder } from "react-icons/md";
 import { PiShareFatLight } from "react-icons/pi";
 import { useEffect, useState } from "react";
-import CommentSection from "@/components/CommentsSection.jsx";
 import { CommentProvider, useComments } from "@/hooks/useComments.jsx";
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import { downVoteArticle, fetchArticle, removeArticleVote, upVoteArticle } from "@/utils/http/articles.js";
 import { getUserIdFromToken } from "@/utils/token/token.js";
 import { fetchCommentsByArticleId } from "@/utils/http/comments.js";
@@ -98,7 +96,6 @@ export default function ArticlePage() {
                         {!isPending && (
                             <>
                                 <ArticleSection article={article} />
-                                {/*<CommentSection articleId={article.articleId} />*/}
                                 <ArticleCommentSection/>
                             </>
                         )}

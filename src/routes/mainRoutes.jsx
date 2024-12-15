@@ -25,128 +25,148 @@ import DiscoverTagsPage from "@/pages/Main/DiscoverTags.jsx";
 import TagPage from "@/pages/Main/Tag.jsx";
 import ClubProtectedModRoute from "@/pages/Setup/ClubProtectedModRoute.jsx";
 import {Moderator} from "@/utils/constants/roleConstants.js";
+import ClubModeratorDashboardPage from "@/pages/Main/Moderators/ClubModeratorDashboard.jsx";
+import ClubPostsPage from "@/pages/Main/Moderators/ClubPosts.jsx";
+import ClubReportsPage from "@/pages/Main/Moderators/ClubReports.jsx";
+import ClubModeratorsPage from "@/pages/Main/Moderators/ClubModerators.jsx";
 
 export const mainRoutes = [
-    {
-        path: "/home",
-        element: <HomePage />,
-    },
-    {
-        path: "/articles",
-        element: <RootArticle />,
-        children: [
-            {
-                index: true, // Default route for /articles
-                element: <DiscoverArticlePage />,
-            },
-            {
-                path: "new", // Relative path (resolves to /articles/new)
-                element: <NewArticlePage />,
-            },
-            {
-                path: "new/:clubId", // Relative path (resolves to /articles/new)
-                element: <NewArticlePage />,
-            },
-            {
-                path: ":articleId", // Relative path (resolves to /articles/:articleId)
-                element: <ArticlePage />,
-            },
-            {
-                path: ":articleId/edit", // Relative path (resolves to /articles/:articleId/edit)
-                element: <EditArticlePage />,
-            },
-        ],
-    },
-    {
-        path: "/clubs",
-        element: <RootClubLayout />,
-        children: [
-            {
-                index: true,
-                element: <DiscoverClubsPage />,
-            },
-            {
-                path: "category/:categoryId/:categoryName",
-                element: <CategoryClubsPage />,
-            },
-        ],
-    },
-    {
-        path: "/club/:clubId",
-        element: <ClubDetailsPage />,
-    },
-    {
-      path: "/club/:clubId/moderate",
-      element: <ClubProtectedModRoute role={Moderator}>
+	{
+		path: "/home",
+		element: <HomePage />,
+	},
+	{
+		path: "/articles",
+		element: <RootArticle />,
+		children: [
+			{
+				index: true, // Default route for /articles
+				element: <DiscoverArticlePage />,
+			},
+			{
+				path: "new", // Relative path (resolves to /articles/new)
+				element: <NewArticlePage />,
+			},
+			{
+				path: "new/:clubId", // Relative path (resolves to /articles/new)
+				element: <NewArticlePage />,
+			},
+			{
+				path: ":articleId", // Relative path (resolves to /articles/:articleId)
+				element: <ArticlePage />,
+			},
+			{
+				path: ":articleId/edit", // Relative path (resolves to /articles/:articleId/edit)
+				element: <EditArticlePage />,
+			},
+		],
+	},
+	{
+		path: "/clubs",
+		element: <RootClubLayout />,
+		children: [
+			{
+				index: true,
+				element: <DiscoverClubsPage />,
+			},
+			{
+				path: "category/:categoryId/:categoryName",
+				element: <CategoryClubsPage />,
+			},
+		],
+	},
+	{
+		path: "/club/:clubId",
+		element: <ClubDetailsPage />,
+	},
+	{
+		path: "/club/:clubId/moderate",
+		element: <ClubProtectedModRoute role={Moderator}/>,
+		children: [
+			{
+				index: true,
+				element: <ClubModeratorDashboardPage/>,
+			},
+			{
+				path: "posts",
+				element: <ClubPostsPage/>
+			},
+			{
+				path: "moderators",
+				element: <ClubModeratorsPage/>
+			},
+			{
+				path: "reports",
+				element: <ClubReportsPage/>
+			}
+		]
+	},
+	{
+		path: "/club/create",
+		element: <CreateNewClubPage />,
+	},
+	{
+		path: "/profile/:profileId",
+		element: <RootProfilePage />, // Main layout with navigation tabs
+		children: [
+			{
+				index: true, // Default child for /profile/:profileId
+				element: <ProfilePostsPage />, // Posts page
+			},
+			{
+				path: "replies",
+				element: <ProfileRepliesPage />, // Replies page
+			},
+			{
+				path: "upvotes",
+				element: <ProfileUpVotedPage />, // Upvotes page
+			},
+		],
+	},
+	{
+		path: "/profile/:profileId/settings",
+		element: <RootEditProfilePage />,
+		children: [
+			{
+				index: true,
+				element: <ProfileAccountDetailsPage />,
+			},
+			{
+				path: "security",
+				element: <ProfileSecurityPage />,
+			},
+			{
+				path: "notifications",
+				element: <ProfileNotificationsPage />,
+			}
 
-      </ClubProtectedModRoute>
-    },
-    {
-        path: "/club/create",
-        element: <CreateNewClubPage />,
-    },
-    {
-        path: "/profile/:profileId",
-        element: <RootProfilePage />, // Main layout with navigation tabs
-        children: [
-            {
-                index: true, // Default child for /profile/:profileId
-                element: <ProfilePostsPage />, // Posts page
-            },
-            {
-                path: "replies",
-                element: <ProfileRepliesPage />, // Replies page
-            },
-            {
-                path: "upvotes",
-                element: <ProfileUpVotedPage />, // Upvotes page
-            },
-        ],
-    },
-    {
-        path: "/profile/:profileId/settings",
-        element: <RootEditProfilePage />,
-        children: [
-            {
-                index: true,
-                element: <ProfileAccountDetailsPage />,
-            },
-            {
-                path: "security",
-                element: <ProfileSecurityPage />,
-            },
-            {
-                path: "notifications",
-                element: <ProfileNotificationsPage />,
-            }
-
-        ],
-    },
-    {
-        path: "/bookmarks",
-        element: <BookmarkedArticlesPage />,
-    },
-    {
-        path: "/history",
-        element: <RootHistoryLayout />,
-        children: [
-            {
-                index: true,
-                path: "read",
-                element: <ReadHistoryPage />,
-            },
-            {
-                path: "searched",
-                element: <SearchHistoryPage />,
-            },
-        ],
-    },
-    {
-        path: "/tags",
-        element: <DiscoverTagsPage />,
-    },
-    {
-        path: "/tags/:tagId",
-        element: <TagPage/>
-    }
+		],
+	},
+	{
+		path: "/bookmarks",
+		element: <BookmarkedArticlesPage />,
+	},
+	{
+		path: "/history",
+		element: <RootHistoryLayout />,
+		children: [
+			{
+				index: true,
+				path: "read",
+				element: <ReadHistoryPage />,
+			},
+			{
+				path: "searched",
+				element: <SearchHistoryPage />,
+			},
+		],
+	},
+	{
+		path: "/tags",
+		element: <DiscoverTagsPage />,
+	},
+	{
+		path: "/tags/:tagId",
+		element: <TagPage/>
+	}
 ];

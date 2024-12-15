@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useState} from 'react';
 import ArticleTag from "@/components/ui/ArticleTag.jsx";
 import { BiCommentDetail, BiDownvote, BiUpvote } from "react-icons/bi";
 import { RxDividerVertical } from "react-icons/rx";
-import { MdBookmarkBorder } from "react-icons/md";
+import {MdBookmarkBorder, MdOutlineBugReport, MdOutlineClose} from "react-icons/md";
 import { PiShareFatLight } from "react-icons/pi";
 import Button from "@/components/ui/Button.jsx";
 import { parseDate } from "@/utils/formatters/dateFormatter.js";
@@ -10,13 +10,21 @@ import {useNavigate} from "react-router-dom";
 import {
 	bookmarkArticle,
 	downVoteArticle,
-	removeArticleVote,
+	removeArticleVote, reportArticle,
 	unBookmarkArticle,
 	upVoteArticle
 } from "@/utils/http/articles.js";
 import {getUserIdFromToken} from "@/utils/token/token.js";
 import Avatar from "@/components/ui/Avatar.jsx";
-import TooltippedComponent from "@/components/ui/TooltippedComponent.jsx";
+import ToolTippedComponent from "@/components/ui/TooltippedComponent.jsx";
+import {Dropdown} from "@/components/ui/Dropdown.jsx";
+import {EllipsisVerticalIcon} from "lucide-react";
+import Modal from "@/components/ui/Modal.jsx";
+import {RadioGroup, RadioItem} from "@/components/ui/RadioGroup.jsx";
+import MultilineInput from "@/components/ui/MultilineInput.jsx";
+import {useMutation} from "@tanstack/react-query";
+import {ToastAction} from "@/components/ui/toast.jsx";
+import {useToast} from "@/hooks/use-toast.js";
 
 const upvote = "up";
 const downVote = "down";
@@ -95,6 +103,10 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 		navigate(url);
 	}
 
+	const handleMoreOptionsClicked = (event) => {
+		event.stopPropagation();
+	}
+
 
 	return (
 		<div
@@ -121,14 +133,14 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 				{/* Profiles part */}
 				<div className="flex gap-2">
 					<div className="flex flex-row gap-2">
-						<TooltippedComponent tooltipText={article.clubName}>
+						<ToolTippedComponent tooltipText={article.clubName}>
 							<img
 								src={article.clubImageUrl}
 								alt="clubimage"
 								className="w-8 h-8 cursor-pointer rounded-full object-cover hover:border hover:border-lightPurple-500"
 								onClick={(event) => handleLinkClicked(event,`/club/${article.clubId}`)}
 							/>
-						</TooltippedComponent>
+						</ToolTippedComponent>
 						<Avatar
 							imageUrl={article.userImageUrl}
 							userName={article.authorName}
@@ -137,7 +149,8 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 					</div>
 					 {/*Dynamic content rendered on hover*/}
 					{isHovered && (
-						<div className="article-card-header flex justify-end items-center w-full " onClick={() => console.log(article.articleId + " clicked")}>
+						<div className="article-card-header flex justify-end items-center w-full gap-2"
+						     onClick={() => console.log(article.articleId + " clicked")}>
 							<Button className={`
                                 text-md 
                                 bg-obsidianBlack-500 text-white 
@@ -155,12 +168,18 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 							>
 								Read Post
 							</Button>
+
+							<div className="flex items-center hover:bg-lightPurple-50 rounded-2xl"
+								onClick={(event) => event.stopPropagation()}>
+								<ArticleDropDownOptions article={article}/>
+							</div>
 						</div>
-					)}
+
+					) }
 				</div>
 				<div className="">
 					<h1 className="text-xl font-semibold text-gray-900 break-word line-clamp-3">
-						{article.articleTitle}
+						{ article.articleTitle }
 					</h1>
 				</div>
 			</div>
@@ -274,6 +293,176 @@ const ArticleCard = forwardRef(({ article }, ref) => {
 			</div>
 		</div>
 	);
-});
 
+
+});
 export default ArticleCard;
+
+export function ArticleDropDownOptions({article}){
+	const [reportModalOpen, setReportModalOpen] = useState(false);
+	const [reportType, setReportType] = useState(null);
+	const [additionalNote, setAdditionalNote] = useState("")
+	const {toast } = useToast();
+
+	const isAddingAdditionalNote = reportType === "other";
+	const valid = reportType !== null;
+
+	const handleStartReporting = () => {
+		setReportModalOpen(true);
+	}
+
+	const handleStopReporting = () => {
+		setReportModalOpen(false);
+		setReportType(null);
+	}
+
+	const {mutate: reportMutation, isPending} = useMutation({
+		mutationFn: reportArticle,
+		onSuccess: () => {
+			setReportModalOpen(false);
+			setReportType(null);
+			setAdditionalNote("");
+
+		},
+		onError: async (error) => {
+			const errorMessage = error instanceof Error ? error.message : error?.detail || "Unknown error occurred.";
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: errorMessage,
+				action: <ToastAction altText="Try again">Try again</ToastAction>,
+			});
+
+			console.log("error:", error);
+			handleStopReporting();
+		},
+	})
+
+	const handleReporting = () => {
+		const selectedReportLabel
+			= document.querySelector(`input[name="ReportOptions"]:checked + span`)?.nextElementSibling?.innerText;
+		const reportData = {
+			articleId: article.articleId,
+			reason: selectedReportLabel,
+			additionalNotes: additionalNote
+		};
+
+		console.log("Submitting report data:", reportData);
+		reportMutation(reportData);
+	}
+
+	const ReportModal = () => {
+		return(
+			<Modal
+				open={reportModalOpen}
+				onClose={handleStopReporting}
+				className="p-6 rounded-2xl space-y-4 max-w-lg w-full"
+			>
+				<div className="border-b border-gray-200 pb-4 flex justify-between">
+					<h1 className="text-2xl font-bold text-darkPurple-500">Report Post</h1>
+					<button onClick={handleStopReporting}>
+						<MdOutlineClose size={24} className="hover:bg-surface-500 rounded-2xl"  />
+					</button>
+				</div>
+				<p>{article.articleTitle}</p>
+				<div className="text-gray-800 font-medium">
+					<RadioGroup
+						name="ReportOptions"
+						selectedValue={reportType}
+						onChange={setReportType}
+						radioColor="text-darkPurple-500"
+						layout="flex flex-col gap-2"
+					>
+						<RadioItem value="type1">
+							<p>The post is out of topic</p>
+						</RadioItem>
+						<RadioItem value="type2">
+							<p>Broken Link</p>
+						</RadioItem>
+						<RadioItem value="type3">
+							<p>Click Bait</p>
+						</RadioItem>
+						<RadioItem value="type4">
+							<p>Low-Quality Content</p>
+						</RadioItem>
+						<RadioItem value="type5">
+							<p>NSFW</p>
+						</RadioItem>
+						<RadioItem value="other">
+							<p>Other</p>
+						</RadioItem>
+					</RadioGroup>
+					<div className="mt-4 space-y-2">
+						<p className="text-sm pl-1">Anything you would like to add?</p>
+						<MultilineInput
+							id="clubDescription"
+							placeholder="additional notes"
+							value={additionalNote} onChange={(e) => setAdditionalNote(e.target.value)}
+							enabled={isAddingAdditionalNote}
+							rows={5}
+						/>
+					</div>
+				</div>
+				<div className="leave-modal-actions flex gap-4 justify-end">
+					<button
+						className={`
+							bg-darkPurple-500 text-white p-2 px-4 rounded-2xl
+							disabled:bg-lightPurple-200
+						`}
+						disabled={valid === false || isPending}
+						onClick={handleReporting}
+					>
+						{isPending ? 'Submitting' : 'Submit'}
+					</button>
+				</div>
+			</Modal>
+		)
+	}
+
+
+
+
+	return(
+		<>
+			{ReportModal()}
+			<Dropdown
+				trigger={
+					<button className="rounded-2xl py-1">
+						<EllipsisVerticalIcon size={18} />
+					</button> }
+			>
+				<ul className="p-2 text-gray-600 space-y-2 select-none pt-4">
+					<li className="hover:bg-gray-100 flex items-center gap-2"
+
+					>
+						<BiUpvote size={ 20 }/> Upvote
+					</li>
+					<li className="hover:bg-gray-100 flex items-center gap-2">
+						<BiDownvote size={ 20 }/> Downvote
+					</li>
+					<li className="hover:bg-gray-100 flex items-center gap-2">
+						<MdBookmarkBorder size={ 20 }/> Save
+					</li>
+					<div className="flex-grow border-t border-gray-300 px-4"></div>
+					<li className="hover:bg-gray-100 flex items-center gap-2">
+						Go to Club
+					</li>
+					<li className="hover:bg-gray-100 flex items-center gap-2">
+						Go to Article
+					</li>
+					<li className="hover:bg-gray-100 flex items-center gap-2">
+						Go to User
+					</li>
+					<div className="flex-grow border-t border-gray-300 px-4"></div>
+					{/*the report feature*/}
+					<li className="hover:bg-gray-100 flex items-center gap-2"
+					    onClick={handleStartReporting}
+					>
+						<MdOutlineBugReport size={ 20 }/> Report
+					</li>
+
+				</ul>
+			</Dropdown>
+		</>
+	)
+}
