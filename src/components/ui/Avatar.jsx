@@ -39,10 +39,7 @@ const Avatar = ({ imageUrl, userName, userId, variant = "default", clickable = t
 			.padStart(2, '0')}${b2.toString(16).padStart(2, '0')}`;
 
 		// Generate gradient string
-		const gradient = `linear-gradient(135deg, ${color1}, ${color2})`;
-
-		// console.log("Computed Gradient: ", gradient);
-		return gradient;
+		return `linear-gradient(135deg, ${color1}, ${color2})`;
 	};
 
 	// Fallback for invalid image
@@ -99,6 +96,14 @@ const Avatar = ({ imageUrl, userName, userId, variant = "default", clickable = t
 				imageSize : 24,
 				fontSize : 'text-5xl',
 				roundness: 'rounded-3xl'
+			}
+		}
+
+		if(variant === "largeRounded"){
+			return {
+				imageSize : 20,
+				fontSize : 'text-5xl',
+				roundness: 'rounded-full'
 			}
 		}
 

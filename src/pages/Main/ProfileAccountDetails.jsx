@@ -54,7 +54,7 @@ export default function ProfileAccountDetailsPage() {
 	const profileId = params.profileId;
 
 	const { data, isPending, isError, error,refetch  } = useQuery({
-		queryKey: ['users', profileId],
+		queryKey: ['users', profileId, "self"],
 		queryFn: getSelfUserAdditionalInfo,
 	});
 

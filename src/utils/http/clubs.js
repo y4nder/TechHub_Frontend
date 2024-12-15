@@ -78,3 +78,12 @@ export async function getSuggestedClubs(searchTerm){
 		}
 	})
 }
+
+export async function getClubAnalytics(clubId){
+	return await get({
+		endpoint: '/clubAnalytics',
+		queryParams: {
+			ClubId: clubId,
+		}
+	})
+}

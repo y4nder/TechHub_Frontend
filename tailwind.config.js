@@ -14,6 +14,7 @@ export default {
   			lightPurple: {
 			   '10' : '#F4F7FF',
   				'50': '#f0e6fe',
+			   '100' : '#d0b2fb',
 			   '200' : '#ba8cf9',
   				'500': '#6805f2'
   			},

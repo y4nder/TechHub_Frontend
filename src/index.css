@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+dialog::backdrop {
+    @apply bg-lightPurple-200 opacity-15;
+}
+
 html{
     height: 100%;
 }
@@ -56,6 +60,24 @@ body {
     background: -webkit-linear-gradient(180deg, rgba(104,5,242,0.2861519607843137) 0%, rgba(233,232,254,0.2189250700280112) 30%, rgba(142,255,252,0) 100%);
     background: linear-gradient(180deg, rgba(104,5,242,0.2861519607843137) 0%, rgba(233,232,254,0.2189250700280112) 30%, rgba(142,255,252,0) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#6805f2",endColorstr="#8efffc",GradientType=1);
+}
+
+.gradient-border {
+    /* Gradient Background for the Border */
+    border: 8px solid transparent; /* Optional, for spacing */
+    background: linear-gradient(90deg, rgba(94, 4, 219, 1) 14%, rgba(193, 72, 3, 1) 82%, rgba(224, 45, 4, 1) 100%);
+    border-radius: 50px; /* Optional, for rounded corners */
+
+    /* Clip the background to the border */
+    background-clip: border-box;
+    padding: 2px; /* Adjust to control inner spacing */
+}
+
+.gradient-border > .inner-content {
+    /* Inner Content's Background */
+    background: white; /* Optional, any inner content background */
+    border-radius: 6px; /* Slightly smaller radius for better fit */
+    padding: 16px; /* Padding for content inside */
 }
 
 .scrollbar-hider  {
@@ -151,6 +173,8 @@ body {
 .article-content pre code {
     color: #333; /* Darker text color for preformatted code blocks */
 }
+
+
 
 @layer base {
   :root {

@@ -16,7 +16,8 @@ import Modal from "@/components/ui/Modal.jsx";
 import Avatar from "@/components/ui/Avatar.jsx";
 import {GoGlobe} from "react-icons/go";
 import {MdLockOutline} from "react-icons/md";
-import {ClubCreator, Moderator} from "@/utils/constants/roleConstants.js";
+import { Moderator} from "@/utils/constants/roleConstants.js";
+import {TbTool} from "react-icons/tb";
 
 export default function ClubDetailsPage() {
 	const userId = getUserIdFromToken();
@@ -42,7 +43,6 @@ export default function ClubDetailsPage() {
 			const data = await fetchSingleClub(clubId);
 			return data.club; // Ensure this returns the correct club object
 		},
-
 	});
 
 	// Infinite query for fetching articles
@@ -85,6 +85,9 @@ export default function ClubDetailsPage() {
 	// Flatten articles from all pages
 	const articles =
 		data?.pages.flatMap((page) => page.articles.items) || [];
+
+	const pinnedArticles = articles.filter(article => article.pinned);
+	const nonPinnedArticles = articles.filter(article => !article.pinned);
 
 	if (isPendingClubDetails) {
 		return <p>Fetching club details...</p>;
@@ -147,13 +150,13 @@ export default function ClubDetailsPage() {
 		<div className="flex flex-col bg-surface-50">
 			{LeaveConfirmationModal()}
 			<div
-				className={`
+				className={ `
 				
-			`}>
+			` }>
 				<div className="header space-y-5 border-b pt-8 border-black-75 w-screen pl-16 gradient-bg-clubDetails">
 					<div className="head-header flex gap-4">
 						<img
-							src={club.clubProfilePicUrl}
+							src={ club.clubProfilePicUrl }
 							className="w-20 h-20 rounded-full object-cover self-center"
 							alt=""
 						/>
@@ -165,26 +168,31 @@ export default function ClubDetailsPage() {
 							<div className="flex items-center gap-2 select-none">
 								<div
 									className={ `px-3 py-1 text-sm font-medium rounded-xl flex gap-1 items-center ${
-										club.private ? 
-											'bg-darkOrange-50 text-darkOrange-500 border border-darkOrange-500' : 
+										club.private ?
+											'bg-darkOrange-50 text-darkOrange-500 border border-darkOrange-500' :
 											'bg-lightPurple-50 text-lightPurple-500 drop-shadow-md border-lightPurple-500 border'
-										}` }
+									}` }
 								>
-										{ club.private ? <MdLockOutline /> : <GoGlobe /> }
-								      { club.private ? ' Private Club' : '  Public Club' }
-							      </div>
+									{ club.private ? <MdLockOutline/> : <GoGlobe/> }
+									{ club.private ? ' Private Club' : '  Public Club' }
+								</div>
 								<p className="text-md text-obsidianBlack-500">
 
-									<span className="font-bold text-black">{ club.postCount }</span>
+									<span className="font-bold text-black">{ formatNumberToK(club.postCount) }</span>
 									<span className="text-gray-600"> Posts </span>
-									<span className="font-bold text-black">{ club.clubViews }</span>
+									<span className="font-bold text-black">{ formatNumberToK(club.clubViews) }</span>
 									<span className="text-gray-600"> Views </span>
-									<span className="font-bold text-black">{ club.clubUpVoteCount }</span>
+									<span className="font-bold text-black">{ formatNumberToK(club.clubUpVoteCount) }</span>
 									<span className="text-gray-600"> Upvotes </span>
 								</p>
 								{
 									joined && joined.roles.find(r => r.roleName === Moderator) && (
-										<p>You are a moderator</p>
+										<NavLink
+											to={ `/club/${ clubId }/moderate` }
+											className="bg-darkPurple-500 text-white px-2 rounded-2xl text-sm py-1 flex items-center gap-1 ">
+											<TbTool size={ 16 }/>
+											Moderator tools
+										</NavLink>
 									)
 								}
 							</div>
@@ -195,80 +203,96 @@ export default function ClubDetailsPage() {
 					</div>
 					<div className="header-actions flex gap-4">
 						<Button
-							className={`
-								${joined? 
-									'bg-lightPurple-50 text-lightPurple-500 drop-shadow-md border-lightPurple-500 border rounded-xl px-3' : 
-									'bg-lightPurple-500 text-white px-14 rounded-xl text-md hover:bg-brightOrange-500' 
-								}
-							`}
+							className={ `
+								${ joined ?
+								'bg-lightPurple-50 text-lightPurple-500 drop-shadow-md border-lightPurple-500 border rounded-xl px-3' :
+								'bg-lightPurple-500 text-white px-14 rounded-xl text-md hover:bg-brightOrange-500'
+							}
+							` }
 							onClick={ handleClubButtonAction }
 						>
-							{ joined ? 'Leave Club' : 'Join Club'}
+							{ joined ? 'Leave Club' : 'Join Club' }
 						</Button>
 						<div className="border border-black-75 rounded-xl self-end p-1 flex gap-2">
 							<div className="flex -space-x-4 ">
-								{club.recentMemberProfilePics.map((pf, index) => (
+								{ club.recentMemberProfilePics.map((pf, index) => (
 									<Avatar
-										key={pf + ' ' + index}
-										imageUrl={pf.userProfilePicUrl}
-										userName={pf.username}
-										userId={pf.userId}
+										key={ pf + ' ' + index }
+										imageUrl={ pf.userProfilePicUrl }
+										userName={ pf.username }
+										userId={ pf.userId }
 										// variant='navProfile'
 									/>
-								))}
+								)) }
 							</div>
 							<p className="text-lg text-black-200 font-medium">
-								{formatNumberToK(club.memberCount)}
+								{ formatNumberToK(club.memberCount) }
 							</p>
 						</div>
 					</div>
 					<div className="header-moderators space-y-2 pb-5">
 						<p>Moderators</p>
 						<div className="flex gap-4">
-							<ModeratorCard moderator={club.clubCreator} isClubCreator />
-							{club.moderators.length > 0 &&
+							<ModeratorCard moderator={ club.clubCreator } isClubCreator/>
+							{ club.moderators.length > 0 &&
 								club.moderators.map((moderator, index) => (
-									<ModeratorCard key={index} moderator={moderator} />
-								))}
+									<ModeratorCard key={ index } moderator={ moderator }/>
+								)) }
 						</div>
 					</div>
-					{club.joined && (
-						<div className="header-new-post flex gap-4 border w-fit p-4 rounded-2xl items-center translate-y-8 bg-surface-200">
-							{/*<img*/}
-							{/*	src={userProfilePicUrl}*/}
-							{/*	alt={""}*/}
-							{/*	className="w-12 h-12 object-cover rounded-lg"*/}
-							{/*/>*/}
+					{ club.joined && (
+						<div
+							className="header-new-post flex gap-4 border w-fit p-4 rounded-2xl items-center translate-y-8 bg-surface-200">
+							{/*<img*/ }
+							{/*	src={userProfilePicUrl}*/ }
+							{/*	alt={""}*/ }
+							{/*	className="w-12 h-12 object-cover rounded-lg"*/ }
+							{/*/>*/ }
 							<Avatar
-								imageUrl={userProfilePicUrl}
-								userName={username}
-								userId={userId}
+								imageUrl={ userProfilePicUrl }
+								userName={ username }
+								userId={ userId }
 								variant='largeSemiRounded'
 							/>
 							<p className="text-sm text-gray-500">Anything to Share?</p>
 							<NavLink
-								to={`/articles/new/${clubId}`}
+								to={ `/articles/new/${ clubId }` }
 								className="bg-lightPurple-500 text-white px-4 py-2 rounded-2xl hover:bg-pink-400 transition-colors duration-200">
 								New Post
 							</NavLink>
 						</div>
-					)}
+					) }
 				</div>
+				{pinnedArticles.length > 0 && (
+					<div className="pinned-articles-container justify-center px-20 pt-20">
+						<h2 className="text-xl font-bold text-gray-700 pl-2">Pinned Articles</h2>
+						{ pinnedArticles.length === 0 ? (
+							<p className="text-gray-500">No pinned articles found.</p>
+						) : (
+							<div className="mt-3">
+								<ArticleList
+									articles={ pinnedArticles }
+									hasNextPage={ false } // No pagination for pinned articles
+								/>
+							</div>
+						) }
+					</div>
+				)}
 				<div
-					className={ `justify-center py-20 px-20 ` }
+					className={ `justify-center px-20 py-20` }
 				>
-					{articles.length === 0 ? (
+					{ articles.length === 0 ? (
 						<div className="flex flex-grow items-center  justify-center">
 							<p className="text-center text-gray-500">No articles found for this club.</p>
 						</div>
 					) : (
 						<ArticleList
-							articles={ articles }
+							articles={nonPinnedArticles}
 							hasNextPage={ hasNextPage }
 							fetchNextPage={ fetchNextPage }
 							isFetchingNextPage={ isFetchingNextPage }
 						/>
-					)}
+					) }
 				</div>
 			</div>
 		</div>

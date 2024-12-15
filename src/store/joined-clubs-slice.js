@@ -1,9 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {fetchJoinedClubs} from "@/utils/http/clubs.js";
+import {getJoinedClubsFromStorage, storeJoinedClubs} from "@/store/persist.js";
 
 const initialJoinedClubsState = {
-	clubs : [],
-	hasError : false
+	clubs: getJoinedClubsFromStorage(), // Load clubs from localStorage initially
+	hasError: false
 }
 
 const joinedClubsSlice = createSlice({
@@ -14,6 +15,7 @@ const joinedClubsSlice = createSlice({
 			console.log(action.payload);
 			state.clubs = action.payload.clubs;
 			state.hasError = false;
+			storeJoinedClubs(action.payload.clubs); // Store updated clubs in localStorage
 		},
 		setHasError(state) {
 			state.hasError = true;
