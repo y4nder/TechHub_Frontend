@@ -29,6 +29,7 @@ import ClubModeratorDashboardPage from "@/pages/Main/Moderators/ClubModeratorDas
 import ClubPostsPage from "@/pages/Main/Moderators/ClubPosts.jsx";
 import ClubReportsPage from "@/pages/Main/Moderators/ClubReports.jsx";
 import ClubModeratorsPage from "@/pages/Main/Moderators/ClubModerators.jsx";
+import EditClubPage from "@/pages/Main/Moderators/EditClub.jsx";
 
 export const mainRoutes = [
 	{
@@ -98,8 +99,12 @@ export const mainRoutes = [
 			{
 				path: "reports",
 				element: <ClubReportsPage/>
-			}
+			},
 		]
+	},
+	{
+		path: "/club/:clubId/edit",
+		element: <EditClubPage />,
 	},
 	{
 		path: "/club/create",
@@ -107,19 +112,19 @@ export const mainRoutes = [
 	},
 	{
 		path: "/profile/:profileId",
-		element: <RootProfilePage />, // Main layout with navigation tabs
+		element: <RootProfilePage />,
 		children: [
 			{
-				index: true, // Default child for /profile/:profileId
-				element: <ProfilePostsPage />, // Posts page
+				index: true,
+				element: <ProfilePostsPage />,
 			},
 			{
 				path: "replies",
-				element: <ProfileRepliesPage />, // Replies page
+				element: <ProfileRepliesPage />,
 			},
 			{
 				path: "upvotes",
-				element: <ProfileUpVotedPage />, // Upvotes page
+				element: <ProfileUpVotedPage />,
 			},
 		],
 	},

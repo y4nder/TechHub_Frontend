@@ -2,16 +2,23 @@ import {useParams} from "react-router-dom";
 import {convertToTypedValue} from "@/utils/formatters/analyticsHelper.js";
 import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
 import {getClubAnalytics} from "@/utils/http/clubs.js";
-import {fetchClubArticles, getReportedArticles, getTenReportedArticles} from "@/utils/http/articles.js";
+import {getTenReportedArticles} from "@/utils/http/articles.js";
 import {getUserIdFromToken} from "@/utils/token/token.js";
 import {getModerators} from "@/utils/http/users.js";
 import Avatar from "@/components/ui/Avatar.jsx";
 import ArticleCard from "@/components/ArticleCard.jsx";
 import DynamicList from "@/components/pagination/DynamicList.jsx";
 import {ReportedArticleListItem} from "@/components/pagination/paginatedItems/ReportedArticleListItem.jsx";
-import {AiFillStar} from "react-icons/ai";
 import {ShieldCheck} from "lucide-react";
 import {getClubArticlesForMod} from "@/utils/http/moderators.js";
+
+const gradients = [
+	"bg-gradient-to-br from-orange-500 to-yellow-100",
+	"bg-gradient-to-br from-purple-500 to-pink-100",
+	"bg-gradient-to-br from-blue-500 to-green-100",
+	"bg-gradient-to-br from-red-500 to-yellow-300",
+	"bg-gradient-to-br from-teal-500 to-cyan-100",
+];
 
 export default function ClubModeratorDashboardPage() {
 	const {clubId} = useParams();
@@ -22,7 +29,7 @@ export default function ClubModeratorDashboardPage() {
 		isError,
 		error
 	} = useQuery({
-		queryKey: ['club', clubId],
+		queryKey: ['club', clubId, 'analytics'],
 		queryFn: async() => {
 			const data = await getClubAnalytics(clubId);
 			return data.analyticsData.analytics;
@@ -67,9 +74,6 @@ export default function ClubModeratorDashboardPage() {
 		}
 	})
 
-
-
-
 	const articles =
 		clubArticles?.pages.flatMap((page) => page.articles.items) || [];
 
@@ -77,10 +81,10 @@ export default function ClubModeratorDashboardPage() {
 		<div className="mt-5 grid grid-cols-6">
 			<div className="left-side col-span-5 gap-4">
 				{ isPendingAnalytics && (<p>Loading Analytics...</p>) }
-				{ !isPendingAnalytics && (
-					<div className="analytics-cards flex flex-wrap gap-4">
+				{ !isPendingAnalytics && analytics && (
+					<div className="analytics-cards flex flex-wrap gap-6">
 						{ analytics.map((a, index) => (
-							<ClubAnalyticsCard key={ index } item={ a }/>
+							<ClubAnalyticsCard key={ index } item={ a } index={index}/>
 						)) }
 					</div>
 				) }
@@ -94,18 +98,12 @@ export default function ClubModeratorDashboardPage() {
 					) : (
 						<div className="space-y-4 px-3 ">
 							<h1 className="font-bold text-xl px-2">Popular Posts</h1>
-							{/*<ArticleList*/}
-							{/*	articles={ articles }*/}
-							{/*	hasNextPage={ hasNextPage }*/}
-							{/*	fetchNextPage={ fetchNextPage }*/}
-							{/*	isFetchingNextPage={ isFetchingNextPage }*/}
-							{/*/>*/}
 							<DynamicList
 								items={articles}
 								hasNextPage={hasNextPage}
 								fetchNextPage={fetchNextPage}
 								isFetchingNextPage={isFetchingNextPage}
-								containerStyle="sm:flex-col md:flex-row lg:flex-wrap gap-8"
+								containerStyle="flex flex-row overflow-x-auto scrollbar-hider gap-8"
 								renderItem={(article, ref) => (
 									<ArticleCard ref={ref} key={article.articleId.toString()} article={article} />
 								)}
@@ -114,7 +112,7 @@ export default function ClubModeratorDashboardPage() {
 					) }
 				</div>
 			</div>
-			<div className="right-side col-span-1 p-4 space-y-5  ">
+			<div className="right-side col-span-1  px-4 space-y-5 border-gray-200">
 				<div className="moderators flex flex-col gap-3  ">
 					{ isPendingModerators && (<p>Loading Moderators...</p>) }
 					{ !isPendingModerators && moderators && (
@@ -149,34 +147,39 @@ export default function ClubModeratorDashboardPage() {
 				<div className="reports space-y-2 bg-red-50 p-4 rounded-2xl border border-red-200">
 					<h1 className="font-medium text-red-400 pl-1">Reports</h1>
 					<div className="flex flex-col gap-3">
-						{ isPendingReportedArticles && <p>Loading Reported Articles...</p> }
-						{ !isPendingReportedArticles && Array.isArray(reportedArticlesData) && (
+						{isPendingReportedArticles ? (
+							<p>Loading Reported Articles...</p>
+						) : Array.isArray(reportedArticlesData) && reportedArticlesData.length > 0 ? (
 							reportedArticlesData.map((reportedArticle) => (
 								<ReportedArticleListItem
-									key={ `${ reportedArticle.articleId }_${ reportedArticle.reporterId }` }
-									report={ reportedArticle }
+									key={`${reportedArticle.articleId}_${reportedArticle.reporterId}`}
+									report={reportedArticle}
 								/>
 							))
-						) }
-						{ !isPendingReportedArticles && !Array.isArray(reportedArticlesData) && (
+						) : (
 							<p className="text-gray-500">No reported articles available.</p>
-						) }
+						)}
 					</div>
 				</div>
-
 			</div>
 		</div>
 	)
 
-	function ClubAnalyticsCard({item}) {
-		const {label, value} = convertToTypedValue(item);
+
+
+	function ClubAnalyticsCard({item, index}) {
+		const { label, value } = convertToTypedValue(item);
+
+		// Pick a gradient based on the index
+		const gradient = gradients[index % gradients.length];
+
 		return (
-			<div className="rounded-2xl p-4 px-7 w-full max-w-[250px] bg-lightPurple-10 shadow-sm space-y-2">
-				<p className="font-sans font-thin text-sm">{ label }</p>
-				<p className="font-medium text-2xl">{ value }</p>
+			<div
+				className={`rounded-2xl p-4 px-7 w-full max-w-[200px] shadow-sm space-y-1 text-white ${gradient}`}
+			>
+				<p className="font-sans font-thin text-sm">{label}</p>
+				<p className="font-medium text-2xl">{value}</p>
 			</div>
-		)
+		);
 	}
-
-
 }

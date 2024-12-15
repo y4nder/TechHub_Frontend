@@ -37,7 +37,7 @@ export default function HomePage() {
 					hasNextPage={hasNextPage}
 					fetchNextPage={fetchNextPage}
 					isFetchingNextPage={isFetchingNextPage}
-					containerStyle="sm:flex-col md:flex-row lg:flex-wrap gap-8"
+					containerStyle="flex flex-wrap sm:flex-col md:flex-row lg:flex-wrap gap-8"
 					renderItem={(article, ref) => (
 						<ArticleCard ref={ref} key={article.articleId.toString()} article={article} />
 					)}

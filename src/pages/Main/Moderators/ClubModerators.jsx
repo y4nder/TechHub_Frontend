@@ -236,8 +236,7 @@ export default function ClubModeratorsPage(){
 		<>
 			{ ManageUserModal() }
 			<div className="mt-8">
-				<h1 className="text-2xl font-bold pl-3 pb-4">Moderators</h1>
-				<div className="border-t border-t-black-50 w-full"></div>
+				<h1 className="text-2xl font-bold pl-3">Moderators</h1>
 				<div className=" grid grid-cols-8 ">
 					<div className="left col-span-6">
 						{ isPendingModerators && (<p>Loading Moderators</p>) }

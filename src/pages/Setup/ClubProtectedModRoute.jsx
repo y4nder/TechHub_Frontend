@@ -2,6 +2,7 @@ import {Navigate, NavLink, Outlet, useParams} from "react-router-dom";
 import { useSelector } from "react-redux";
 import {useQuery} from "@tanstack/react-query";
 import {fetchSingleClub} from "@/utils/http/clubs.js";
+import {IoSettingsOutline} from "react-icons/io5";
 
 export default function ClubProtectedModRoute({ role }) {
 	const { clubId } = useParams();
@@ -33,7 +34,7 @@ export default function ClubProtectedModRoute({ role }) {
 		"text-black-300 rounded-2xl px-4 py-2";
 
 	return (
-		<div className="py-12 pl-10 pr-8">
+		<div className="py-4 pl-10 pr-8 gradient-bg-clubDetails-r">
 			{isPendingClubDetails && (<p>Fetching Club Details</p>)}
 			{!isPendingClubDetails && (<ModeratorsHeader/>)}
 			<Outlet />
@@ -42,7 +43,7 @@ export default function ClubProtectedModRoute({ role }) {
 
 	function ModeratorsHeader() {
 		return (
-			<div className="club-moderation-header space-y-8">
+			<div className="club-moderation-header space-y-4">
 				<div className="club-moderation-header-info">
 					<div className="flex gap-4 items-center mb-">
 						<img
@@ -50,18 +51,19 @@ export default function ClubProtectedModRoute({ role }) {
 							className="w-20 h-20 rounded-full object-cover self-center"
 							alt=""
 						/>
-						<div className="space-y-2">
+						<div className="space-y-2 flex gap-2 items-center py-2">
 							<h1 className="font-bold text-4xl">{ club.clubName }</h1>
-							<button
-								className="border border-black-75 py-1 px-3 rounded-xl text-md text-nowrap hover:bg-lightPurple-200 hover:text-white transition-colors duration-150"
+							<NavLink
+								to={`/club/${clubId}/edit`}
+								className="p-2 text-md rounded-xl bg-surface-500 text-nowrap hover:bg-lightPurple-200 hover:text-white transition-colors duration-150"
 							>
-								Edit Club
-							</button>
+								<IoSettingsOutline size={16}/>
+							</NavLink>
 						</div>
 					</div>
 				</div>
 
-				<nav className="club-moderation-header-navigation flex gap-5 items-center">
+				<nav className="club-moderation-header-navigation flex gap-5 items-center border-b pb-4 border-gray-200">
 					<NavLink to={ '' } end
 			         className={ ({isActive}) =>
 				         isActive ? activeButtonClass : inactiveButtonClass

@@ -30,8 +30,8 @@ export default function ClubPostsPage() {
 	const headerItems = ["Title", "Post Date", "Author", "Votes", "Comments","Status", "Pinned", "Actions"]
 
 	return(
-		<div className="border p-6 border-black-75 rounded-2xl mt-8">
-			<div className={ `grid grid-cols-8 mb-8 mt-3 gap-3` }>
+		<div className="bg-lightPurple-10 p-6 rounded-2xl mt-8">
+			<div className={ `grid grid-cols-8 pl-1 mb-8 mt-3 gap-3` }>
 				{headerItems.map((header, index) => (
 					<Cell label={header} key={index} />
 				))}

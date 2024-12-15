@@ -2,6 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import {dummySingleArticleData as article} from "@/utils/dummies/dummyArticles.js";
 import Button from "@/components/ui/Button.jsx";
 import {VscLoading} from "react-icons/vsc";
+import {useSelector} from "react-redux";
 
 export default function CommentInput({onPost, isPostingComment}) {
 	const [comment, setComment] = useState(""); // State to manage comment text
@@ -10,6 +11,7 @@ export default function CommentInput({onPost, isPostingComment}) {
 		onPost(comment);
 		setComment("");
 	}
+	const { userProfilePicUrl } = useSelector(state => state.user)
 
 	const handleInputChange = (e) => {
 		setComment(e.target.value);
@@ -38,8 +40,8 @@ export default function CommentInput({onPost, isPostingComment}) {
 		>
 			<div className="mr-4">
 				<img
-					src={article.author.userProfilePicUrl}
-					alt={article.author.username}
+					src={userProfilePicUrl}
+					alt=""
 					className="w-10 h-10 object-cover rounded-full items-start"
 				/>
 			</div>

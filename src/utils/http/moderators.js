@@ -97,3 +97,19 @@ export async function evaluateReport(evaluationData){
 		}
 	})
 }
+
+export async function getClubForEdit(clubId){
+	return await get({
+		endpoint: "/getClubForEdit",
+		queryParams: {
+			ClubId: clubId,
+		}
+	})
+}
+
+export async function updateClubForMod(updateClubData){
+	return await post({
+		endpoint: "/updateClubForMod",
+		body: updateClubData,
+	})
+}
