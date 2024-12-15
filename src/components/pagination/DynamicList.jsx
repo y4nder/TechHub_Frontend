@@ -26,7 +26,7 @@ const DynamicList = ({
 	);
 
 	return (
-		<div className={`flex flex-wrap ${containerStyle}`}>
+		<div className={`${containerStyle}`}>
 			{items.map((item, index) => {
 				const isLastItem = items.length === index + 1;
 				return renderItem(item, isLastItem ? lastItemRef : null);

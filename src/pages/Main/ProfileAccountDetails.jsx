@@ -58,7 +58,7 @@ export default function ProfileAccountDetailsPage() {
 		queryFn: getSelfUserAdditionalInfo,
 	});
 
-	const { mutate: uploadProfileMutation, isPending: isUploadingProfile } = useMutation({
+	const { mutate: uploadPicProfileMutation, isPending: isUploadingProfile } = useMutation({
 		mutationFn: uploadProfile,
 		onSuccess: (data) => {
 			const { imageSecureUrl, publicId } = data;
@@ -93,7 +93,7 @@ export default function ProfileAccountDetailsPage() {
 			dispatch(ProfileNavDispatcher(userId))
 			refetch();
 		},
-		onError: () => {
+		onError: ()  => {
 			toast({
 				variant: "destructive",
 				title: "Uh oh! Something went wrong.",
@@ -130,6 +130,27 @@ export default function ProfileAccountDetailsPage() {
 		}
 	}, [data]);
 
+	const checkUsernameValidityHandler = useCallback(async (username) => {
+		try {
+			const response = await checkUsernameValidity(username);
+			if (response === true) {
+				setUsernameError(null); // Username is valid
+			} else {
+				setUsernameError("Username is already taken");
+			}
+		} catch (error) {
+			setUsernameError("An error occurred while checking the username");
+		}
+	}, [checkUsernameValidity]);
+
+	const handleCancel = () => {
+		if (profileChanged) {
+			removeProfileMutation( uploadedPublicId ); // Delete the image if profile was changed
+		} else {
+			navigate(`/profile/${userId}`);
+		}
+	};
+
 
 	useEffect(() => {
 		return () => {
@@ -160,7 +181,7 @@ export default function ProfileAccountDetailsPage() {
 		formData.append("Folder", "profiles");
 		formData.append("Image", file);
 
-		uploadProfileMutation(formData); // Call mutation to upload image
+		uploadPicProfileMutation(formData); // Call mutation to upload image
 	};
 
 
@@ -202,26 +223,7 @@ export default function ProfileAccountDetailsPage() {
 
 
 
-	const checkUsernameValidityHandler = useCallback(async (username) => {
-		try {
-			const response = await checkUsernameValidity(username);
-			if (response === true) {
-				setUsernameError(null); // Username is valid
-			} else {
-				setUsernameError("Username is already taken");
-			}
-		} catch (error) {
-			setUsernameError("An error occurred while checking the username");
-		}
-	}, [checkUsernameValidity]);
 
-	const handleCancel = () => {
-		if (profileChanged) {
-			removeProfileMutation( uploadedPublicId ); // Delete the image if profile was changed
-		} else {
-			navigate(`/profile/${userId}`);
-		}
-	};
 
 	const handleSave = () => {
 		// Collect user profile data

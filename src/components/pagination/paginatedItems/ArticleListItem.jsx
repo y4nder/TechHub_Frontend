@@ -44,7 +44,7 @@ const ArticleListItem= forwardRef(({ article, ...props }, ref) => {
 
 	return (
 		<div ref={ ref } { ...props }
-		     className="grid grid-cols-8 bg-surface-400 rounded-2xl p-2 gap-4 items-center justify-center"
+		     className="grid grid-cols-8 bg-surface-50 border border-gray-200 rounded-2xl p-2 gap-4 items-center justify-center"
 		>
 			<div className="flex gap-4 items-center">
 				<img
@@ -52,27 +52,41 @@ const ArticleListItem= forwardRef(({ article, ...props }, ref) => {
 					alt=""
 					className="w-20 h-20 object-cover rounded-2xl"
 				/>
-				{ article.articleTitle }
+				<p className="text-sm">
+					{ article.articleTitle }
+				</p>
 			</div>
 			<div>
-				<p className="font-medium">
+				<p className="font-medium text-xs">
 					{ formatDateTimeVersion2(article.createdDateTime) }
 				</p>
 			</div>
 			<div>
-				{ article.authorName }
+				<p className="text-sm text-gray-500">
+					{ article.authorName }
+				</p>
 			</div>
 			<div>
-				{ article.voteCount }
+				<p className="text-sm font-bold">
+					{ article.voteCount }
+				</p>
 			</div>
 			<div>
-				{ article.commentCount }
+				<p className="text-sm font-bold">
+					{ article.commentCount }
+				</p>
 			</div>
-			<div>
+			<div className={`border w-fit px-4 py-2 rounded-2xl text-sm
+				${status === "Removed" ? 
+				'border-red-600 bg-red-50 text-red-500' : 
+				'border-green-600 bg-green-50 text-green-500'
+			}`}>
 				{ status }
 			</div>
 			<div>
-				{ pinned ? "pinned" : "not pinned" }
+				<p className="text-sm text-gray-500">
+					{ pinned ? "pinned" : "not pinned" }
+				</p>
 			</div>
 			<div className="flex gap-2 items-center">
 				<NavLink

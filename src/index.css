@@ -62,6 +62,14 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#6805f2",endColorstr="#8efffc",GradientType=1);
 }
 
+.gradient-bg-clubDetails-r {
+    background: rgb(83,151,244);
+    background: -moz-linear-gradient(180deg, rgba(83,151,244,0.14329481792717091) 0%, rgba(233,232,254,0.2189250700280112) 22%, rgba(142,255,252,0) 100%);
+    background: -webkit-linear-gradient(180deg, rgba(83,151,244,0.14329481792717091) 0%, rgba(233,232,254,0.2189250700280112) 22%, rgba(142,255,252,0) 100%);
+    background: linear-gradient(180deg, rgba(83,151,244,0.14329481792717091) 0%, rgba(233,232,254,0.2189250700280112) 22%, rgba(142,255,252,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#5397f4",endColorstr="#8efffc",GradientType=1);
+}
+
 .gradient-border {
     /* Gradient Background for the Border */
     border: 8px solid transparent; /* Optional, for spacing */

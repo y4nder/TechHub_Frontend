@@ -91,9 +91,6 @@ export default function CreateNewClubPage() {
 		)
 	}
 
-
-
-
 	const clubCategoryOptions = categories.map((category) => ({
 		id: category.clubCategoryId,
 		label: category.clubCategoryName
@@ -127,11 +124,6 @@ export default function CreateNewClubPage() {
 		reader.readAsDataURL(file);
 	};
 
-	const showToast = () => {
-		toast({
-			description: "New Club Created",
-		})
-	}
 
 	const handleSubmitCreateClub = (event) => {
 		event.preventDefault();

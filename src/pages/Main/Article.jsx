@@ -8,7 +8,14 @@ import { PiShareFatLight } from "react-icons/pi";
 import { useEffect, useState } from "react";
 import { CommentProvider, useComments } from "@/hooks/useComments.jsx";
 import {useQuery} from "@tanstack/react-query";
-import { downVoteArticle, fetchArticle, removeArticleVote, upVoteArticle } from "@/utils/http/articles.js";
+import {
+    bookmarkArticle,
+    downVoteArticle,
+    fetchArticle,
+    removeArticleVote,
+    unBookmarkArticle,
+    upVoteArticle
+} from "@/utils/http/articles.js";
 import { getUserIdFromToken } from "@/utils/token/token.js";
 import { fetchCommentsByArticleId } from "@/utils/http/comments.js";
 import ArticleDisplay from "@/components/ArticleDisplay.jsx";
@@ -24,6 +31,7 @@ const DOWNVOTE = "down";
 export default function ArticlePage() {
     const [voteCount, setVoteCount] = useState(0);
     const [voteType, setVoteType] = useState(null);
+    const [bookmarked, setBookmarked] = useState(false);
 
     const params = useParams();
     const articleId = params.articleId;
@@ -53,6 +61,8 @@ export default function ArticlePage() {
             } else {
                 setVoteType(null);
             }
+
+            setBookmarked(article.bookmarked);
         }
     }, [article]);
 
@@ -83,6 +93,17 @@ export default function ArticlePage() {
             await downVoteArticle(userId, articleId);
         }
     };
+
+    const onBookmarkToggle = async() => {
+        if(bookmarked){
+            console.log("removing bookmark");
+            await unBookmarkArticle(getUserIdFromToken(), article.articleId);
+        } else {
+            console.log("adding bookmark")
+            await bookmarkArticle(getUserIdFromToken(), article.articleId);
+        }
+        setBookmarked(prevState => !prevState);
+    }
 
     return (
         <div
@@ -280,7 +301,8 @@ export default function ArticlePage() {
                     icon={<MdBookmarkBorder size={20} />}
                     label="Bookmark"
                     color="orange"
-                    onClick={() => console.log("Bookmark clicked")}
+                    onClick={onBookmarkToggle}
+                    active ={bookmarked}
                 />
                 <ActionIcon
                     icon={<PiShareFatLight size={20} />}
@@ -292,17 +314,19 @@ export default function ArticlePage() {
         );
     }
 
-    function ActionIcon({ icon, label, color, onClick }) {
+    function ActionIcon({ icon, label, color, onClick, active }) {
         return (
-            <div
-                className={`flex items-center gap-1 cursor-pointer rounded-xl py-2 px-2 text-black-100 hover:bg-${color}-100 hover:text-${color}-500 transition-all duration-200`}
-                onClick={onClick}
-            >
-                {icon}
-                <p className="text-md font-bold">{label}</p>
-            </div>
+           <div
+              className={`flex items-center gap-1 cursor-pointer rounded-xl py-2 px-2 text-black-100 transition-all duration-200
+                ${active ? `bg-${color}-100 text-${color}-500` : `hover:bg-${color}-100 hover:text-${color}-500`}`}
+              onClick={onClick}
+           >
+               {icon}
+               <p className="text-md font-bold">{label}</p>
+           </div>
         );
     }
+
 
     function RightContent() {
         return <div className="p-4 bg-gray-100 rounded-lg shadow-md">Right side content here</div>;

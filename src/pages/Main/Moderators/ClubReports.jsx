@@ -101,6 +101,11 @@ export default function ClubReportsPage() {
 		setSelectedArticleId(null);
 	}
 
+	const handleCancelEvaluating = () => {
+		setEvaluating(false);
+		setEvaluationNotes("");
+	}
+
 	const reportTypeOptions = ReportAction.map((action) => ({
 		id: action.id,
 		label: action.label,
@@ -126,7 +131,7 @@ export default function ClubReportsPage() {
 		return (
 			<Modal
 				open={evaluating}
-				onClose={handleStopEvaluating}
+				onClose={() => setEvaluating(false)}
 				className="py-6 px-6 rounded-3xl space-y-5 max-w-lg  w-full border border-lightPurple-200 bg-gradient-to-t from-lightPurple-50 to-lightPurple-10 shadow-2xl"
 			>
 				<div className="space-y-5">
@@ -159,7 +164,7 @@ export default function ClubReportsPage() {
 					</div>
 					<div className="flex justify-end gap-3">
 						<button
-							onClick={ handleStopEvaluating }
+							onClick={ handleCancelEvaluating }
 							className="self-start boder bg-gray-200 text-gray-600 border-gray-800 p-2 rounded-2xl px-6 "
 						>
 							Cancel
@@ -181,7 +186,7 @@ export default function ClubReportsPage() {
 			{ EvaluationModal() }
 			<div className="clubReportsPage grid grid-cols-8 gap-16 mt-8">
 				{/* Reported Articles List */ }
-				<div className="left col-span-2 col-start-1 border rounded-2xl p-4 max-w-sm h-fit">
+				<div className="left col-span-2 col-start-1 border bg-red-50 rounded-2xl p-4 max-w-sm h-fit">
 					<h2 className="text-lg font-semibold mb-4">Reported Articles</h2>
 					<div className="flex flex-col gap-4">
 						{reportedArticles.map((report) => (
@@ -195,7 +200,7 @@ export default function ClubReportsPage() {
 				</div>
 
 				{/* Article Preview */}
-				<div className="right col-span-4 border rounded-2xl p-4 space-y-4 ">
+				<div className="right col-span-4 border bg-lightPurple-10 rounded-2xl p-4 space-y-4 ">
 					{ selectedReport && selectedArticleId && (
 						<div className="border p-2 pl-4 pb-4 space-y-4 rounded-2xl bg-surface-200 shadow-md">
 							<h1 className="font-medium text-red-500">Reported as</h1>
