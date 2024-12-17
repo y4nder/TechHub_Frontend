@@ -58,6 +58,7 @@ export default function DiscoverClubsPage() {
 						key={club.categoryId}
 						header={club.categoryName}
 						clubs={club.clubs}
+						onSeeAllLink={`/clubs/category/${club.categoryId}/${club.categoryName}`}
 					/>
 				))
 			)}

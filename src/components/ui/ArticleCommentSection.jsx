@@ -119,7 +119,7 @@ export default function ArticleCommentSection() {
 				isPostingComment={isPostingComment}
 			/>
 			<div className="overflow-y-auto " onScroll={handleScroll}>
-				{comments.length === 0 && !isFetchingNextPage && <p>No comments yet.</p>}
+				{comments.length === 0 && !isFetchingNextPage && <p></p>}
 				{comments.map((comment) => (
 					<div key={comment.commentId}
 					     className="mb-3 bg-surface-100 rounded-3xl overflow-hidden"

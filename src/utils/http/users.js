@@ -104,3 +104,15 @@ export async function getModerators(clubId){
         }
     });
 }
+
+export async function getAllNotifications(){
+    return await get({
+        endpoint: "/getAllNotifications",
+    });
+}
+
+export async function getRecommendedUsers(){
+    return await get({
+        endpoint: "/getRecommendedUsers",
+    });
+}

@@ -30,6 +30,7 @@ import ClubPostsPage from "@/pages/Main/Moderators/ClubPosts.jsx";
 import ClubReportsPage from "@/pages/Main/Moderators/ClubReports.jsx";
 import ClubModeratorsPage from "@/pages/Main/Moderators/ClubModerators.jsx";
 import EditClubPage from "@/pages/Main/Moderators/EditClub.jsx";
+import NotificationsPage from "@/pages/Main/Notifications.jsx";
 
 export const mainRoutes = [
 	{
@@ -173,5 +174,9 @@ export const mainRoutes = [
 	{
 		path: "/tags/:tagId",
 		element: <TagPage/>
+	},
+	{
+		path: "/notifications",
+		element: <NotificationsPage />,
 	}
 ];

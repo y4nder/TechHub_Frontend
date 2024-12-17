@@ -65,7 +65,7 @@ export default function UserProfileCard() {
 	const followerInfoModal = () => {
 		return (
 			<Modal
-				className="follow-list p-4 rounded-2xl border border-lightPurple-200"
+				className="follow-list p-4 rounded-2xl border border-lightPurple-200 w-full max-w-md"
 				open={followInfoModalOpen.isOpen}
 				onClose={() => setFollowInfoModalOpen((prevState) => ({ ...prevState, isOpen: false }))}
 			>

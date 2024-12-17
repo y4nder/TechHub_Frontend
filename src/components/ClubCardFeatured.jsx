@@ -100,8 +100,9 @@ export default function ClubCardFeatured ({club}) {
 						rounded-3xl 
 						min-w-[325px] min-h-[365px]
 						max-w-[325px] 
-						bg-white		
-						shadow-md		 
+						bg-white	
+						shadow-md
+					   group
 	            `}
 			     onClick={() => {
 				     navigate(`/club/${club.clubId}`);
@@ -110,11 +111,11 @@ export default function ClubCardFeatured ({club}) {
 				<div>
 					<img
 						src={ club.clubProfilePicUrl }
-						className="h-24 w-screen object-cover overflow-clip rounded-t-3xl"
+						className="h-24 w-screen object-cover overflow-hidden rounded-t-3xl blur-[0.5px]"
 						alt=""
 					/>
 				</div>
-				<div className="px-6 pb-6 flex flex-col gap-5">
+				<div className="px-6 pb-6 flex flex-col gap-5 ">
 					<div className="flex justify-between">
 						<img
 							src={ club.clubProfilePicUrl }

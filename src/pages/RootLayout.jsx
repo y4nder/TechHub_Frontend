@@ -12,7 +12,7 @@ import { dispatchFetchJoinedClubs } from "@/store/joined-clubs-slice.js";
 import { getUserIdFromToken } from "@/utils/token/token.js";
 import { ProfileNavDispatcher } from "@/store/user-slice.js";
 import { SidebarProvider} from "@/hooks/useSidebar.jsx";
-import {Toaster} from "@/components/ui/toaster.jsx";
+import {Toaster} from "react-hot-toast";
 // import TooltippedComponent from "@/components/ui/TooltippedComponent.jsx";
 
 export default function RootLayout() {
@@ -125,7 +125,7 @@ export default function RootLayout() {
 		return (
 			<main>
 				<Outlet />
-				<Toaster/>
+
 			</main>
 		);
 	}

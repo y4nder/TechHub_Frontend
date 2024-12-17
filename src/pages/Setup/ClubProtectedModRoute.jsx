@@ -51,8 +51,13 @@ export default function ClubProtectedModRoute({ role }) {
 							className="w-20 h-20 rounded-full object-cover self-center"
 							alt=""
 						/>
-						<div className="space-y-2 flex gap-2 items-center py-2">
+						<div className="space-y-2 flex gap-4 items-center py-2">
 							<h1 className="font-bold text-4xl">{ club.clubName }</h1>
+							<NavLink
+								to={`/club/${clubId}`}
+								className="border px-3 py-1 border-lightPurple-100 bg-lightPurple-50 rounded-2xl text-sm text-lightPurple-500 hover:bg-lightPurple-200 hover:text-white transition-all duration-150">
+								View as Member
+							</NavLink>
 							<NavLink
 								to={`/club/${clubId}/edit`}
 								className="p-2 text-md rounded-xl bg-surface-500 text-nowrap hover:bg-lightPurple-200 hover:text-white transition-colors duration-150"

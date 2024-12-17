@@ -189,7 +189,7 @@ export default function ClubDetailsPage() {
 									joined && joined.roles.find(r => r.roleName === Moderator) && (
 										<NavLink
 											to={ `/club/${ clubId }/moderate` }
-											className="bg-darkPurple-500 text-white px-2 rounded-2xl text-sm py-1 flex items-center gap-1 ">
+											className="bg-darkPurple-500 text-white px-2 rounded-2xl text-sm py-1 flex items-center gap-1 hover:bg-lightPurple-200 hover:border-lightPurple-500 transition-colors duration-150">
 											<TbTool size={ 16 }/>
 											Moderator tools
 										</NavLink>
@@ -264,7 +264,7 @@ export default function ClubDetailsPage() {
 					) }
 				</div>
 				{pinnedArticles.length > 0 && (
-					<div className="pinned-articles-container justify-center px-20 pt-20">
+					<div className="pinned-articles-container justify-center p-10 pt-20">
 						<h2 className="text-xl font-bold text-gray-700 pl-2">Pinned Articles</h2>
 						{ pinnedArticles.length === 0 ? (
 							<p className="text-gray-500">No pinned articles found.</p>
@@ -279,7 +279,7 @@ export default function ClubDetailsPage() {
 					</div>
 				)}
 				<div
-					className={ `justify-center px-20 py-20` }
+					className={ `justify-center pl-6 pr-2 py-20` }
 				>
 					{ articles.length === 0 ? (
 						<div className="flex flex-grow items-center  justify-center">

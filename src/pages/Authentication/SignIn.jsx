@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import {useDispatch} from "react-redux";
 import {userActions} from "@/store/user-slice.js";
+import hero1 from "../../assets/hero1.png";
 
 export default function SignIn() {
     const navigate = useNavigate();
@@ -57,7 +58,7 @@ export default function SignIn() {
             onSubmit={onSubmitHandler}
         >
             <AuthCard>
-                <AuthCardHero />
+                <AuthCardHero image={hero1} />
                 <form className="flex flex-col justify-center gap-8 py-10 px-10 w-1/2">
                     <div className="space-y-2">
                         <h1 className="text-3xl font-sans font-medium gradient-text-reversed">WELCOME BACK</h1>

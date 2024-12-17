@@ -5,7 +5,7 @@ import DynamicList from "@/components/pagination/DynamicList.jsx";
 
 export default function DiscoverArticlePage() {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-        queryKey: ["taggedArticles"],
+        queryKey: ["taggedArticles", "articles"],
         queryFn: ({ pageParam = 1 }) => fetchDiscoverArticles(pageParam, 10),
         getNextPageParam: (lastPage) => {
             const { pageNumber, totalPages } = lastPage.articles;
