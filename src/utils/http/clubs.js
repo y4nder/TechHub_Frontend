@@ -87,3 +87,14 @@ export async function getClubAnalytics(clubId){
 		}
 	})
 }
+
+export async function getClubInfoMinimal(clubId){
+	return await get({
+		endpoint: '/getClubMinimal',
+		queryParams: {
+			ClubId: clubId,
+		}
+	})
+}
+
+

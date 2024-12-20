@@ -1,7 +1,8 @@
 import ClubCard from "@/components/ClubCard.jsx";
 import ClubCardFeatured from "@/components/ClubCardFeatured.jsx";
+import {NavLink} from "react-router-dom";
 
-export default function SideScroller({header, clubs, isFeatured, isSingleCategory = false}) {
+export default function SideScroller({header, clubs, isFeatured, onSeeAllLink,isSingleCategory = false}) {
 
 	if(clubs.length === 0) {
 		return (<></>)
@@ -20,12 +21,14 @@ export default function SideScroller({header, clubs, isFeatured, isSingleCategor
 				`}>
 					{header}
 				</h1>
-				{!isSingleCategory && (
-					<button className={`
+				{!isSingleCategory && !isFeatured && (
+					<NavLink
+						to={onSeeAllLink}
+						className={`
 						${isFeatured ? 'text-white' : ''}	
 					`}>
 						See All
-					</button>
+					</NavLink>
 				)}
 			</div>
 			<div className={ `

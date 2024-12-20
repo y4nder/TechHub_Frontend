@@ -9,12 +9,14 @@ import { useDispatch } from "react-redux";
 import { logOutDispatcher } from "@/store/user-slice.js";
 import { LogOut } from "lucide-react";
 import { getUserIdFromToken } from "@/utils/token/token.js";
-import {useToast} from "@/hooks/use-toast.js";
 import Avatar from "@/components/ui/Avatar.jsx";
 import SearchBarV2 from "@/components/SearchBarV2.jsx";
-import {Dropdown} from "@/components/ui/Dropdown.jsx";
-import AnimatedButton from "@/components/ui/AnimatedButton.jsx";
-import {ArticleDropDownOptions} from "@/components/ArticleCard.jsx";
+import signalRService from "@/services/signalRService.js";
+import toast from 'react-hot-toast';
+import techHubSmall from  '../assets/techHubSmall.png';
+
+
+import NotificationToast from "@/components/NotificationToast.jsx";
 
 export default function Navbar({ user }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -22,14 +24,15 @@ export default function Navbar({ user }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    //for testing
-    const {toast} = useToast()
 
-    const toastTester = () => {
-        toast({
-            description: "✅ Your Profile has been updated",
-            variant: 'update'
-        })
+    //for testing
+
+    const toastTester = (message) => {
+        toast.custom((t) => (
+           <NotificationToast notification={message} />
+        ));
+
+        console.log(message);
     }
 
     const handleSearch = (query) => {
@@ -66,6 +69,22 @@ export default function Navbar({ user }) {
         };
     }, []);
 
+    useEffect(() => {
+        // Start the SignalR connection when the component mounts
+        signalRService.startConnection();
+
+        // Listen for notifications
+        signalRService.onNotificationReceived((message) => {
+            console.log(message);
+            toastTester(message);
+        });
+
+        // Cleanup connection on unmount
+        return () => {
+            signalRService.stopConnection();
+        };
+    }, []);
+
     return (
         <nav
             className={`
@@ -75,23 +94,21 @@ export default function Navbar({ user }) {
                 w-full
                 sticky top-0
                 z-50  
-                backdrop-blur-md  
-                bg-white/80  
+                 
+                bg-lightPurple-10  
 		`}
         >
             {/* Logo */}
             <div
-                className="flex cursor-pointer"
+                className="flex cursor-pointer items-center gap-3"
                 onClick={() => navigate("/home")}
             >
                 <img
-                    src="https://placehold.co/40"
+                    src={techHubSmall}
                     alt="Hero Image"
-                    className="object-cover rounded-xl"
+                    className="object-cover rounded-xl h-14 pl-4"
                 />
-            </div>
-            <div className="flex-grow">
-
+                <h1 className="gradient-text font-bold text-xl">TechHub</h1>
             </div>
             <div className="flex-grow"></div>
 
@@ -128,14 +145,16 @@ export default function Navbar({ user }) {
                 {/* Notification Icon */}
                 <div
                     className={`
-						bg-lightPurple-50
-						text-lightPurple-500
-						px-2 
-						rounded-[15px]
-						flex items-center justify-center
-				`}
+                      bg-lightPurple-50
+                      text-lightPurple-500
+                      px-2 
+                      rounded-[15px]
+                      flex items-center justify-center
+                      hover:bg-lightPurple-200   transition-all duration-300
+                `}
+                    onClick={() => navigate('/notifications')}
                 >
-                    <IoNotifications size={30} />
+                    <IoNotifications size={30} className={`hover:scale-110 transition-all duration-200`} />
                 </div>
 
                 {/* Stats and Profile */}

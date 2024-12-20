@@ -26,7 +26,7 @@ export default function ArticleList({
 
 	return (
 		<div
-			className="flex flex-wrap gap-8 sm:flex-col md:flex-row lg:flex-wrap"
+			className="flex flex-wrap gap-6 sm:flex-col md:flex-row lg:flex-wrap"
 		>
 			{articles.map((article, index) => {
 				// Attach ref to the last article for infinite scroll

@@ -12,6 +12,7 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {userActions} from "@/store/user-slice.js";
 import {storeToken} from "@/utils/token/token.js";
+import hero2 from "../../assets/hero2.png";
 
 export default function SignUp() {
 	const navigate = useNavigate();
@@ -114,7 +115,7 @@ export default function SignUp() {
 						</p>
 					</div>
 				</form>
-				<AuthCardHero/>
+				<AuthCardHero image={hero2}/>
 			</AuthCard>
 		</div>
 	)

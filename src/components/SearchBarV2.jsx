@@ -73,7 +73,7 @@ export default function SearchBarV2(){
 	};
 
 	return (
-		<div className="relative w-full max-w-2xl mx-auto">
+		<div className="relative w-full max-w-2xl mx-auto ">
 			{/* Search Input */}
 			<div className="relative flex items-center w-full h-full">
 				<span className="absolute left-3 text-gray-500">
@@ -82,7 +82,7 @@ export default function SearchBarV2(){
 				<input
 					type="text"
 					className={ `
-						w-full bg-surface-500 
+						w-full bg-surface-50 border 
 						h-full pl-10 pr-10 py-3
 						text-black-500 
 						rounded-[20px] 
@@ -93,7 +93,8 @@ export default function SearchBarV2(){
 						focus:border-transparent 
 						transition-all 
 						duration-300 
-						ease-in-out
+						ease-in-ou
+						${debouncedQuery && 'shadow-2xl'}
 					` }
 					placeholder="Search..."
 					value={ query }

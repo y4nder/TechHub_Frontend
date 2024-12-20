@@ -195,7 +195,7 @@ export default function CreateNewClubPage() {
 			<div className="create-club-card bg-surface-50 h-full w-full max-w-screen-md rounded-xl overflow-hidden">
 				<div className="create-club-card-header gradient-bg">
 					<div className="create-club-card-header-header-napod p-2">
-						<BiArrowBack size={25} color="white" />
+						<BiArrowBack size={25} color="white" onClick={()=>navigate(`/clubs`)} className="hover:-translate-x-1 transition-transform duration-150"/>
 					</div>
 					<div className="create-club-card-header-title-card flex p-4">
 						<div className="create-club-card-header-title-details  space-y-3">
